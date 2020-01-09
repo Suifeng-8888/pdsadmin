@@ -1,0 +1,68 @@
+package com.hniois.dao.item.impl;
+
+import com.hniois.common.dao.DaoSupport;
+import com.hniois.common.page.Page;
+import com.hniois.dao.item.ItemDao;
+import com.hniois.entity.item.Item;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Repository("itemDaoImpl")
+public class ItemDaoImpl implements ItemDao {
+
+    @Resource
+    private DaoSupport dao;
+
+    private String mapper = "ItemMapper";
+    @Override
+    public void save(Item e) throws Exception {
+        dao.save(mapper+".save",e);
+    }
+
+    @Override
+    public void saveBatch(List<Item> e) throws Exception {
+        dao.save(mapper+".saveBatch",e);
+    }
+
+    @Override
+    public void delete(Item e) throws Exception {
+        dao.delete(mapper+".delete",e);
+    }
+
+    @Override
+    public void deleteBatch(Item e) throws Exception {
+        dao.delete(mapper+".deleteBatch",e);
+    }
+
+    @Override
+    public void update(Item e) throws Exception {
+        dao.update(mapper+".update",e);
+    }
+
+    @Override
+    public void updateBatch(Item e) throws Exception {
+        dao.update(mapper+".updateBatch",e);
+    }
+
+    @Override
+    public Item find(Item e) throws Exception {
+        return  (Item)dao.find(mapper+".find",e);
+    }
+
+    @Override
+    public List<Item> findList(Item e) throws Exception {
+        return  (List<Item> )dao.findList(mapper+".findList",e);
+    }
+
+    @Override
+    public int findCount(Item e) throws Exception {
+        return  (Integer)dao.find(mapper+".findCount",e);
+    }
+
+    @Override
+    public Page findPage(Item e) throws Exception {
+        return (Page)dao.findPage(mapper+".findPage",mapper+".findPageCount",e);
+    }
+}

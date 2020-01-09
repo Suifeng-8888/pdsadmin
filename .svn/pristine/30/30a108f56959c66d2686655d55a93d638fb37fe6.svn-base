@@ -1,0 +1,87 @@
+package com.hniois.service.item.impl;
+
+import com.hniois.common.service.ServiceSupport;
+import com.hniois.dao.item.ItemDao;
+import com.hniois.dao.item.SendDao;
+import com.hniois.entity.item.Item;
+import com.hniois.entity.item.SendCheck;
+import com.hniois.service.item.ItemManage;
+import com.hniois.service.item.SendManage;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service("sendService")
+public class SendService extends ServiceSupport<SendCheck,SendDao> implements SendManage {
+
+    @Resource(name = "sendDaoImpl")
+    public void setDao(SendDao dao){this.dao=dao; }
+
+    @Resource(name = "itemService")
+    private ItemManage itemService;
+
+    @Override
+    public Boolean sendCheck(SendCheck e)throws Exception {
+        Boolean savesend=false;
+        List<String> list_ids=new ArrayList<String>();//存放item的id的集合
+        List<SendCheck> list=new ArrayList<SendCheck>();//存放送检对象的集合
+
+        //根据传过来的送检对象信息先判断送检的样品是单个还是多个
+        String nums_param = e.getNums();
+        String[] nums = nums_param.substring(1,nums_param.length()-1).replaceAll(" ","").split(",");
+
+        String item_ids=e.getItem_id();//先去掉开头和结尾,再分割
+        String[] ids=item_ids.substring(1,item_ids.length()-1).replaceAll(" ","").split(",");
+
+        String item_names=e.getItem_name();
+        String[] names=item_names.substring(1,item_names.length()-1).replaceAll(" ","").split(",");
+        Item item=new Item();
+        if(nums.length>1){
+            //多个送检样品,则需要批量插入
+            SendCheck send;
+            for (int i=0;i<nums.length;i++){
+                send = new SendCheck();
+                send.setSend_num(Integer.parseInt(nums[i]));
+                send.setItem_name(names[i]);
+                send.setItem_id(ids[i]);
+                send.setSender(e.getSender());
+                send.setSend_time(e.getSend_time());
+                list_ids.add(ids[i]);
+                list.add(send);
+            }
+            //批量插入
+           dao.saveBatch(list);
+
+            item.setData(list_ids);
+            item.setChecked("0");
+            //批量更改item的送检状态
+            itemService.updateBatch(item);
+            savesend=true;
+        }else if (nums.length==1) {
+            //说明就一个产品
+            String id=e.getItem_id();
+            e.setItem_id(id.substring(1,id.length()-1));
+            String name=e.getItem_name();
+            e.setItem_name(name.substring(1,name.length()-1));
+            String number=e.getNums();
+            int num=Integer.parseInt(number.substring(1,number.length()-1));
+            e.setSend_num(num);
+            dao.save(e);
+            //当保存成功说明送检成功,则改变样品的送检状态
+            item.setItemid(e.getItem_id());
+            item.setChecked("0");
+            itemService.update(item);
+            savesend=true;
+        }else{
+            savesend=false;
+        }
+        return savesend;
+    }
+
+
+
+}

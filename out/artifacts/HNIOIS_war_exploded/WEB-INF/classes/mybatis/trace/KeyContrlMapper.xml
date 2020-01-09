@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ContrlMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Key_Control"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_key_control(
+		<if test="im_id!='' and im_id!=null">im_id</if>
+		<if test="pro_name!='' and pro_name!=null">,pro_name</if>
+		<if test="im_patch!='' and im_patch!=null">,im_patch</if>
+		<if test="ctr_name!='' and ctr_name!=null">,ctr_name</if>
+		<if test="ctr_point!='' and ctr_point!=null">,ctr_point</if>
+		<if test="ctr_start!='' and ctr_start!=null">,ctr_start</if>
+		<if test="ctr_end!='' and ctr_end!=null">,ctr_end</if>
+		<if test="ctr_num!='' and ctr_num!=null">,ctr_num</if>
+		<if test="person!='' and person!=null">,person</if>
+		<if test="result!='' and result!=null">,result</if>
+		)
+		VALUES (
+		<if test="im_id!='' and im_id!=null">#{im_id}</if>
+		<if test="pro_name!='' and pro_name!=null">,#{pro_name}</if>
+		<if test="im_patch!='' and im_patch!=null">,#{im_patch}</if>
+		<if test="ctr_name!='' and ctr_name!=null">,#{ctr_name}</if>
+		<if test="ctr_point!='' and ctr_point!=null">,#{ctr_point}</if>
+		<if test="ctr_start!='' and ctr_start!=null">,#{ctr_start}</if>
+		<if test="ctr_end!='' and ctr_end!=null">,#{ctr_end}</if>
+		<if test="ctr_num!='' and ctr_num!=null">,#{ctr_num}</if>
+		<if test="person!='' and person!=null">,#{person}</if>
+		<if test="result!='' and result!=null">,#{result}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Key_Control">
+		insert into trace_key_control
+		(im_id,pro_name,im_patch,ctr_name,ctr_point,ctr_start,ctr_end,ctr_num,person,result)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.im_id},
+			#{e.pro_name},
+			#{e.im_patch},
+			#{e.ctr_name},
+			#{e.ctr_point},
+			#{e.ctr_start},
+			#{e.ctr_end},
+			#{e.ctr_num},
+			#{e.person},
+			#{e.result}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Key_Control">
+		update trace_key_control
+		<set>
+			<if test="ctr_id !=null and ctr_id !=''">ctr_id=#{ctr_id},</if>
+			<if test="im_id !=null and im_id !=''">im_id=#{im_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="im_patch !=null and im_patch !=''">im_patch=#{im_patch},</if>
+			<if test="ctr_name !=null and ctr_name !=''">ctr_name=#{ctr_name},</if>
+			<if test="ctr_point !=null and ctr_point !=''">ctr_point=#{ctr_point},</if>
+			<if test="ctr_start !=null and ctr_start !=''">ctr_start=#{ctr_start},</if>
+			<if test="ctr_end !=null and ctr_end !=''">ctr_end=#{ctr_end},</if>
+			<if test="ctr_num !=null and ctr_num !=''">ctr_num=#{ctr_num},</if>
+			<if test="person !=null and person !=''">person=#{person},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+		</set>
+		where ctr_id=#{ctr_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Key_Control">
+		update trace_key_control
+		<set>
+			<if test="ctr_id !=null and ctr_id !=''">ctr_id=#{ctr_id},</if>
+			<if test="im_id !=null and im_id !=''">im_id=#{im_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="im_patch !=null and im_patch !=''">im_patch=#{im_patch},</if>
+			<if test="ctr_name !=null and ctr_name !=''">ctr_name=#{ctr_name},</if>
+			<if test="ctr_point !=null and ctr_point !=''">ctr_point=#{ctr_point},</if>
+			<if test="ctr_start !=null and ctr_start !=''">ctr_start=#{ctr_start},</if>
+			<if test="ctr_end !=null and ctr_end !=''">ctr_end=#{ctr_end},</if>
+			<if test="ctr_num !=null and ctr_num !=''">ctr_num=#{ctr_num},</if>
+			<if test="person !=null and person !=''">person=#{person},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+		</set>
+		where ctr_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Key_Control">
+		delete from trace_key_control WHERE 1=1
+		<if test="ctr_id !=null and ctr_id !=''">and ctr_id=#{ctr_id}</if>
+		<if test="im_id !=null and im_id !=''">and im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and im_patch=#{im_patch}</if>
+		<if test="ctr_name !=null and ctr_name !=''">and ctr_name=#{ctr_name}</if>
+		<if test="ctr_point !=null and ctr_point !=''">and ctr_point=#{ctr_point}</if>
+		<if test="ctr_start !=null and ctr_start !=''">and ctr_start=#{ctr_start}</if>
+		<if test="ctr_end !=null and ctr_end !=''">and ctr_end=#{ctr_end}</if>
+		<if test="ctr_num !=null and ctr_num !=''">and ctr_num=#{ctr_num}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="result !=null and result !=''">and result=#{result}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_key_control
+		where ctr_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Key_Control" resultType="com.hniois.trace.entity.Key_Control">
+		select *
+		from trace_key_control
+		where 1=1
+		<if test="ctr_id !=null and ctr_id !=''">and ctr_id=#{ctr_id}</if>
+		<if test="im_id !=null and im_id !=''">and im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and im_patch=#{im_patch}</if>
+		<if test="ctr_name !=null and ctr_name !=''">and ctr_name=#{ctr_name}</if>
+		<if test="ctr_point !=null and ctr_point !=''">and ctr_point=#{ctr_point}</if>
+		<if test="ctr_start !=null and ctr_start !=''">and ctr_start=#{ctr_start}</if>
+		<if test="ctr_end !=null and ctr_end !=''">and ctr_end=#{ctr_end}</if>
+		<if test="ctr_num !=null and ctr_num !=''">and ctr_num=#{ctr_num}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="result !=null and result !=''">and result=#{result}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Key_Control" resultType="com.hniois.trace.entity.Key_Control">
+		select t.*
+		from trace_key_control t
+		where 1=1
+		<if test="ctr_id !=null and ctr_id !=''">and t.ctr_id=#{ctr_id}</if>
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="ctr_name !=null and ctr_name !=''">and t.ctr_name=#{ctr_name}</if>
+		<if test="ctr_point !=null and ctr_point !=''">and t.ctr_point=#{ctr_point}</if>
+		<if test="ctr_start !=null and ctr_start !=''">and t.ctr_start=#{ctr_start}</if>
+		<if test="ctr_end !=null and ctr_end !=''">and t.ctr_end=#{ctr_end}</if>
+		<if test="ctr_num !=null and ctr_num !=''">and t.ctr_num=#{ctr_num}</if>
+		<if test="person !=null and person !=''">and t.person=#{person}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Key_Control" resultType="java.lang.Integer">
+		select count(*)
+		from trace_key_control t
+		where 1=1
+		<if test="ctr_id !=null and ctr_id !=''">and t.ctr_id=#{ctr_id}</if>
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="ctr_name !=null and ctr_name !=''">and t.ctr_name=#{ctr_name}</if>
+		<if test="ctr_point !=null and ctr_point !=''">and t.ctr_point=#{ctr_point}</if>
+		<if test="ctr_start !=null and ctr_start !=''">and t.ctr_start=#{ctr_start}</if>
+		<if test="ctr_end !=null and ctr_end !=''">and t.ctr_end=#{ctr_end}</if>
+		<if test="ctr_num !=null and ctr_num !=''">and t.ctr_num=#{ctr_num}</if>
+		<if test="person !=null and person !=''">and t.person=#{person}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Key_Control" resultType="com.hniois.trace.entity.Key_Control">
+		select *
+		from trace_key_control
+		where 1=1
+		<if test="ctr_id !=null and ctr_id !=''">and ctr_id=#{ctr_id}</if>
+		<if test="im_id !=null and im_id !=''">and im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and im_patch=#{im_patch}</if>
+		<if test="ctr_name !=null and ctr_name !=''">and ctr_name=#{ctr_name}</if>
+		<if test="ctr_point !=null and ctr_point !=''">and ctr_point=#{ctr_point}</if>
+		<if test="ctr_start !=null and ctr_start !=''">and ctr_start &gt;= #{ctr_start}</if>
+		<if test="ctr_end !=null and ctr_end !=''">and ctr_end  &lt;= #{ctr_end}</if>
+		<if test="ctr_num !=null and ctr_num !=''">and ctr_num=#{ctr_num}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="result !=null and result !=''">and result=#{result}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Key_Control" resultType="java.lang.Integer">
+		select count(*)
+		from trace_key_control t
+		where 1=1
+		<if test="ctr_id !=null and ctr_id !=''">and t.ctr_id=#{ctr_id}</if>
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="ctr_name !=null and ctr_name !=''">and t.ctr_name=#{ctr_name}</if>
+		<if test="ctr_point !=null and ctr_point !=''">and t.ctr_point=#{ctr_point}</if>
+		<if test="ctr_start !=null and ctr_start !=''">and t.ctr_start=#{ctr_start}</if>
+		<if test="ctr_end !=null and ctr_end !=''">and t.ctr_end=#{ctr_end}</if>
+		<if test="ctr_num !=null and ctr_num !=''">and t.ctr_num=#{ctr_num}</if>
+		<if test="person !=null and person !=''">and t.person=#{person}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+	</select>
+</mapper>

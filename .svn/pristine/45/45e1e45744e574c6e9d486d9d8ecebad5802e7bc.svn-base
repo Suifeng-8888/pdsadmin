@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Order"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_order(
+		<if test="order_num!='' and order_num!=null">order_num</if>
+		<if test="sale_id!='' and sale_id!=null">,sale_id</if>
+		<if test="sale_name!='' and sale_name!=null">,sale_name</if>
+		<if test="create_time!='' and create_time!=null">,create_time</if>
+		<if test="send_time!='' and send_time!=null">,send_time</if>
+		<if test="sender!='' and sender!=null">,sender</if>
+		<if test="recever!='' and recever!=null">,recever</if>
+		<if test="begin_address!='' and begin_address!=null">,begin_address</if>
+		<if test="end_address!='' and end_address!=null">,end_address</if>
+		<if test="batch_id!='' and batch_id!=null">,batch_id</if>
+		<if test="batch_num!='' and batch_num!=null">,batch_num</if>
+		<if test="batch_name!='' and batch_name!=null">,batch_name</if>
+		<if test="batch!='' and batch!=null">,batch</if>
+		<if test="tray_id!='' and tray_id!=null">,tray_id</if>
+		<if test="tray_name!='' and tray_name!=null">,tray_name</if>
+		<if test="box_id!='' and box_id!=null">,box_id</if>
+		)
+		VALUES (
+		<if test="order_num!='' and order_num!=null">#{order_num}</if>
+		<if test="sale_id!='' and sale_id!=null">,#{sale_id}</if>
+		<if test="sale_name!='' and sale_name!=null">,#{sale_name}</if>
+		<if test="create_time!='' and create_time!=null">,#{create_time}</if>
+		<if test="send_time!='' and send_time!=null">,#{send_time}</if>
+		<if test="sender!='' and sender!=null">,#{sender}</if>
+		<if test="recever!='' and recever!=null">,#{recever}</if>
+		<if test="begin_address!='' and begin_address!=null">,#{begin_address}</if>
+		<if test="end_address!='' and end_address!=null">,#{end_address}</if>
+		<if test="batch_id!='' and batch_id!=null">,#{batch_id}</if>
+		<if test="batch_num!='' and batch_num!=null">,#{batch_num}</if>
+		<if test="batch_name!='' and batch_name!=null">,#{batch_name}</if>
+		<if test="batch!='' and batch!=null">,#{batch}</if>
+		<if test="tray_id!='' and tray_id!=null">,#{tray_id}</if>
+		<if test="tray_name!='' and tray_name!=null">,#{tray_name}</if>
+		<if test="box_id!='' and box_id!=null">,#{box_id}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Order">
+		insert into trace_order
+		(order_num,sale_id,sale_name,create_time,send_time,sender,recever,begin_address,end_address,batch_id,batch_num,batch_name,batch,tray_id,tray_name,box_id)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.order_num},
+			#{e.sale_id},
+			#{e.sale_name},
+			#{e.create_time},
+			#{e.send_time},
+			#{e.sender},
+			#{e.recever},
+			#{e.begin_address},
+			#{e.end_address},
+			#{e.batch_id},
+			#{e.batch_num},
+			#{e.batch_name},
+			#{e.batch},
+			#{e.tray_id},
+			#{e.tray_name},
+			#{e.box_id}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Order">
+		update trace_order
+		<set>
+			<if test="sale_id !=null and sale_id !=''">sale_id=#{sale_id},</if>
+			<if test="sale_name !=null and sale_name !=''">sale_name=#{sale_name},</if>
+			<if test="create_time !=null and create_time !=''">create_time=#{create_time},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="recever !=null and recever !=''">recever=#{recever},</if>
+			<if test="begin_address !=null and begin_address !=''">begin_address=#{begin_address},</if>
+			<if test="end_address !=null and end_address !=''">end_address=#{end_address},</if>
+			<if test="batch_id !=null and batch_id !=''">batch_id=#{batch_id},</if>
+			<if test="batch_num !=null and batch_num !=''">batch_num=#{batch_num},</if>
+			<if test="batch_name !=null and batch_name !=''">batch_name=#{batch_name},</if>
+			<if test="batch !=null and batch !=''">batch=#{batch},</if>
+			<if test="tray_id !=null and tray_id !=''">tray_id=#{tray_id},</if>
+			<if test="tray_name !=null and tray_name !=''">tray_name=#{tray_name},</if>
+			<if test="box_id !=null and box_id !=''">box_id=#{box_id},</if>
+		</set>
+		where order_num=#{order_num}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Order">
+		update trace_order
+		<set>
+			<if test="sale_id !=null and sale_id !=''">sale_id=#{sale_id},</if>
+			<if test="sale_name !=null and sale_name !=''">sale_name=#{sale_name},</if>
+			<if test="create_time !=null and create_time !=''">create_time=#{create_time},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="recever !=null and recever !=''">recever=#{recever},</if>
+			<if test="begin_address !=null and begin_address !=''">begin_address=#{begin_address},</if>
+			<if test="end_address !=null and end_address !=''">end_address=#{end_address},</if>
+			<if test="batch_id !=null and batch_id !=''">batch_id=#{batch_id},</if>
+			<if test="batch_num !=null and batch_num !=''">batch_num=#{batch_num},</if>
+			<if test="batch_name !=null and batch_name !=''">batch_name=#{batch_name},</if>
+			<if test="batch !=null and batch !=''">batch=#{batch},</if>
+			<if test="tray_id !=null and tray_id !=''">tray_id=#{tray_id},</if>
+			<if test="tray_name !=null and tray_name !=''">tray_name=#{tray_name},</if>
+			<if test="box_id !=null and box_id !=''">box_id=#{box_id},</if>
+		</set>
+		where order_num in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Order">
+		delete from trace_order
+		where 1=1
+		<if test="order_num !=null and order_num !=''">and order_num=#{order_num}</if>
+		<if test="sale_id !=null and sale_id !=''">and sale_id=#{sale_id}</if>
+		<if test="sale_name !=null and sale_name !=''">and sale_name=#{sale_name}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="recever !=null and recever !=''">and recever=#{recever}</if>
+		<if test="begin_address !=null and begin_address !=''">and begin_address=#{begin_address}</if>
+		<if test="end_address !=null and end_address !=''">and end_address=#{end_address}</if>
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="batch_num !=null and batch_num !=''">and batch_num=#{batch_num}</if>
+		<if test="batch_name !=null and batch_name !=''">and batch_name=#{batch_name}</if>
+		<if test="batch !=null and batch !=''">and batch=#{batch}</if>
+		<if test="tray_id !=null and tray_id !=''">and tray_id=#{tray_id}</if>
+		<if test="tray_name !=null and tray_name !=''">and tray_name=#{tray_name}</if>
+		<if test="box_id !=null and box_id !=''">and box_id=#{box_id}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_order
+		where order_num in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Order" resultType="com.hniois.trace.entity.Order">
+		select *
+		from trace_order
+		where 1=1
+		<if test="order_num !=null and order_num !=''">and order_num=#{order_num}</if>
+		<if test="sale_id !=null and sale_id !=''">and sale_id=#{sale_id}</if>
+		<if test="sale_name !=null and sale_name !=''">and sale_name=#{sale_name}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="recever !=null and recever !=''">and recever=#{recever}</if>
+		<if test="begin_address !=null and begin_address !=''">and begin_address=#{begin_address}</if>
+		<if test="end_address !=null and end_address !=''">and end_address=#{end_address}</if>
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="batch_num !=null and batch_num !=''">and batch_num=#{batch_num}</if>
+		<if test="batch_name !=null and batch_name !=''">and batch_name=#{batch_name}</if>
+		<if test="batch !=null and batch !=''">and batch=#{batch}</if>
+		<if test="tray_id !=null and tray_id !=''">and tray_id=#{tray_id}</if>
+		<if test="tray_name !=null and tray_name !=''">and tray_name=#{tray_name}</if>
+		<if test="box_id !=null and box_id !=''">and box_id=#{box_id}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Order" resultType="com.hniois.trace.entity.Order">
+		select t.*
+		from trace_order t
+		where 1=1
+		<if test="order_num !=null and order_num !=''">and t.order_num=#{order_num}</if>
+		<if test="sale_id !=null and sale_id !=''">and t.sale_id=#{sale_id}</if>
+		<if test="sale_name !=null and sale_name !=''">and t.sale_name=#{sale_name}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="send_time !=null and send_time !=''">and t.send_time=#{send_time}</if>
+		<if test="sender !=null and sender !=''">and t.sender=#{sender}</if>
+		<if test="recever !=null and recever !=''">and t.recever=#{recever}</if>
+		<if test="begin_address !=null and begin_address !=''">and t.begin_address=#{begin_address}</if>
+		<if test="end_address !=null and end_address !=''">and t.end_address=#{end_address}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="batch_num !=null and batch_num !=''">and t.batch_num=#{batch_num}</if>
+		<if test="batch_name !=null and batch_name !=''">and t.batch_name=#{batch_name}</if>
+		<if test="batch !=null and batch !=''">and t.batch=#{batch}</if>
+		<if test="tray_id !=null and tray_id !=''">and t.tray_id=#{tray_id}</if>
+		<if test="tray_name !=null and tray_name !=''">and t.tray_name=#{tray_name}</if>
+		<if test="box_id !=null and box_id !=''">and t.box_id=#{box_id}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Order" resultType="java.lang.Integer">
+		select count(*)
+		from trace_order t
+		where 1=1
+		<if test="order_num !=null and order_num !=''">and t.order_num=#{order_num}</if>
+		<if test="sale_id !=null and sale_id !=''">and t.sale_id=#{sale_id}</if>
+		<if test="sale_name !=null and sale_name !=''">and t.sale_name=#{sale_name}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="send_time !=null and send_time !=''">and t.send_time=#{send_time}</if>
+		<if test="sender !=null and sender !=''">and t.sender=#{sender}</if>
+		<if test="recever !=null and recever !=''">and t.recever=#{recever}</if>
+		<if test="begin_address !=null and begin_address !=''">and t.begin_address=#{begin_address}</if>
+		<if test="end_address !=null and end_address !=''">and t.end_address=#{end_address}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="batch_num !=null and batch_num !=''">and t.batch_num=#{batch_num}</if>
+		<if test="batch_name !=null and batch_name !=''">and t.batch_name=#{batch_name}</if>
+		<if test="batch !=null and batch !=''">and t.batch=#{batch}</if>
+		<if test="tray_id !=null and tray_id !=''">and t.tray_id=#{tray_id}</if>
+		<if test="tray_name !=null and tray_name !=''">and t.tray_name=#{tray_name}</if>
+		<if test="box_id !=null and box_id !=''">and t.box_id=#{box_id}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Order" resultType="com.hniois.trace.entity.Order">
+		select *
+		from trace_order
+		where 1=1
+		<if test="order_num !=null and order_num !=''">and order_num=#{order_num}</if>
+		<if test="sale_id !=null and sale_id !=''">and sale_id=#{sale_id}</if>
+		<if test="sale_name !=null and sale_name !=''">and sale_name=#{sale_name}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="recever !=null and recever !=''">and recever=#{recever}</if>
+		<if test="begin_address !=null and begin_address !=''">and begin_address=#{begin_address}</if>
+		<if test="end_address !=null and end_address !=''">and end_address=#{end_address}</if>
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="batch_num !=null and batch_num !=''">and batch_num=#{batch_num}</if>
+		<if test="batch_name !=null and batch_name !=''">and batch_name=#{batch_name}</if>
+		<if test="batch !=null and batch !=''">and batch=#{batch}</if>
+		<if test="tray_id !=null and tray_id !=''">and tray_id=#{tray_id}</if>
+		<if test="tray_name !=null and tray_name !=''">and tray_name=#{tray_name}</if>
+		<if test="box_id !=null and box_id !=''">and box_id=#{box_id}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Order" resultType="java.lang.Integer">
+		select count(*)
+		from trace_order t
+		where 1=1
+		<if test="order_num !=null and order_num !=''">and t.order_num=#{order_num}</if>
+		<if test="sale_id !=null and sale_id !=''">and t.sale_id=#{sale_id}</if>
+		<if test="sale_name !=null and sale_name !=''">and t.sale_name=#{sale_name}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="send_time !=null and send_time !=''">and t.send_time=#{send_time}</if>
+		<if test="sender !=null and sender !=''">and t.sender=#{sender}</if>
+		<if test="recever !=null and recever !=''">and t.recever=#{recever}</if>
+		<if test="begin_address !=null and begin_address !=''">and t.begin_address=#{begin_address}</if>
+		<if test="end_address !=null and end_address !=''">and t.end_address=#{end_address}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="batch_num !=null and batch_num !=''">and t.batch_num=#{batch_num}</if>
+		<if test="batch_name !=null and batch_name !=''">and t.batch_name=#{batch_name}</if>
+		<if test="batch !=null and batch !=''">and t.batch=#{batch}</if>
+		<if test="tray_id !=null and tray_id !=''">and t.tray_id=#{tray_id}</if>
+		<if test="tray_name !=null and tray_name !=''">and t.tray_name=#{tray_name}</if>
+		<if test="box_id !=null and box_id !=''">and t.box_id=#{box_id}</if>
+	</select>
+</mapper>

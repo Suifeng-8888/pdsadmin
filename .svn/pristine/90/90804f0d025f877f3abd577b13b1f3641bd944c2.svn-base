@@ -1,0 +1,72 @@
+package com.hniois.entity.search;
+
+import com.hniois.common.page.Page;
+/**
+ *  查询
+ */
+public class Search extends Page {
+
+    private String id;
+    private String re_number;
+    private String re_name;
+    private String re_time;
+    private String re_creator;
+    private String re_explain;
+    private String re_state;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRe_number() {
+        return re_number;
+    }
+
+    public void setRe_number(String re_number) {
+        this.re_number = re_number;
+    }
+
+    public String getRe_name() {
+        return re_name;
+    }
+
+    public void setRe_name(String re_name) {
+        this.re_name = re_name;
+    }
+
+    public String getRe_time() {
+        return re_time;
+    }
+
+    public void setRe_time(String re_time) {
+        this.re_time = re_time;
+    }
+
+    public String getRe_creator() {
+        return re_creator;
+    }
+
+    public void setRe_creator(String re_creator) {
+        this.re_creator = re_creator;
+    }
+
+    public String getRe_explain() {
+        return re_explain;
+    }
+
+    public void setRe_explain(String re_explain) {
+        this.re_explain = re_explain;
+    }
+
+    public String getRe_state() {
+        return re_state;
+    }
+
+    public void setRe_state(String re_state) {
+        this.re_state = re_state;
+    }
+}

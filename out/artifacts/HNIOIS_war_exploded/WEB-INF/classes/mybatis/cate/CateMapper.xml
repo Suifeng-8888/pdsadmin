@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CateMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.cate.Cate"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_item_cate(
+		<if test="type_name != '' and type_name != null">type_name,</if>
+		<if test="person != '' and person != null">person,</if>
+		<if test="createTime != '' and createTime != null">createTime</if>
+		)
+		VALUES (
+		<if test="type_name != '' and type_name != null">#{type_name},</if>
+		<if test="person != '' and person != null">#{person},</if>
+		<if test="createTime != '' and createTime != null">#{createTime}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.cate.Cate">
+		insert into tb_item_cate
+		(type_name,person,createTime)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.type_name},
+			#{e.person},
+			#{e.createTime}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.cate.Cate">
+		update tb_item_cate
+		<trim prefix="set" suffixOverrides=",">
+			<if test="type_name != null and type_name != ''">type_name = #{type_name},</if>
+			<if test="person != null and person != ''">person = #{person},</if>
+			<if test="createTime != null and createTime != ''">createTime = #{createTime},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.cate.Cate">
+		update tb_item_cate
+		<trim prefix="set" suffixOverrides=",">
+			<if test="type_name != null and type_name != ''">type_name = #{type_name},</if>
+			<if test="person != null and person != ''">person = #{person},</if>
+			<if test="createTime != null and createTime != ''">createTime = #{createTime},</if>
+		</trim>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.cate.Cate">
+		delete from tb_item_cate where 1=1
+        <if test="id != null and id != ''">and id = #{id}</if>
+		<if test="type_name != null and type_name != ''">and type_name = #{type_name}</if>
+		<if test="person != null and person != ''">and person = #{person}</if>
+		<if test="createTime != null and createTime != ''">and createTime = #{createTime}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_item_cate
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.cate.Cate" resultType="com.hniois.entity.cate.Cate">
+		select t.*
+		from tb_item_cate t
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="type_name !=null and type_name !=''">and type_name=#{type_name}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.cate.Cate" resultType="com.hniois.entity.cate.Cate">
+		select *
+		from tb_item_cate
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="type_name !=null and type_name !=''">and type_name=#{type_name}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		order by id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.cate.Cate" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item_cate
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="type_name !=null and type_name !=''">and type_name=#{type_name}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.cate.Cate" resultType="com.hniois.entity.cate.Cate">
+		select t.*
+		from tb_item_cate t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="type_name !=null and type_name !=''">and LIKE '%${type_name}%'</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.cate.Cate" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item_cate t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="type_name !=null and type_name !=''">and LIKE '%${type_name}%'</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+package com.hniois.service.send;
+
+import com.hniois.common.service.Service;
+import com.hniois.entity.send.SendCheck;
+
+public interface SendManage extends Service<SendCheck> {
+
+    /**
+     * 根据送检对象获取送检信息集合
+     * @param e
+     * @return
+     */
+    public Boolean sendCheck(SendCheck e)throws Exception;
+}

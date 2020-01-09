@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReportDetailMapper">
+
+	<sql id="keySql">
+		details_id,record_id,detection_item,norm_claim,detection_result,detection_limit,only_verdict
+	</sql>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.report.ReportDetail" resultType="com.hniois.entity.report.ReportDetail">
+		SELECT a.*,b.serial_number AS serial_number
+		FROM nj_report_detail AS a JOIN nj_report AS b ON a.record_id = b.record_id
+		<if test="details_id!= null and details_id!= ''">and a.details_id= #{details_id}</if>
+		<if test="record_id!= null and record_id!= ''">and a.record_id= #{record_id}</if>
+		<if test="detection_item!= null and detection_item!= ''">and a.detection_item= #{detection_item}</if>
+		<if test="norm_claim!= null and norm_claim!= ''">and a.norm_claim= #{norm_claim}</if>
+		<if test="detection_result!= null and detection_result!= ''">and a.detection_result= #{detection_result}</if>
+		<if test="detection_limit!= null and detection_limit!= ''">and a.detection_limit= #{detection_limit}</if>
+		<if test="only_verdict!= null and only_verdict!= ''">and a.only_verdict= #{only_verdict}</if>
+		ORDER BY a.record_id DESC LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.report.ReportDetail" resultType="java.lang.Integer">
+		SELECT COUNT(details_id)
+		FROM nj_report_detail
+		WHERE 1 = 1
+		<if test="details_id!= null and details_id!= ''">and details_id= #{details_id}</if>
+		<if test="record_id!= null and record_id!= ''">and record_id= #{record_id}</if>
+		<if test="detection_item!= null and detection_item!= ''">and detection_item= #{detection_item}</if>
+		<if test="norm_claim!= null and norm_claim!= ''">and norm_claim= #{norm_claim}</if>
+		<if test="detection_result!= null and detection_result!= ''">and detection_result= #{detection_result}</if>
+		<if test="detection_limit!= null and detection_limit!= ''">and detection_limit= #{detection_limit}</if>
+		<if test="only_verdict!= null and only_verdict!= ''">and only_verdict= #{only_verdict}</if>
+	</select>
+
+	<select id="find" parameterType="com.hniois.entity.report.ReportDetail" resultType="com.hniois.entity.report.ReportDetail">
+		SELECT a.*,b.serial_number AS serial_number
+		FROM nj_report_detail AS a JOIN nj_report AS b ON a.record_id = b.record_id
+		<if test="details_id!= null and details_id!= ''">and a.details_id= #{details_id}</if>
+		<if test="record_id!= null and record_id!= ''">and a.record_id= #{record_id}</if>
+		<if test="detection_item!= null and detection_item!= ''">and a.detection_item= #{detection_item}</if>
+		<if test="norm_claim!= null and norm_claim!= ''">and a.norm_claim= #{norm_claim}</if>
+		<if test="detection_result!= null and detection_result!= ''">and a.detection_result= #{detection_result}</if>
+		<if test="detection_limit!= null and detection_limit!= ''">and a.detection_limit= #{detection_limit}</if>
+		<if test="only_verdict!= null and only_verdict!= ''">and a.only_verdict= #{only_verdict}</if>
+	</select>
+
+	<insert id="save" parameterType="com.hniois.entity.report.ReportDetail" useGeneratedKeys="true" keyProperty="details_id">
+		INSERT INTO nj_report_detail(details_id
+		<if test="record_id!='' and record_id!=null">,record_id</if>
+		<if test="detection_item!='' and detection_item!=null">,detection_item</if>
+		<if test="norm_claim!='' and norm_claim!=null">,norm_claim</if>
+		<if test="detection_result!='' and detection_result!=null">,detection_result</if>
+		<if test="detection_limit!='' and detection_limit!=null">,detection_limit</if>
+		<if test="only_verdict!='' and only_verdict!=null">,only_verdict</if>
+		) VALUES (details_id
+		<if test="record_id!='' and record_id!=null">,#{record_id}</if>
+		<if test="detection_item!='' and detection_item!=null">,#{detection_item}</if>
+		<if test="norm_claim!='' and norm_claim!=null">,#{norm_claim}</if>
+		<if test="detection_result!='' and detection_result!=null">,#{detection_result}</if>
+		<if test="detection_limit!='' and detection_limit!=null">,#{detection_limit}</if>
+		<if test="only_verdict!='' and only_verdict!=null">,#{only_verdict}</if>
+		)
+	</insert>
+	<!--批量添加-->
+	<insert id="batchSave" parameterType="java.util.List">
+		INSERT INTO nj_report_detail(
+		record_id,detection_item,norm_claim,detection_result,detection_limit,only_verdict
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.record_id},#{item.detection_item},#{item.norm_claim},#{item.detection_result},
+			#{item.detection_limit},#{item.only_verdict})
+		</foreach>
+	</insert>
+
+	<update id="update" parameterType="com.hniois.entity.report.ReportDetail">
+		UPDATE nj_report_detail
+		<set>
+			<if test="details_id !=null and details_id !=''">details_id=#{details_id},</if>
+			<if test="record_id !=null and record_id !=''">record_id=#{record_id},</if>
+			<if test="detection_item !=null and detection_item !=''">detection_item=#{detection_item},</if>
+			<if test="norm_claim !=null and norm_claim !=''">norm_claim=#{norm_claim},</if>
+			<if test="detection_result !=null and detection_result !=''">detection_result=#{detection_result},</if>
+			<if test="detection_limit !=null and detection_limit !=''">detection_limit=#{detection_limit},</if>
+			<if test="only_verdict !=null and only_verdict !=''">only_verdict=#{only_verdict},</if>
+		</set>
+		WHERE details_id = #{details_id}
+	</update>
+
+	<delete id="delete" parameterType="com.hniois.entity.report.ReportDetail">
+		DELETE FROM nj_report_detail WHERE 1 = 1
+		<if test="details_id !=null and details_id !=''">and details_id=#{details_id}</if>
+		<if test="record_id !=null and record_id !=''">and record_id=#{record_id}</if>
+		<if test="detection_item !=null and detection_item !=''">and detection_item=#{detection_item}</if>
+		<if test="norm_claim !=null and norm_claim !=''">and norm_claim=#{norm_claim}</if>
+		<if test="detection_result !=null and detection_result !=''">and detection_result=#{detection_result}</if>
+		<if test="detection_limit !=null and detection_limit !=''">and detection_limit=#{detection_limit}</if>
+		<if test="only_verdict !=null and only_verdict !=''">and only_verdict=#{only_verdict}</if>
+	</delete>
+
+	<delete id="batchDelete" parameterType="com.hniois.entity.report.ReportDetail">
+		DELETE FROM nj_report_detail
+		WHERE details_id IN
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="findList" parameterType="com.hniois.entity.report.ReportDetail" resultType="com.hniois.entity.report.ReportDetail">
+		SELECT
+		<include refid="keySql"></include>
+		FROM nj_report_detail
+		WHERE 1 = 1
+		<if test="details_id !=null and details_id !=''">and details_id=#{details_id}</if>
+		<if test="record_id !=null and record_id !=''">and record_id=#{record_id}</if>
+		<if test="detection_item !=null and detection_item !=''">and detection_item=#{detection_item}</if>
+		<if test="norm_claim !=null and norm_claim !=''">and norm_claim=#{norm_claim}</if>
+		<if test="detection_result !=null and detection_result !=''">and detection_result=#{detection_result}</if>
+		<if test="detection_limit !=null and detection_limit !=''">and detection_limit=#{detection_limit}</if>
+		<if test="only_verdict !=null and only_verdict !=''">and only_verdict=#{only_verdict}</if>
+	</select>
+</mapper>

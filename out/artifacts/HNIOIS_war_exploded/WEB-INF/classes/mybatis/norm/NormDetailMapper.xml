@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="normDetailMapper">
+
+	<!-- norm_detail 字段 -->
+	<sql id="valuesSql">
+		id,norm_id,detail_object,detail_options,detail_value,value_updown
+	</sql>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.norm.NormDetail" resultType="com.hniois.entity.norm.NormDetail">
+		SELECT a.*,b.norm_name AS norm_name
+		FROM nj_norm_detail AS a JOIN nj_norm AS b
+		WHERE a.norm_id = b.id
+        <if test="id != null and id != ''">AND a.id = #{id}</if>
+        <if test="norm_id != null and norm_id != ''">AND a.norm_id = #{norm_id}</if>
+        <if test="detail_object != null and detail_object != ''">AND a.detail_object LIKE '%${detail_object}%'</if>
+        <if test="detail_options != null and detail_options != ''">AND a.detail_options LIKE '%${detail_options}%'</if>
+        <if test="detail_value != null and detail_value != ''">AND a.detail_value = #{detail_value}</if>
+        <if test="value_updown != null and value_updown != ''">AND a.value_updown = #{value_updown}</if>
+		ORDER BY a.norm_id
+	  	LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.norm.NormDetail" resultType="java.lang.Integer">
+		SELECT COUNT(a.id)
+		FROM nj_norm_detail AS a JOIN nj_norm AS b
+		WHERE a.norm_id = b.id
+        <if test="id != null and id != ''">AND a.id = #{id}</if>
+        <if test="norm_id != null and norm_id != ''">AND a.norm_id = #{norm_id}</if>
+        <if test="detail_object != null and detail_object != ''">AND a.detail_object LIKE '%${detail_object}%'</if>
+        <if test="detail_options != null and detail_options != ''">AND a.detail_options LIKE '%${detail_options}%'</if>
+        <if test="detail_value != null and detail_value != ''">AND a.detail_value = #{detail_value}</if>
+        <if test="value_updown != null and value_updown != ''">AND a.value_updown = #{value_updown}</if>
+	</select>
+
+    <!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.norm.NormDetail" resultType="com.hniois.entity.norm.NormDetail">
+		SELECT a.*,b.norm_name AS norm_name
+		FROM nj_norm_detail AS a JOIN nj_norm AS b 
+		WHERE a.norm_id = b.id 
+		<if test="id != null and id != ''">AND a.id = #{id}</if>
+		<if test="norm_id != null and norm_id != ''">AND a.norm_id = #{norm_id}</if>
+		<if test="detail_object != null and detail_object != ''">AND a.detail_object = #{detail_object}</if>
+		<if test="detail_options != null and detail_options != ''">AND a.detail_options = #{detail_options}</if>
+		<if test="detail_value != null and detail_value != ''">AND a.detail_value = #{detail_value}</if>
+        <if test="value_updown != null and value_updown != ''">AND a.value_updown = #{value_updown}</if>
+	</select>
+
+    <select id="findList" parameterType="com.hniois.entity.norm.NormDetail" resultType="com.hniois.entity.norm.NormDetail">
+        SELECT a.*,b.norm_name AS norm_name
+        FROM nj_norm_detail AS a JOIN nj_norm AS b
+        WHERE a.norm_id = b.id
+        <if test="id != null and id != ''">AND a.id = #{id}</if>
+        <if test="norm_id != null and norm_id != ''">AND a.norm_id = #{norm_id}</if>
+        <if test="detail_object != null and detail_object != ''">AND a.detail_object = #{detail_object}</if>
+        <if test="detail_options != null and detail_options != ''">AND a.detail_options = #{detail_options}</if>
+        <if test="detail_value != null and detail_value != ''">AND a.detail_value = #{detail_value}</if>
+        <if test="value_updown != null and value_updown != ''">AND a.value_updown = #{value_updown}</if>
+    </select>
+    <!-- 新增 -->
+    <insert id="save" parameterType="com.hniois.entity.norm.NormDetail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO nj_norm_detail(
+        <trim suffixOverrides=",">
+            <if test="id != '' and id != null">id,</if>
+            <if test="norm_id != '' and norm_id != null">norm_id,</if>
+            <if test="detail_object != '' and detail_object != null">detail_object,</if>
+            <if test="detail_options != '' and detail_options != null">detail_options,</if>
+            <if test="detail_value != '' and detail_value != null">detail_value,</if>
+            <if test="value_updown != '' and value_updown != null">value_updown,</if>
+        </trim>
+        )
+        VALUES (
+        <trim suffixOverrides=",">
+            <if test="id != '' and id != null">#{id},</if>
+            <if test="norm_id != '' and norm_id != null">#{norm_id},</if>
+            <if test="detail_object != '' and detail_object != null">#{detail_object},</if>
+            <if test="detail_options != '' and detail_options != null">#{detail_options},</if>
+            <if test="detail_value != '' and detail_value != null">#{detail_value},</if>
+            <if test="value_updown != '' and value_updown != null">#{value_updown},</if>
+        </trim>
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.hniois.entity.norm.NormDetail">
+        UPDATE nj_norm_detail
+        <set>
+            <if test="norm_id != null and norm_id != ''">norm_id = #{norm_id},</if>
+            <if test="detail_object != null and detail_object != ''">detail_object = #{detail_object},</if>
+            <if test="detail_options != null and detail_options != ''">detail_options = #{detail_options},</if>
+            <if test="detail_value != null and detail_value != ''">detail_value = #{detail_value},</if>
+            <if test="value_updown != null and value_updown != ''">value_updown = #{value_updown},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="com.hniois.entity.norm.NormDetail">
+        DELETE FROM nj_norm_detail
+        WHERE 1 = 1
+        <if test="id != null and id != ''">AND id = #{id}</if>
+        <if test="norm_id != null and norm_id != ''">AND norm_id = #{norm_id}</if>
+        <if test="detail_object != null and detail_object != ''">AND detail_object = #{detail_object}</if>
+        <if test="detail_options != null and detail_options != ''">AND detail_options = #{detail_options}</if>
+        <if test="detail_value != null and detail_value != ''">AND detail_value = #{detail_value}</if>
+        <if test="value_updown != null and value_updown != ''">AND value_updown = #{value_updown}</if>
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.ArrayList">
+        DELETE FROM nj_norm_detail
+        WHERE id IN
+        <foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

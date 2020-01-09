@@ -1,0 +1,125 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="<%=basePath%>">
+    <meta charset="utf-8">
+    <title>XX管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable=no">
+    <link href="static/login/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+<div >
+    <form class="layui-form layui-form-pane" action="" >
+        <input type="hidden" name="id" id="key" value="${supplier.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">供应商ID<span style="color: #FF5722">*</span></label>
+            <div class="layui-input-block">
+                <input name="sup_id" class="layui-input" type="text" autocomplete="off"
+                       lay-verify="required" value="${supplier.sup_id}">
+            </div>
+        <%--</div>--%>
+        <%--<div class="layui-form-item">--%>
+            <label class="layui-form-label">供应商名字<span style="color: #FF5722">*</span></label>
+            <div class="layui-input-block">
+                <input name="name" class="layui-input" type="text" autocomplete="off"
+                       lay-verify="required" value="${supplier.name}">
+            </div>
+        <%--</div>--%>
+        <%--<div class="layui-form-item">--%>
+            <label class="layui-form-label">供应商地址<span style="color: #FF5722">*</span></label>
+            <div class="layui-input-block">
+                <input name="address" class="layui-input" type="text" autocomplete="off"
+                       lay-verify="required" value="${supplier.address}">
+            </div>
+        <%--</div>--%>
+        <%--<div class="layui-form-item">--%>
+            <label class="layui-form-label">联系人<span style="color: #FF5722">*</span></label>
+            <div class="layui-input-block">
+                <input name="contacts" class="layui-input" type="text" autocomplete="off"
+                       lay-verify="required" value="${supplier.contacts}">
+            </div>
+        <%--</div>--%>
+        <%--<div class="layui-form-item">--%>
+            <label class="layui-form-label">手机号<span style="color: #FF5722">*</span></label>
+            <div class="layui-input-block">
+                <input name="telephone" class="layui-input" type="text" autocomplete="off"
+                       lay-verify="telephone|required" value="${supplier.telephone}">
+            </div>
+        <%--</div>--%>
+        <%--<div class="layui-form-item">--%>
+            <label class="layui-form-label">电子邮箱<span style="color: #FF5722">*</span></label>
+            <div class="layui-input-block">
+                <input name="email" class="layui-input" type="text" autocomplete="off"
+                       lay-verify="email|required" value="${supplier.email}">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;"  >
+            <button class="layui-btn" lay-filter="formSave" lay-submit id="form-button" style="display: none">保存</button>
+            <button class="layui-btn layui-btn-warm" onclick="closeWin()">关闭</button>
+        </div>
+    </form>
+</div>
+</body>
+<script src="static/layui/layui.js"></script>
+<script src="static/layui/layui.all.js"></script>
+<script src="static/login/js/jquery-1.7.2.js"></script>
+<script>
+    //获取窗口索引
+    var index = parent.layer.getFrameIndex(window.name);
+    //初始化函数 order-1
+    $(document).ready(function() {
+        init();
+    });
+
+    //layui模块加载 order-2
+    layui.use(['layer', 'form'], function() {
+        var layer = layui.layer,
+            form = layui.form;
+        //监听提交
+        form.on('submit(formSave)', function(data){
+            var url = "supply/" + ($("#key").val()==""?"add":"update") + ".do";
+            $.ajax({
+                url: url,
+                data: data.field,
+                type: "post",
+                dataType:'json',
+                success: function(data){
+                    if(data.state=="ok"){
+                        parent.formReload();
+                        parent.layer.msg(data.msg);
+                        closeWin();
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+            return false;
+        });
+        //自定义验证规则
+        form.verify({
+            telephone: [/^1[3|4|5|7|8]\d{9}$/, '手机必须11位，只能是数字！']
+            ,email: [/^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$|^1[3|4|5|7|8]\d{9}$/, '邮箱格式不对']
+        });
+    });
+
+    function closeWin(){
+        parent.layer.close(index);
+    }
+
+    function init(){
+        //初始化按钮操作
+        if("${supplier.code}"=="1"){
+            $("#form-button").show();
+        }
+    }
+</script>
+</html>

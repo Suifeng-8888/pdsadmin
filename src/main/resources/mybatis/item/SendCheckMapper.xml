@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SendMapper">
+	<sql id="keySql">
+		id,item_number,item_name,serial_number,test_results
+	</sql>
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.send.SendCheck"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_sendCheck
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="item_number!='' and item_number!=null">item_number,</if>
+            <if test="item_name!='' and item_name!=null">item_name,</if>
+            <if test="serial_number!='' and serial_number!=null">serial_number,</if>
+            <if test="test_results!='' and test_results!=null">test_results,</if>
+        </trim>
+		VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="item_number!='' and item_number!=null">#{item_number},</if>
+            <if test="item_name!='' and item_name!=null">#{item_name},</if>
+            <if test="serial_number!='' and serial_number!=null">#{serial_number},</if>
+            <if test="test_results!='' and test_results!=null">#{test_results},</if>
+        </trim>
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into tb_sendCheck
+		(item_number,item_name,serial_number,test_results)
+		values
+		<foreach collection="list" item="e" separator=",">
+			(
+			#{e.item_number},
+			#{e.item_name},
+			#{e.serial_number},
+			#{e.test_results}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.send.SendCheck">
+		update tb_sendCheck
+        <trim prefix="set" suffixOverrides=",">
+            <if test="item_number != null and item_number != ''">item_number=#{item_number},</if>
+            <if test="item_name != null and item_name != ''">item_name=#{item_name},</if>
+            <if test="serial_number != null and serial_number != ''">serial_number=#{serial_number},</if>
+            <if test="test_results != null and test_results != ''">test_results=#{test_results},</if>
+        </trim>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.send.SendCheck">
+		update tb_sendCheck
+		<set>
+			<if test="item_name !=null and item_name !=''">item_name=#{item_name},</if>
+			<if test="send_num !=null and send_num !=''">send_num=#{send_num},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="state !=null and state !=''">state=#{state},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+			<if test="result_time !=null and result_time !=''">result_time=#{result_time},</if>
+			<if test="recorder !=null and recorder !=''">recorder=#{recorder},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.send.SendCheck">
+		delete from tb_sendCheck where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_number!=null and item_number!=''">and item_number=#{item_number}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="serial_number!=null and serial_number!=''">and serial_number=#{serial_number}</if>
+		<if test="test_results!=null and test_results!=''">and test_results=#{test_results}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="com.hniois.entity.send.SendCheck">
+		delete from tb_sendCheck
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.send.SendCheck" resultType="com.hniois.entity.send.SendCheck">
+		select
+        <include refid="keySql"></include>
+		from tb_sendCheck
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_number!=null and item_number!=''">and item_number=#{item_number}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="serial_number!=null and serial_number!=''">and serial_number=#{serial_number}</if>
+		<if test="test_results!=null and test_results!=''">and test_results=#{test_results}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.send.SendCheck" resultType="com.hniois.entity.send.SendCheck">
+		select t.*
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="state!=null and state!=''">and state=#{state}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+		<if test="recorder!=null and recorder!=''">and recorder=#{recorder}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.send.SendCheck" resultType="java.lang.Integer">
+		select count(*)
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="state!=null and state!=''">and state=#{state}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+		<if test="recorder!=null and recorder!=''">and recorder=#{recorder}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.send.SendCheck" resultType="com.hniois.entity.send.SendCheck">
+		select
+		<include refid="keySql"></include>
+		from tb_sendCheck
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_number!=null and item_number!=''">and item_number LIKE '%${item_number}%'</if>
+		<if test="item_name!=null and item_name!=''">and item_name LIKE '%${item_name}%'</if>
+		<if test="serial_number!=null and serial_number!=''">and serial_number=#{serial_number}</if>
+		<if test="test_results!=null and test_results!=''">and test_results=#{test_results}</if>
+		order by id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.send.SendCheck" resultType="java.lang.Integer">
+		select count(*)
+		from tb_sendCheck
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_number!=null and item_number!=''">and item_number LIKE '%${item_number}%'</if>
+		<if test="item_name!=null and item_name!=''">and item_name LIKE '%${item_name}%'</if>
+		<if test="serial_number!=null and serial_number!=''">and serial_number=#{serial_number}</if>
+		<if test="test_results!=null and test_results!=''">and test_results=#{test_results}</if>
+	</select>
+</mapper>

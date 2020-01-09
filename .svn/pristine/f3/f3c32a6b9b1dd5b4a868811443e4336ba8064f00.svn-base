@@ -1,0 +1,231 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50633
+Source Host           : localhost:3306
+Source Database       : pds_admin
+
+Target Server Type    : MYSQL
+Target Server Version : 50633
+File Encoding         : 65001
+
+Date: 2018-03-30 17:31:34
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `nj_norm`
+-- ----------------------------
+DROP TABLE IF EXISTS `nj_norm`;
+CREATE TABLE `nj_norm` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标准id',
+  `norm_name` varchar(100) DEFAULT NULL COMMENT '标准名称',
+  `norm_number` varchar(100) DEFAULT NULL COMMENT '标准编号',
+  `create_time` varchar(100) DEFAULT NULL COMMENT '创建时间',
+  `norm_creator` varchar(100) DEFAULT NULL COMMENT '标准创建者',
+  `norm_explain` text COMMENT '标准备注说明',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='标准表';
+
+-- ----------------------------
+-- Records of nj_norm
+-- ----------------------------
+INSERT INTO `nj_norm` VALUES ('10', 'yyy', 'yyy', null, 'yy', 'yyy');
+INSERT INTO `nj_norm` VALUES ('13', 'asdf', 'asdf', null, null, null);
+INSERT INTO `nj_norm` VALUES ('14', '求求请求群群', '11111', null, null, null);
+INSERT INTO `nj_norm` VALUES ('15', '312222222222', '2222222222222222222222', null, '312', '123123');
+INSERT INTO `nj_norm` VALUES ('16', 'cccvc', 'adfsdsf', null, null, null);
+INSERT INTO `nj_norm` VALUES ('17', '11', '111111', null, '111', null);
+INSERT INTO `nj_norm` VALUES ('18', 'bbb', 'vv', null, null, null);
+INSERT INTO `nj_norm` VALUES ('24', 'nnn', 'nnn', null, null, null);
+INSERT INTO `nj_norm` VALUES ('25', 'xzxa', 'adsa', null, null, null);
+INSERT INTO `nj_norm` VALUES ('30', 'aaa', 'aaaaaaaaaaaaaa', null, 'aaaaaaaaaaaa', 'aaaaaaaaaaaa');
+
+-- ----------------------------
+-- Table structure for `nj_norm_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `nj_norm_detail`;
+CREATE TABLE `nj_norm_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '检测标准详情id',
+  `norm_id` int(11) NOT NULL COMMENT '执行标准id',
+  `detail_object` varchar(100) DEFAULT NULL COMMENT '执行标准的检测对象',
+  `detail_options` varchar(100) DEFAULT NULL COMMENT '执行标准的检测项',
+  `detail_value` varchar(100) DEFAULT NULL COMMENT '执行标准的检测值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标准详情';
+
+-- ----------------------------
+-- Records of nj_norm_detail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `nj_record`
+-- ----------------------------
+DROP TABLE IF EXISTS `nj_record`;
+CREATE TABLE `nj_record` (
+  `record_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '检测报告id',
+  `serial_number` varchar(255) DEFAULT NULL COMMENT '检测编号',
+  `specimen_name` varchar(255) DEFAULT NULL COMMENT '样品名称',
+  `accept_unit` varchar(255) DEFAULT NULL COMMENT '受检单位',
+  `detection_type` varchar(255) DEFAULT NULL COMMENT '检验类别',
+  `specimen_number` varchar(255) DEFAULT NULL COMMENT '样品编号',
+  `production_unit` varchar(255) DEFAULT NULL COMMENT '生产单位',
+  `sample_status` varchar(255) DEFAULT NULL COMMENT '样品状态',
+  `sampling_site` varchar(255) DEFAULT NULL COMMENT '抽样地点',
+  `give_time` date DEFAULT NULL COMMENT '送样时间',
+  `specimen_amount` varchar(255) DEFAULT NULL COMMENT '样品数量',
+  `sampling_number` varchar(255) DEFAULT NULL COMMENT '抽样基数',
+  `condition` varchar(255) DEFAULT NULL COMMENT '实验室条件',
+  `inspect_time` date DEFAULT NULL COMMENT '检验日期',
+  `employ_facility` varchar(255) DEFAULT NULL COMMENT '使用仪器',
+  `inspect_gist` varchar(255) DEFAULT NULL COMMENT '检查依据',
+  `judge_gist` varchar(255) DEFAULT NULL COMMENT '判定依据',
+  `sign_time` varchar(255) DEFAULT NULL COMMENT '签发日期',
+  `comment` text COMMENT '备注',
+  `lister` varchar(255) DEFAULT NULL COMMENT '制表人',
+  `auditor` varchar(255) DEFAULT NULL COMMENT '审核人',
+  `ratify` varchar(255) DEFAULT NULL COMMENT '批准人',
+  `status` bigint(1) DEFAULT '0' COMMENT '状态0 未审核 1 已审核 2 已批准',
+  PRIMARY KEY (`record_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='检测报告';
+
+-- ----------------------------
+-- Records of nj_record
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `nj_record_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `nj_record_detail`;
+CREATE TABLE `nj_record_detail` (
+  `details_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '检测详情id',
+  `record_id` bigint(20) DEFAULT NULL COMMENT '检测报告id',
+  `detection_item` varchar(255) DEFAULT NULL COMMENT '检测项目',
+  `norm_claim` varchar(255) DEFAULT NULL COMMENT '标准要求',
+  `detection_result` varchar(255) DEFAULT NULL COMMENT '检验结果',
+  `detection_limit` varchar(255) DEFAULT NULL COMMENT '检出限',
+  `only_verdict` varchar(255) DEFAULT NULL COMMENT '单项结论',
+  PRIMARY KEY (`details_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='检测报告详情表';
+
+-- ----------------------------
+-- Records of nj_record_detail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `sys_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu` (
+  `menu_id` int(11) NOT NULL COMMENT '菜单id',
+  `menu_name` varchar(255) DEFAULT NULL COMMENT '菜单名称',
+  `menu_url` varchar(255) DEFAULT '' COMMENT '菜单url',
+  `menu_order` varchar(100) DEFAULT NULL COMMENT '排序',
+  `menu_icon` varchar(60) DEFAULT NULL COMMENT '图标',
+  `menu_type` varchar(10) DEFAULT NULL COMMENT '类型',
+  `menu_state` int(1) DEFAULT '0' COMMENT '状态 0 默认 1禁用',
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_menu
+-- ----------------------------
+INSERT INTO `sys_menu` VALUES ('10', '系统管理', '#', '100000', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('20', '其它', '#', '200000', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('30', '标准管理', '#', '300000', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('40', '检测管理', '#', '400000', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('1001', '用户管理', 'user/toPage', '100100', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('1002', '角色管理', 'role/toPage', '100200', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('1003', '菜单管理', 'menu/toPage', '100300', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('1004', '字典管理', 'dic/toPage', '100400', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('1005', '部门管理', 'dept/toPage', '100500', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('2001', 'Demo查询', 'demo/toPage', '200100', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('3001', '标准维护', 'norm/toPage', '300100', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('3002', '标准详情', 'normDetail/toPage', '300200', null, '1', '0');
+INSERT INTO `sys_menu` VALUES ('100101', '用户添加', 'user/add', '100101', null, '2', '0');
+INSERT INTO `sys_menu` VALUES ('100102', '用户修改', 'user/update', '100102', null, '2', '0');
+INSERT INTO `sys_menu` VALUES ('100103', '用户删除', 'user/delete', '100103', null, '2', '0');
+INSERT INTO `sys_menu` VALUES ('300101', '标准添加', 'norm/add', '300101', null, '2', '0');
+INSERT INTO `sys_menu` VALUES ('300102', '标准修改', 'norm/update', '300102', null, '2', '0');
+INSERT INTO `sys_menu` VALUES ('300103', '标准删除', 'norm/delete', '300103', null, '2', '0');
+
+-- ----------------------------
+-- Table structure for `sys_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
+  `role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `role_name` varchar(100) DEFAULT NULL COMMENT '角色姓名',
+  `rights` varchar(255) DEFAULT NULL COMMENT '角色权限',
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES ('1', '管理员', '#');
+INSERT INTO `sys_role` VALUES ('2', '用户', '200000,200100');
+
+-- ----------------------------
+-- Table structure for `sys_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(100) NOT NULL COMMENT '账户id',
+  `username` varchar(100) NOT NULL COMMENT '账户名',
+  `password` varchar(100) DEFAULT NULL COMMENT '密码',
+  `phone` varchar(32) DEFAULT NULL COMMENT '电话',
+  `email` varchar(32) DEFAULT NULL COMMENT '邮箱',
+  `bz` varchar(100) DEFAULT NULL COMMENT '备注',
+  `state` varchar(32) DEFAULT '0' COMMENT '状态 0正常 1禁用',
+  `create_time` date DEFAULT NULL COMMENT '登录时间',
+  `role_id` varchar(100) DEFAULT NULL COMMENT '角色',
+  `user_img` varchar(100) DEFAULT NULL COMMENT '用户头像',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES ('1', 'admin', '超级管理员', 'de41b7fb99201d8334c23c014db35ecd92df81bc', '111', '22', '22', '0', '2018-03-27', '1', null);
+INSERT INTO `sys_user` VALUES ('2', 'test1', '六号1', null, '11', '22', '23', '0', null, '2', null);
+INSERT INTO `sys_user` VALUES ('3', 'test2', 'liuhao222', null, null, null, null, '0', null, '2', null);
+
+-- ----------------------------
+-- Table structure for `t_demo`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_demo`;
+CREATE TABLE `t_demo` (
+  `id` int(11) NOT NULL,
+  `val1` varchar(100) DEFAULT NULL,
+  `val2` varchar(100) DEFAULT NULL,
+  `val3` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_demo
+-- ----------------------------
+
+-- ----------------------------
+-- Procedure structure for `createBean`
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `createBean`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createBean`(IN `the_name` varchar(50))
+BEGIN
+	set @the_name = '';
+	if `the_name` is not null THEN
+		set @the_name = `the_name`;
+	end if;
+	#Routine body goes here...
+	SELECT  GROUP_CONCAT(column_name separator ',') as 'rs'
+	from information_schema.columns
+	where  TABLE_SCHEMA='pds_admin' 
+	and TABLE_NAME = @the_name;
+END
+;;
+DELIMITER ;

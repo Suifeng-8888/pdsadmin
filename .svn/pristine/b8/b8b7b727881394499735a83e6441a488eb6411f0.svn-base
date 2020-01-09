@@ -1,0 +1,69 @@
+package com.hniois.dao.item.impl;
+
+import com.hniois.common.dao.DaoSupport;
+import com.hniois.common.page.Page;
+import com.hniois.dao.item.SendDao;
+import com.hniois.entity.item.SendCheck;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Repository("sendDaoImpl")
+public class SendDaoImpl implements SendDao {
+
+    @Resource
+    private DaoSupport dao;
+    private String mapper = "SendMapper";
+    @Override
+    public void save(SendCheck e) throws Exception {
+        dao.save(mapper+".save",e);
+    }
+
+    @Override
+    public void saveBatch(List<SendCheck> e) throws Exception {
+        dao.save(mapper+".saveBatch",e);
+    }
+
+    @Override
+    public void delete(SendCheck e) throws Exception {
+        dao.delete(mapper+".delete",e);
+    }
+
+    @Override
+    public void deleteBatch(SendCheck e) throws Exception {
+        dao.delete(mapper+".deleteBatch",e);
+    }
+
+    @Override
+    public void update(SendCheck e) throws Exception {
+        dao.update(mapper+".update",e);
+    }
+
+    @Override
+    public void updateBatch(SendCheck e) throws Exception {
+        dao.update(mapper+".updateBatch",e);
+    }
+
+    @Override
+    public SendCheck find(SendCheck e) throws Exception {
+        return  (SendCheck)dao.find(mapper+".find",e);
+    }
+
+    @Override
+    public List<SendCheck> findList(SendCheck e) throws Exception {
+        return  (List<SendCheck> )dao.findList(mapper+".findList",e);
+    }
+
+    @Override
+    public int findCount(SendCheck e) throws Exception {
+        return  (Integer)dao.find(mapper+".findCount",e);
+    }
+
+    @Override
+    public Page findPage(SendCheck e) throws Exception {
+        return (Page)dao.findPage(mapper+".findPage",mapper+".findPageCount",e);
+    }
+
+
+}

@@ -1,0 +1,89 @@
+package com.hniois.entity.send;
+
+import com.hniois.common.page.Page;
+
+public class SendCheck extends Page {
+
+    //id,item_id,item_name,send_num,send_time,sender,result,result_time
+    private String item_id;//送检样品编号
+    private String item_name;//送检样品名
+    private Integer send_num;//送检数量
+    private String send_time;//送检时间
+    private String sender;//送检人
+    private String result;//送检结果
+    private String result_time;//出结果时间
+    private String nums;//增加的临时属性
+    private String recorder;//结果录入人
+
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
+    }
+
+    public String getItem_name() {
+        return item_name;
+    }
+
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
+
+    public Integer getSend_num() {
+        return send_num;
+    }
+
+    public void setSend_num(Integer send_num) {
+        this.send_num = send_num;
+    }
+
+    public String getSend_time() {
+        return send_time;
+    }
+
+    public void setSend_time(String send_time) {
+        this.send_time = send_time;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getResult_time() {
+        return result_time;
+    }
+
+    public void setResult_time(String result_time) {
+        this.result_time = result_time;
+    }
+
+    public String getNums() {
+        return nums;
+    }
+
+    public void setNums(String nums) {
+        this.nums = nums;
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder;
+    }
+}

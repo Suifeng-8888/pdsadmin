@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SupplierMapper">
+    <!-- 保存 -->
+    <insert id="save" parameterType="com.hniois.entity.purchase.Supplier"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_supplier(`id`
+        <if test="sup_id!='' and sup_id!=null">,`sup_id`</if>
+        <if test="name!='' and name!=null">,`name`</if>
+        <if test="address!='' and address!=null">,`address`</if>
+        <if test="contacts!='' and contacts!=null">,`contacts`</if>
+        <if test="telephone!='' and telephone!=null">,`telephone`</if>
+        <if test="email!='' and email!=null">,`email`</if>
+        <if test="temp_price!='' and temp_price!=null">,`temp_price`</if>
+        <if test="bz!='' and bz!=null">,`bz`</if>
+        )
+        VALUES (id
+        <if test="sup_id!='' and sup_id!=null">,#{sup_id}</if>
+        <if test="name!='' and name!=null">,#{name}</if>
+        <if test="address!='' and address!=null">,#{address}</if>
+        <if test="contacts!='' and contacts!=null">,#{contacts}</if>
+        <if test="telephone!='' and telephone!=null">,#{telephone}</if>
+        <if test="email!='' and email!=null">,#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">,#{temp_price}</if>
+        <if test="bz!='' and bz!=null">,#{bz}</if>
+        )
+    </insert>
+
+    <!-- 批量保存 -->
+    <insert id="saveBatch" parameterType="com.hniois.entity.purchase.Supplier">
+        insert into t_supplier
+        (sup_id,name,address,contacts,telephone,email,temp_price,bz)
+        values
+        <foreach collection="list" item="e" index="index" separator=",">
+            (
+            #{e.sup_id},
+            #{e.name},
+            #{e.address},
+            #{e.contacts},
+            #{e.telephone},
+            #{e.email},
+            #{e.temp_price},
+            #{e.bz},
+            )
+        </foreach>
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.hniois.entity.purchase.Supplier">
+        update t_supplier
+        <set>
+            <if test="sup_id!='' and sup_id!=null">sup_id=#{sup_id},</if>
+            <if test="name!='' and name!=null">name=#{name},</if>
+            <if test="address!='' and address!=null">address=#{address},</if>
+            <if test="contacts!='' and contacts!=null">contacts=#{contacts},</if>
+            <if test="telephone!='' and telephone!=null">telephone=#{telephone},</if>
+            <if test="email!='' and email!=null">email=#{email},</if>
+            <if test="temp_price!='' and temp_price!=null">temp_price=#{temp_price},</if>
+            <if test="bz!='' and bz!=null">bz=#{bz}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="com.hniois.entity.purchase.Supplier">
+        update t_supplier
+        <set>
+            <if test="sup_id!='' and sup_id!=null">sup_id=#{sup_id},</if>
+            <if test="name!='' and name!=null">name=#{name},</if>
+            <if test="address!='' and address!=null">address=#{address},</if>
+            <if test="contacts!='' and contacts!=null">contacts=#{contacts},</if>
+            <if test="telephone!='' and telephone!=null">telephone=#{telephone},</if>
+            <if test="email!='' and email!=null">email=#{email},</if>
+            <if test="temp_price!='' and temp_price!=null">temp_price=#{temp_price},</if>
+            <if test="bz!='' and bz!=null">bz=#{bz}</if>
+        </set>
+        where id in
+        <foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="com.hniois.entity.purchase.Supplier">
+        delete from t_supplier where 1=1
+        <if test="id!='' and id!=null">and id=#{id}</if>
+        <if test="sup_id!='' and sup_id!=null">and sup_id=#{sup_id}</if>
+        <if test="name!='' and name!=null">and name=#{name}</if>
+        <if test="address!='' and address!=null">and address=#{address}</if>
+        <if test="contacts!='' and contacts!=null">and contacts=#{contacts}</if>
+        <if test="telephone!='' and telephone!=null">and telephone=#{telephone}</if>
+        <if test="email!='' and email!=null">and email=#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">and temp_price=#{temp_price}</if>
+        <if test="bz!='' and bz!=null">and bz=#{bz}</if>
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.ArrayList">
+        delete from t_supplier
+        where id in
+        <foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 查询 -->
+    <select id="find" parameterType="com.hniois.entity.purchase.Supplier" resultType="com.hniois.entity.purchase.Supplier">
+        select	t.*
+        from t_supplier t
+        where 1=1
+        <if test="id!='' and id!=null">and t.id=#{id}</if>
+        <if test="sup_id!='' and sup_id!=null">and sup_id=#{sup_id}</if>
+        <if test="name!='' and name!=null">and t.name=#{name}</if>
+        <if test="address!='' and address!=null">and t.address=#{address}</if>
+        <if test="contacts!='' and contacts!=null">and t.contacts=#{contacts}</if>
+        <if test="telephone!='' and telephone!=null">and t.telephone=#{telephone}</if>
+        <if test="email!='' and email!=null">and t.email=#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">and temp_price=#{temp_price}</if>
+        <if test="bz!='' and bz!=null">and bz=#{bz}</if>
+    </select>
+
+    <!-- 查询List -->
+    <select id="findList" parameterType="com.hniois.entity.purchase.Supplier" resultType="com.hniois.entity.purchase.Supplier">
+        select	t.*
+        from t_supplier t
+        where 1=1
+        <if test="id!='' and id!=null">and t.id=#{id}</if>
+        <if test="sup_id!='' and sup_id!=null">and sup_id=#{sup_id}</if>
+        <if test="name!='' and name!=null">and t.name=#{name}</if>
+        <if test="address!='' and address!=null">and t.address=#{address}</if>
+        <if test="contacts!='' and contacts!=null">and t.contacts=#{contacts}</if>
+        <if test="telephone!='' and telephone!=null">and t.telephone=#{telephone}</if>
+        <if test="email!='' and email!=null">and t.email=#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">and temp_price=#{temp_price}</if>
+        <if test="bz!='' and bz!=null">and bz=#{bz}</if>
+        order by t.id
+    </select>
+
+    <!-- 查询Count -->
+    <select id="findCount" parameterType="com.hniois.entity.purchase.Supplier" resultType="java.lang.Integer">
+        select count(*)
+        from t_supplier t
+        where 1=1
+        <if test="id!='' and id!=null">and t.id=#{id}</if>
+        <if test="sup_id!='' and sup_id!=null">and sup_id=#{sup_id}</if>
+        <if test="name!='' and name!=null">and t.name=#{name}</if>
+        <if test="address!='' and address!=null">and t.address=#{address}</if>
+        <if test="contacts!='' and contacts!=null">and t.contacts=#{contacts}</if>
+        <if test="telephone!='' and telephone!=null">and t.telephone=#{telephone}</if>
+        <if test="email!='' and email!=null">and t.email=#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">and temp_price=#{temp_price}</if>
+        <if test="bz!='' and bz!=null">and bz=#{bz}</if>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="findPage" parameterType="com.hniois.entity.purchase.Supplier" resultType="com.hniois.entity.purchase.Supplier">
+        select	t.*
+        from t_supplier t
+        where 1=1
+        <if test="id!='' and id!=null">and t.id=#{id}</if>
+        <if test="sup_id!='' and sup_id!=null">and sup_id like '%${sup_id}%'</if>
+        <if test="name!='' and name!=null">and t.name=#{name}</if>
+        <if test="address!='' and address!=null">and t.address=#{address} </if>
+        <if test="contacts!='' and contacts!=null">and t.contacts like '%${contacts}%'</if>
+        <if test="telephone!='' and telephone!=null">and t.telephone like '%${telephone}%'</if>
+        <if test="email!='' and email!=null">and t.email=#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">and t.temp_price=#{temp_price}</if>
+        <if test="bz!='' and bz!=null">and t.bz=#{bz}</if>
+        order by t.id
+        limit #{offset},#{pageSize}
+    </select>
+
+    <!-- 分页查询Count -->
+    <select id="findPageCount" parameterType="com.hniois.entity.purchase.Supplier" resultType="java.lang.Integer">
+        select count(*)
+        from t_supplier t
+        where 1=1
+        <if test="id!='' and id!=null">and t.id=#{id}</if>
+        <if test="sup_id!='' and sup_id!=null">and sup_id=#{sup_id}</if>
+        <if test="name!='' and name!=null">and t.name=#{name}</if>
+        <if test="address!='' and address!=null">and t.address=#{address}</if>
+        <if test="contacts!='' and contacts!=null">and t.contacts=#{contacts}</if>
+        <if test="telephone!='' and telephone!=null">and t.telephone=#{telephone}</if>
+        <if test="email!='' and email!=null">and t.email=#{email}</if>
+        <if test="temp_price!='' and temp_price!=null">and temp_price=#{temp_price}</if>
+        <if test="bz!='' and bz!=null">and bz=#{bz}</if>
+    </select>
+
+    <!--根据id批量查询供应商对象-->
+    <select id="findListById" parameterType="com.hniois.entity.purchase.Supplier" resultType="com.hniois.entity.purchase.Supplier">
+        select t.*
+        from t_supplier t
+        where id in
+        <foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

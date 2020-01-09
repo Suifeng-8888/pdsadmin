@@ -1,0 +1,215 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="<%=basePath%>">
+    <meta charset="utf-8">
+    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable=no">
+    <link href="static/login/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" style="padding-top: 10px;">
+    <input type="hidden" name="record_id" id="key" value="${report.record_id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">报告编号<span style="color: #FF5722">*</span></label>
+        <div class="layui-input-block">
+            <input name="serial_number" class="layui-input" type="text" autocomplete="off"
+                   lay-verify="required" value="${report.serial_number}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">样品名称<span style="color: #FF5722">*</span></label>
+        <div class="layui-input-block">
+            <input name="specimen_name" class="layui-input" type="text" autocomplete="off"
+                   lay-verify="required" value="${report.specimen_name}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">受检单位<span style="color: #FF5722">*</span></label>
+        <div class="layui-input-block">
+            <input name="accept_unit" class="layui-input" type="text" autocomplete="off"
+                   lay-verify="required" value="${report.accept_unit}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">检验类别<span style="color: #FF5722">*</span></label>
+        <div class="layui-input-block">
+            <input name="detection_type" class="layui-input" type="text" autocomplete="off"
+                   lay-verify="required" value="${report.detection_type}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">样品编号<span style="color: #FF5722">*</span></label>
+        <div class="layui-input-block">
+            <input name="specimen_number" class="layui-input" type="text" autocomplete="off"
+                   lay-verify="required" value="${report.specimen_number}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">生产单位</label>
+        <div class="layui-input-block">
+            <input name="production_unit" class="layui-input" type="text" autocomplete="off"
+                   value="${report.production_unit}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">样品状态</label>
+        <div class="layui-input-block">
+            <input name="sample_status" class="layui-input" type="text" autocomplete="off"
+                   value="${report.sample_status}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">抽样地点</label>
+        <div class="layui-input-block">
+            <input name="sampling_site" class="layui-input" type="text" autocomplete="off"
+                   value="${report.sampling_site}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">送样时间</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" id="give_time" name="give_time" placeholder="yyyy-MM-dd"
+                   value="${report.give_time}" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">样品数量</label>
+        <div class="layui-input-block">
+            <input name="specimen_amount" class="layui-input" type="text" autocomplete="off"
+                   value="${report.specimen_amount}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">抽样基数</label>
+        <div class="layui-input-block">
+            <input name="sampling_number" class="layui-input" type="text" autocomplete="off"
+                   value="${report.sampling_number}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">实验室条件</label>
+        <div class="layui-input-block">
+            <input name="condition" class="layui-input" type="text" autocomplete="off"
+                   value="${report.condition}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">检验日期</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" id="inspect_time" name="inspect_time" placeholder="yyyy-MM-dd"
+                   value="${report.inspect_time}" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">使用仪器</label>
+        <input type="checkbox" name="employ_facility" title="写作" lay-skin="primary" checked>
+        <input type="checkbox" name="employ_facility" title="写作" lay-skin="primary" checked>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">检查依据</label>
+        <input type="checkbox" name="inspect_gist" title="写作" lay-skin="primary" checked>
+        <input type="checkbox" name="inspect_gist" title="写作" lay-skin="primary" checked>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">判定依据</label>
+        <input type="checkbox" name="judge_gist" title="写作" lay-skin="primary" checked>
+        <input type="checkbox" name="judge_gist" title="写作" lay-skin="primary" checked>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">签发日期</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" id="sign_time" name="sign_time" placeholder="yyyy-MM-dd"
+                   value="${report.sign_time}" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="comment" class="layui-textarea" >
+                ${report.comment}
+            </textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">制表人</label>
+        <div class="layui-input-block">
+            <input name="lister" class="layui-input" type="text" autocomplete="off"
+                   value="${report.lister}">
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="text-align: center;">
+        <button class="layui-btn" lay-filter="formSave" lay-submit id="form-button" style="display: none">保存</button>
+        <button class="layui-btn layui-btn-warm" onclick="closeWin()">关闭</button>
+    </div>
+</form>
+</body>
+<script src="static/layui/layui.js"></script>
+<script src="static/login/js/jquery-1.7.2.js"></script>
+<script>
+    //获取窗口索引
+    var index = parent.layer.getFrameIndex(window.name);
+    //初始化函数 order-1
+    $(document).ready(function() {
+        init();
+        initRole();
+    });
+    //layui模块加载 order-2
+    layui.use(['layer', 'form' ,'laydate'], function() {
+        var layer = layui.layer,
+            form = layui.form,
+        laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#give_time'
+        });
+        laydate.render({
+            elem: '#inspect_time'
+        });
+        laydate.render({
+            elem: '#sign_time'
+        });
+
+        //监听提交
+        form.on('submit(formSave)', function(data){
+            var url = "report/" + ($("#key").val()==""?"add":"update") + ".do";
+            $.ajax({
+                url: url,
+                data: data.field,
+                type: "post",
+                dataType:'json',
+                success: function(data){
+                    if(data.state=="ok"){
+                        parent.formReload();
+                        parent.layer.msg(data.msg);
+                        closeWin();
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+    function closeWin(){
+        parent.layer.close(index);
+    }
+
+    function init(){
+        //初始化按钮操作
+        if("${report.code}" == "1"){
+            $("#form-button").show();
+        }
+    }
+</script>
+</html>

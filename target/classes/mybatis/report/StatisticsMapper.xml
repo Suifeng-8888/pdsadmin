@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StatisticsMapper">
+
+	<sql id="keySql">
+		id,serial_number,template_name,path,creat_time,down_number
+	</sql>
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.report.Statistics" resultType="com.hniois.entity.report.Statistics">
+		SELECT
+		<include refid="keySql">
+		</include>
+		FROM nj_report_statistics
+		WHERE 1 = 1
+		<if test="serial_number != null and serial_number != ''">and serial_number LIKE '%${serial_number}%'</if>
+		<if test="template_name != null and template_name != ''">and template_name = #{template_name}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="startTime != null and startTime != ''">and creat_time &gt;= #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and creat_time  &lt;= #{endTime}</if>
+		ORDER BY creat_time LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.report.Statistics" resultType="java.lang.Integer">
+		SELECT COUNT(id)
+		FROM nj_report_statistics
+		WHERE 1 = 1
+		<if test="serial_number != null and serial_number != ''">and serial_number LIKE '%${serial_number}%'</if>
+		<if test="template_name != null and template_name != ''">and template_name = #{template_name}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="startTime != null and startTime != ''">and creat_time &gt;= #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and creat_time  &lt;= #{endTime}</if>
+	</select>
+
+	<insert id="save" parameterType="com.hniois.entity.report.Statistics" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO nj_report_statistics(
+		<trim suffixOverrides=",">
+			<if test="serial_number != '' and serial_number != null">serial_number,</if>
+			<if test="template_name != '' and template_name != null">template_name,</if>
+			<if test="path != '' and path != null">path,</if>
+			<if test="creat_time != '' and creat_time != null">creat_time,</if>
+			<if test="down_number != '' and down_number != null">down_number,</if>
+		</trim>
+		) VALUES (
+		<trim suffixOverrides=",">
+			<if test="serial_number != '' and serial_number != null">#{serial_number},</if>
+			<if test="template_name != '' and template_name != null">#{template_name},</if>
+			<if test="path != '' and path != null">#{path},</if>
+			<if test="creat_time != '' and creat_time != null">#{creat_time},</if>
+			<if test="down_number != '' and down_number != null">#{down_number},</if>
+		</trim>
+		)
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.report.Statistics">
+		DELETE FROM nj_report_statistics WHERE 1 = 1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="serial_number != null and serial_number != ''">and serial_number = #{serial_number}</if>
+		<if test="template_name != null and template_name != ''">and template_name = #{template_name}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="creat_time != null and creat_time != ''">and creat_time = #{creat_time}</if>
+	</delete>
+
+	<!-- 更新 -->
+	<update id="update" parameterType="com.hniois.entity.report.Statistics">
+		update nj_report_statistics
+		<set>
+			<if test="serial_number != null and serial_number != ''">serial_number = #{serial_number},</if>
+			<if test="template_name != null and template_name != ''">template_name = #{template_name},</if>
+			<if test="path != null and path != ''">path = #{path},</if>
+			<if test="creat_time != null and creat_time != ''">creat_time = #{creat_time},</if>
+			<if test="down_number != null and down_number != ''">down_number = #{down_number},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 报告周统计 -->
+	<select id="countWeek" parameterType="com.hniois.entity.report.Statistics" resultType="com.hniois.entity.report.StatisicsCount">
+		select dd.create_time,IFNULL(r.num,0) as 'num' from(
+		select
+		ADDDATE(#{endTime},INTERVAL -d.id+1 day) as 'create_time'
+		from t_demo_count d
+		order by d.id desc
+		) dd
+		left join (
+		select t.creat_time,count(t.id) as 'num'
+		from nj_report_statistics t
+		where t.creat_time &gt; ADDDATE(#{endTime},INTERVAL -7 day)
+		and t.creat_time &lt; ADDDATE(#{endTime},INTERVAL 1 day)
+
+		GROUP BY t.creat_time
+		) r on r.creat_time=dd.create_time
+	</select>
+
+	<!-- 报告月统计 -->
+	<select id="countMonth" parameterType="com.hniois.entity.report.Statistics" resultType="com.hniois.entity.report.StatisicsCount">
+		select dd.create_time,IFNULL(r.num,0) as num from(
+		SELECT
+		DATE_FORMAT(DATE_ADD(DATE_ADD(#{endTime},INTERVAL -day(#{endTime})+1 day),INTERVAL -d.id+1 MONTH),'%Y-%m') AS create_time
+		FROM t_demo_count d
+		WHERE d.id &lt;= 6
+		ORDER BY d.id DESC
+		) dd
+		left join (
+		SELECT DATE_FORMAT(creat_time,'%Y-%m') AS creat_time,COUNT(*) AS num
+		FROM nj_report_statistics
+	  	GROUP BY DATE_FORMAT(creat_time,'%Y-%m')
+		) r on r.creat_time=dd.create_time
+	</select>
+
+</mapper>

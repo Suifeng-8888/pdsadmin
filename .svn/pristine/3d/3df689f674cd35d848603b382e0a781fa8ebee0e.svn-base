@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReportMapper">
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.report.Report" resultType="com.hniois.entity.report.Report">
+		SELECT * FROM nj_report WHERE 1 = 1
+		<if test="record_id != null and record_id != ''">and record_id = #{record_id}</if>
+		<if test="serial_number != null and serial_number != ''">and serial_number LIKE '%${serial_number}%'</if>
+		<if test="specimen_name != null and specimen_name != ''">and specimen_name LIKE '%${specimen_name}%'</if>
+		<if test="accept_unit != null and accept_unit != ''">and accept_unit LIKE '%${accept_unit}%'</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="specimen_number != null and specimen_number != ''">and specimen_number = #{specimen_number}</if>
+		<if test="production_unit != null and production_unit != ''">and production_unit = #{production_unit}</if>
+		<if test="sample_status != null and sample_status != ''">and sample_status = #{sample_status}</if>
+		<if test="sampling_site != null and sampling_site != ''">and sampling_site = #{sampling_site}</if>
+		<if test="give_time != null and give_time != ''">and give_time = #{give_time}</if>
+		<if test="specimen_amount != null and specimen_amount != ''">and specimen_amount = #{specimen_amount}</if>
+		<if test="sampling_number != null and sampling_number != ''">and sampling_number = #{sampling_number}</if>
+		<if test="condition != null and condition != ''">and condition = #{condition}</if>
+		<if test="inspect_time != null and inspect_time != ''">and inspect_time = #{inspect_time}</if>
+		<if test="employ_facility != null and employ_facility != ''">and employ_facility = #{employ_facility}</if>
+		<if test="inspect_gist != null and inspect_gist != ''">and inspect_gist = #{inspect_gist}</if>
+		<if test="judge_gist != null and judge_gist != ''">and judge_gist = #{judge_gist}</if>
+		<if test="sign_time != null and sign_time != ''">and sign_time = #{sign_time}</if>
+		<if test="comment != null and comment != ''">and comment = #{comment}</if>
+		<if test="lister != null and lister != ''">and lister = #{lister}</if>
+		<if test="auditor != null and auditor != ''">and auditor = #{auditor}</if>
+		<if test="ratify != null and ratify != ''">and ratify = #{ratify}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		ORDER BY record_id DESC LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.report.Report" resultType="java.lang.Integer">
+		SELECT COUNT(record_id)
+		FROM nj_report
+		WHERE 1 = 1
+		<if test="record_id != null and record_id != ''">and record_id = #{record_id}</if>
+		<if test="serial_number != null and serial_number != ''">and serial_number LIKE '%${serial_number}%'</if>
+		<if test="specimen_name != null and specimen_name != ''">and specimen_name LIKE '%${specimen_name}%'</if>
+		<if test="accept_unit != null and accept_unit != ''">and accept_unit LIKE '%${accept_unit}%'</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="specimen_number != null and specimen_number != ''">and specimen_number = #{specimen_number}</if>
+		<if test="production_unit != null and production_unit != ''">and production_unit = #{production_unit}</if>
+		<if test="sample_status != null and sample_status != ''">and sample_status = #{sample_status}</if>
+		<if test="sampling_site != null and sampling_site != ''">and sampling_site = #{sampling_site}</if>
+		<if test="give_time != null and give_time != ''">and give_time = #{give_time}</if>
+		<if test="specimen_amount != null and specimen_amount != ''">and specimen_amount = #{specimen_amount}</if>
+		<if test="sampling_number != null and sampling_number != ''">and sampling_number = #{sampling_number}</if>
+		<if test="condition != null and condition != ''">and condition = #{condition}</if>
+		<if test="inspect_time != null and inspect_time != ''">and inspect_time = #{inspect_time}</if>
+		<if test="employ_facility != null and employ_facility != ''">and employ_facility = #{employ_facility}</if>
+		<if test="inspect_gist != null and inspect_gist != ''">and inspect_gist = #{inspect_gist}</if>
+		<if test="judge_gist != null and judge_gist != ''">and judge_gist = #{judge_gist}</if>
+		<if test="sign_time != null and sign_time != ''">and sign_time = #{sign_time}</if>
+		<if test="comment != null and comment != ''">and comment = #{comment}</if>
+		<if test="lister != null and lister != ''">and lister = #{lister}</if>
+		<if test="auditor != null and auditor != ''">and auditor = #{auditor}</if>
+		<if test="ratify != null and ratify != ''">and ratify = #{ratify}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+	</select>
+
+	<select id="find" parameterType="com.hniois.entity.report.Report" resultType="com.hniois.entity.report.Report">
+		SELECT *
+		FROM nj_report
+		WHERE 1 = 1
+		<if test="record_id != null and record_id != ''">and record_id = #{record_id}</if>
+		<if test="serial_number != null and serial_number != ''">and serial_number = #{serial_number}</if>
+		<if test="specimen_name != null and specimen_name != ''">and specimen_name = #{specimen_name}</if>
+		<if test="accept_unit != null and accept_unit != ''">and accept_unit = #{accept_unit}</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="specimen_number != null and specimen_number != ''">and specimen_number = #{specimen_number}</if>
+		<if test="production_unit != null and production_unit != ''">and production_unit = #{production_unit}</if>
+		<if test="sample_status != null and sample_status != ''">and sample_status = #{sample_status}</if>
+		<if test="sampling_site != null and sampling_site != ''">and sampling_site = #{sampling_site}</if>
+		<if test="give_time != null and give_time != ''">and give_time = #{give_time}</if>
+		<if test="specimen_amount != null and specimen_amount != ''">and specimen_amount = #{specimen_amount}</if>
+		<if test="sampling_number != null and sampling_number != ''">and sampling_number = #{sampling_number}</if>
+		<if test="condition != null and condition != ''">and condition = #{condition}</if>
+		<if test="inspect_time != null and inspect_time != ''">and inspect_time = #{inspect_time}</if>
+		<if test="employ_facility != null and employ_facility != ''">and employ_facility = #{employ_facility}</if>
+		<if test="inspect_gist != null and inspect_gist != ''">and inspect_gist = #{inspect_gist}</if>
+		<if test="judge_gist != null and judge_gist != ''">and judge_gist = #{judge_gist}</if>
+		<if test="sign_time != null and sign_time != ''">and sign_time = #{sign_time}</if>
+		<if test="comment != null and comment != ''">and comment = #{comment}</if>
+		<if test="lister != null and lister != ''">and lister = #{lister}</if>
+		<if test="auditor != null and auditor != ''">and auditor = #{auditor}</if>
+		<if test="ratify != null and ratify != ''">and ratify = #{ratify}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+	</select>
+
+	<insert id="save" parameterType="com.hniois.entity.report.Report" useGeneratedKeys="true" keyProperty="record_id">
+		INSERT INTO nj_report(record_id
+		<if test="serial_number!='' and serial_number!=null">,serial_number</if>
+		<if test="specimen_name!='' and specimen_name!=null">,specimen_name</if>
+		<if test="accept_unit!='' and accept_unit!=null">,accept_unit</if>
+		<if test="detection_type!='' and detection_type!=null">,detection_type</if>
+		<if test="specimen_number!='' and specimen_number!=null">,specimen_number</if>
+		<if test="production_unit!='' and production_unit!=null">,production_unit</if>
+		<if test="sample_status!='' and sample_status!=null">,sample_status</if>
+		<if test="sampling_site!='' and sampling_site!=null">,sampling_site</if>
+		<if test="give_time!='' and give_time!=null">,give_time</if>
+		<if test="specimen_amount!='' and specimen_amount!=null">,specimen_amount</if>
+		<if test="sampling_number!='' and sampling_number!=null">,sampling_number</if>
+		<if test="condition!='' and condition!=null">,condition</if>
+		<if test="inspect_time!='' and inspect_time!=null">,inspect_time</if>
+		<if test="employ_facility!='' and employ_facility!=null">,employ_facility</if>
+		<if test="inspect_gist!='' and inspect_gist!=null">,inspect_gist</if>
+		<if test="judge_gist!='' and judge_gist!=null">,judge_gist</if>
+		<if test="sign_time!='' and sign_time!=null">,sign_time</if>
+		<if test="comment!='' and comment!=null">,comment</if>
+		<if test="lister!='' and lister!=null">,lister</if>
+		<if test="auditor!='' and auditor!=null">,auditor</if>
+		<if test="ratify!='' and ratify!=null">,ratify</if>
+		<if test="status!='' and status!=null">,status</if>
+		) VALUES (record_id
+		<if test="serial_number!='' and serial_number!=null">,#{serial_number}</if>
+		<if test="specimen_name!='' and specimen_name!=null">,#{specimen_name}</if>
+		<if test="accept_unit!='' and accept_unit!=null">,#{accept_unit}</if>
+		<if test="detection_type!='' and detection_type!=null">,#{detection_type}</if>
+		<if test="specimen_number!='' and specimen_number!=null">,#{specimen_number}</if>
+		<if test="production_unit!='' and production_unit!=null">,#{production_unit}</if>
+		<if test="sample_status!='' and sample_status!=null">,#{sample_status}</if>
+		<if test="sampling_site!='' and sampling_site!=null">,#{sampling_site}</if>
+		<if test="give_time!='' and give_time!=null">,#{give_time}</if>
+		<if test="specimen_amount!='' and specimen_amount!=null">,#{specimen_amount}</if>
+		<if test="sampling_number!='' and sampling_number!=null">,#{sampling_number}</if>
+		<if test="condition!='' and condition!=null">,#{condition}</if>
+		<if test="inspect_time!='' and inspect_time!=null">,#{inspect_time}</if>
+		<if test="employ_facility!='' and employ_facility!=null">,#{employ_facility}</if>
+		<if test="inspect_gist!='' and inspect_gist!=null">,#{inspect_gist}</if>
+		<if test="judge_gist!='' and judge_gist!=null">,#{judge_gist}</if>
+		<if test="sign_time!='' and sign_time!=null">,#{sign_time}</if>
+		<if test="comment!='' and comment!=null">,#{comment}</if>
+		<if test="lister!='' and lister!=null">,#{lister}</if>
+		<if test="auditor!='' and auditor!=null">,#{auditor}</if>
+		<if test="ratify!='' and ratify!=null">,#{ratify}</if>
+		<if test="status!='' and status!=null">,#{status}</if>
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hniois.entity.report.Report">
+		UPDATE nj_report
+		<set>
+			<if test="serial_number !=null and serial_number !=''">serial_number=#{serial_number},</if>
+			<if test="specimen_name !=null and specimen_name !=''">specimen_name=#{specimen_name},</if>
+			<if test="accept_unit !=null and accept_unit !=''">accept_unit=#{accept_unit},</if>
+			<if test="detection_type !=null and detection_type !=''">detection_type=#{detection_type},</if>
+			<if test="specimen_number !=null and specimen_number !=''">specimen_number=#{specimen_number},</if>
+			<if test="production_unit !=null and production_unit !=''">production_unit=#{production_unit},</if>
+			<if test="sample_status !=null and sample_status !=''">sample_status=#{sample_status},</if>
+			<if test="sampling_site !=null and sampling_site !=''">sampling_site=#{sampling_site},</if>
+			<if test="give_time !=null and give_time !=''">give_time=#{give_time},</if>
+			<if test="specimen_amount !=null and specimen_amount !=''">specimen_amount=#{specimen_amount},</if>
+			<if test="sampling_number !=null and sampling_number !=''">sampling_number=#{sampling_number},</if>
+			<if test="condition !=null and condition !=''">condition=#{condition},</if>
+			<if test="inspect_time !=null and inspect_time !=''">inspect_time=#{inspect_time},</if>
+			<if test="employ_facility !=null and employ_facility !=''">employ_facility=#{employ_facility},</if>
+			<if test="inspect_gist !=null and inspect_gist !=''">inspect_gist=#{inspect_gist},</if>
+			<if test="judge_gist !=null and judge_gist !=''">judge_gist=#{judge_gist},</if>
+			<if test="sign_time !=null and sign_time !=''">sign_time=#{sign_time},</if>
+			<if test="comment !=null and comment !=''">comment=#{comment},</if>
+			<if test="lister !=null and lister !=''">lister=#{lister},</if>
+			<if test="auditor !=null and auditor !=''">auditor=#{auditor},</if>
+			<if test="ratify !=null and ratify !=''">ratify=#{ratify},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+		</set>
+		WHERE record_id = #{record_id}
+	</update>
+
+	<delete id="delete" parameterType="com.hniois.entity.report.Report">
+		DELETE FROM nj_report WHERE 1 = 1
+		<if test="record_id !=null and record_id !=''">and record_id=#{record_id}</if>
+		<if test="serial_number !=null and serial_number !=''">and serial_number=#{serial_number}</if>
+		<if test="specimen_name !=null and specimen_name !=''">and specimen_name=#{specimen_name}</if>
+		<if test="accept_unit !=null and accept_unit !=''">and accept_unit=#{accept_unit}</if>
+		<if test="detection_type !=null and detection_type !=''">and detection_type=#{detection_type}</if>
+		<if test="specimen_number !=null and specimen_number !=''">and specimen_number=#{specimen_number}</if>
+		<if test="production_unit !=null and production_unit !=''">and production_unit=#{production_unit}</if>
+		<if test="sample_status !=null and sample_status !=''">and sample_status=#{sample_status}</if>
+		<if test="sampling_site !=null and sampling_site !=''">and sampling_site=#{sampling_site}</if>
+		<if test="give_time !=null and give_time !=''">and give_time=#{give_time}</if>
+		<if test="specimen_amount !=null and specimen_amount !=''">and specimen_amount=#{specimen_amount}</if>
+		<if test="sampling_number !=null and sampling_number !=''">and sampling_number=#{sampling_number}</if>
+		<if test="condition !=null and condition !=''">and condition=#{condition}</if>
+		<if test="inspect_time !=null and inspect_time !=''">and inspect_time=#{inspect_time}</if>
+		<if test="employ_facility !=null and employ_facility !=''">and employ_facility=#{employ_facility}</if>
+		<if test="inspect_gist !=null and inspect_gist !=''">and inspect_gist=#{inspect_gist}</if>
+		<if test="judge_gist !=null and judge_gist !=''">and judge_gist=#{judge_gist}</if>
+		<if test="sign_time !=null and sign_time !=''">and sign_time=#{sign_time}</if>
+		<if test="comment !=null and comment !=''">and comment=#{comment}</if>
+		<if test="lister !=null and lister !=''">and lister=#{lister}</if>
+		<if test="auditor !=null and auditor !=''">and auditor=#{auditor}</if>
+		<if test="ratify !=null and ratify !=''">and ratify=#{ratify}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+	</delete>
+
+	<delete id="batchDelete" parameterType="com.hniois.entity.report.Report">
+		DELETE FROM nj_report
+		WHERE record_id IN
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="findList" parameterType="com.hniois.entity.report.Report" resultType="com.hniois.entity.report.Report">
+		SELECT * FROM nj_report WHERE 1 = 1
+		<if test="record_id != null and record_id != ''">and record_id = #{record_id}</if>
+		<if test="serial_number != null and serial_number != ''">and serial_number = #{serial_number}</if>
+		<if test="specimen_name != null and specimen_name != ''">and specimen_name = #{specimen_name}</if>
+		<if test="accept_unit != null and accept_unit != ''">and accept_unit = #{accept_unit}</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="specimen_number != null and specimen_number != ''">and specimen_number = #{specimen_number}</if>
+		<if test="production_unit != null and production_unit != ''">and production_unit = #{production_unit}</if>
+		<if test="sample_status != null and sample_status != ''">and sample_status = #{sample_status}</if>
+		<if test="sampling_site != null and sampling_site != ''">and sampling_site = #{sampling_site}</if>
+		<if test="give_time != null and give_time != ''">and give_time = #{give_time}</if>
+		<if test="specimen_amount != null and specimen_amount != ''">and specimen_amount = #{specimen_amount}</if>
+		<if test="sampling_number != null and sampling_number != ''">and sampling_number = #{sampling_number}</if>
+		<if test="condition != null and condition != ''">and condition = #{condition}</if>
+		<if test="inspect_time != null and inspect_time != ''">and inspect_time = #{inspect_time}</if>
+		<if test="employ_facility != null and employ_facility != ''">and employ_facility = #{employ_facility}</if>
+		<if test="inspect_gist != null and inspect_gist != ''">and inspect_gist = #{inspect_gist}</if>
+		<if test="judge_gist != null and judge_gist != ''">and judge_gist = #{judge_gist}</if>
+		<if test="sign_time != null and sign_time != ''">and sign_time = #{sign_time}</if>
+		<if test="comment != null and comment != ''">and comment = #{comment}</if>
+		<if test="lister != null and lister != ''">and lister = #{lister}</if>
+		<if test="auditor != null and auditor != ''">and auditor = #{auditor}</if>
+		<if test="ratify != null and ratify != ''">and ratify = #{ratify}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+	</select>
+</mapper>

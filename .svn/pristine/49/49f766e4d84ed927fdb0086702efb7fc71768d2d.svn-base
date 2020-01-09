@@ -1,0 +1,31 @@
+package com.hniois.service.system.user.impl;
+
+import com.hniois.common.service.ServiceSupport;
+import com.hniois.dao.system.user.UserDao;
+import com.hniois.entity.system.Role;
+import com.hniois.entity.system.User;
+import com.hniois.service.system.role.RoleManage;
+import com.hniois.service.system.user.UserManage;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+
+@Service("userService")
+public class UserService extends ServiceSupport<User,UserDao> implements UserManage {
+
+    @Resource(name="userDaoImpl")
+    @Override
+    public void setDao(UserDao dao) {
+        this.dao = dao;
+    }
+
+    @Resource(name="roleService")
+    private RoleManage roleService;
+
+    @Override
+    public void saveUserAndRole(User e, Role r) throws Exception {
+        dao.save(e);
+        roleService.save(r);
+    }
+}

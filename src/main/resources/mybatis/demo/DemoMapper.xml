@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DemoMapper">
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.demo.Demo" resultType="com.hniois.entity.demo.Demo">
+		select
+			t.COLUMN_NAME as 'name'
+			,t.COLUMN_TYPE as 'type'
+			,t.COLUMN_COMMENT as 'comment'
+			,t.ORDINAL_POSITION as 'order'
+		from information_schema.columns t
+		where TABLE_SCHEMA='pds_admin'
+		and TABLE_NAME = #{tableName}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.demo.Demo" resultType="java.lang.Integer">
+		select count(*)
+		from information_schema.columns t
+		where TABLE_SCHEMA='pds_admin'
+		and TABLE_NAME = #{tableName}
+	</select>
+
+	<!-- Z-tree 树形查询 -->
+	<select id="findTableField" parameterType="com.hniois.entity.demo.Demo" resultType="com.hniois.entity.demo.Demo">
+		select
+		t.COLUMN_NAME as 'name'
+		,t.COLUMN_TYPE as 'type'
+		,t.COLUMN_COMMENT as 'comment'
+		,t.ORDINAL_POSITION as 'order'
+		from information_schema.columns t
+		where TABLE_SCHEMA='pds_admin'
+		and TABLE_NAME = #{tableName}
+	</select>
+
+	<update id="createTable" parameterType="com.hniois.entity.demo.Demo">
+		CREATE TABLE `t_test` (
+			`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+			`theID` varchar(50) DEFAULT NULL COMMENT '唯一键',
+			`theName` varchar(200) DEFAULT NULL COMMENT '名称',
+			`date1` date DEFAULT NULL COMMENT 'date类型',
+			`date2` time DEFAULT NULL COMMENT 'time类型',
+			`date3` datetime DEFAULT NULL COMMENT 'datetime类型',
+			`date4` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
+			`num1` decimal(10,2) unsigned zerofill NOT NULL DEFAULT '0.00' COMMENT '数字',
+			KEY `t_test_index1` (`theID`),
+			KEY `t_test_index2` (`theID`,`theName`),
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='测试创建表SQL';
+	</update>
+
+	<insert id="save" parameterType="com.hniois.entity.demo.Demo" useGeneratedKeys="true" keyProperty="id">
+		insert into `t_fontawesome`(`id`
+		<if test="demo!='' and demo!=null">,`key`</if>
+		<if test="name!='' and name!=null">,`name`</if>
+		<if test="type!='' and type!=null">,`type`</if>
+		<if test="comment!='' and comment!=null">,`bz`</if>
+		)
+		values(id
+		<if test="demo!='' and demo!=null">,#{demo}</if>
+		<if test="name!='' and name!=null">,#{name}</if>
+		<if test="type!='' and type!=null">,#{type}</if>
+		<if test="comment!='' and comment!=null">,#{comment}</if>
+		)
+	</insert>
+</mapper>

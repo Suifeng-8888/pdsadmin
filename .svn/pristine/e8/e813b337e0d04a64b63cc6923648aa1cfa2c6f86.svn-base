@@ -1,0 +1,155 @@
+package com.hniois.controller.send;
+
+import com.alibaba.fastjson.JSON;
+import com.hniois.common.page.Page;
+import com.hniois.controller.base.BaseController;
+import com.hniois.entity.send.SendCheck;
+import com.hniois.service.item.ItemManage;
+import com.hniois.service.send.SendManage;
+import com.hniois.util.Const;
+import com.hniois.util.SessionManager;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.session.Session;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+
+/**
+ * 送检列表
+ */
+@Controller
+@RequestMapping("/send")
+public class SendCheckAction extends BaseController {
+
+    @Resource(name = "sendService")
+    private SendManage sendService;
+    @Resource(name = "itemService")
+    private ItemManage itemService;
+
+    private String send_list="send/send_list";
+    private String send_edit="send/send_edit";
+    private String send_table="send/send_table";
+    /**
+     * 保存新增送检信息
+     * @param e
+     * @return
+     */
+    @RequestMapping("/add")
+    @ResponseBody
+    public String add(SendCheck e)throws Exception{
+        JSONObject obj=getMsg();
+
+        if (!sendService.sendCheck(e)){
+            setMsg(obj,"error","送检失败");
+        }
+        return obj.toString();
+    }
+
+    @RequestMapping("/toPage")
+    public ModelAndView toPage(Page e){
+        ModelAndView mv=this.getModelAndViewToPage(e);
+        mv.setViewName(send_list);
+        return mv;
+    }
+
+    @RequestMapping("/list")
+    @ResponseBody
+    public String show(SendCheck e)throws Exception{
+        //获取当前页面
+        int currPage=getThisPage(e.getPage());
+        //获取每页显示信息
+        int limit=getThisLimit(e.getLimit());
+        //设置起始下标
+        e.setOffset((currPage-1)*limit);
+        e.setPageSize(limit);
+         Page page= sendService.findPage(e);
+
+         return JSON.toJSONString(page);
+    }
+
+    /**
+     * 录入检测结果页面
+     * @return
+     */
+    @RequestMapping(value="/toEdit")
+    public ModelAndView edit(SendCheck e) throws Exception{
+        ModelAndView mv=this.getModelAndView();
+        SendCheck send=new SendCheck();
+        if(StringUtils.isNotEmpty(e.getItem_id())){
+            send=sendService.find(e);
+        }
+        send.setCode(e.getCode());
+        mv.addObject("send",send);
+        mv.setViewName(send_edit);
+        return mv;
+    }
+
+    /**
+     * 查询显示所有已审核的报告
+     * @return
+     */
+    @RequestMapping("/choose")
+     public ModelAndView choose(){
+        ModelAndView mv=this.getModelAndView();
+        mv.setViewName(send_table);
+        return mv;
+     }
+
+    /**
+     * 保存录入的送检结果及出结果时间
+     */
+    @RequestMapping("/update")
+    @ResponseBody
+    public String update(SendCheck e){
+        net.sf.json.JSONObject obj=getMsg();
+        Session session=SessionManager.getSession();
+        e.setRecorder((String) session.getAttribute(Const.SESSION_USERNAME));
+        e.setState("0");//报告已检测
+        try {
+            sendService.update(e);
+
+        }catch (Exception ex){
+            setMsg(obj,"failed","编辑失败");
+        }
+
+        return obj.toString();
+    }
+
+
+    /**
+     * 删除数据
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public String delete(SendCheck e) throws Exception{
+        net.sf.json.JSONObject obj=getMsg();
+        if(e!=null){
+            sendService.delete(e);
+        }else{
+            setMsg(obj,"error","删除失败!");
+        }
+        return obj.toString();
+    }
+
+    /**
+     * 批量删除数据
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/deletes")
+    @ResponseBody
+    public String deletes(SendCheck e)throws Exception{
+        JSONObject obj=getMsg();
+        if(e.getData()!=null){
+            sendService.deleteBatch(e);
+        }else{
+            setMsg(obj,"error","删除失败!");
+        }
+        return obj.toString();
+    }
+}

@@ -1,0 +1,82 @@
+.hniois-table,.hniois-table .hniois-table-header{
+    position:relative;
+    box-shadow:0 1px 7px 0 #ccc
+}
+.hniois-table .hniois-table-header{
+    height:50px
+}
+
+.hniois-table .hniois-table-head{
+    height:200px;
+}
+.hniois-table .hniois-table-header .hniois-search-btns{
+    padding:10px;
+    position:absolute
+}
+.hniois-table .hniois-table-header .hniois-search-inputs{
+    position:absolute;
+    right:80px;
+    top:0;
+    padding:10px 25px 10px 10px
+}
+.hniois-table .hniois-table-header .hniois-search-inputs .hniois-search-keyword{
+    margin-right:10px;
+    position:relative
+}
+.hniois-table .hniois-table-header .hniois-search-inputs .hniois-search-more{
+    cursor:pointer;
+    color:#009688;
+    position:absolute;
+    top:15px;
+    right:-50px;
+    @align-content: aaa - 15px;
+}
+.hniois-table .hniois-table-header .hniois-search-inputs .hniois-search-keyword input{
+    height:30px;
+    line-height:30px;
+    width:360px;
+    padding-right:32px
+}
+.hniois-table .hniois-table-header .hniois-search-inputs .hniois-search-keyword button{
+    position:absolute;
+    right:0;
+    top:0;
+    height:30px;
+    border:0;
+    cursor:pointer;
+    background-color:#009688;
+    color:#fff
+}
+.hniois-table .hniois-table-header .hniois-search-btns .layui-btn{
+    padding:0 15px
+}
+.hniois-table .hniois-search-mored{
+    height:auto;top:51px;
+    background-color:#fff;
+    z-index:9;
+    box-shadow:-4px 4px 7px -3px #ccc;
+    position:absolute;margin-bottom:10px;
+    display:none;right:0;width:50%
+}
+.hniois-table .hniois-search-mored .hniois-search-body{
+    padding:10px 10px 45px
+}
+.hniois-table .hniois-search-mored .hniois-search-footer{
+    height:50px;
+    bottom:0;left:0;
+    position:absolute;
+    width:100%;
+    border-top:1px solid #e2e2e2;
+    text-align:right
+}
+.hniois-table .hniois-table-body{
+    position:relative
+}
+.hniois-table .hniois-search-mored .hniois-search-footer .hniois-btn{
+    margin:10px 5px;
+    padding:0 15px
+}
+.hniois-table .hniois-search-mored .hniois-search-footer .hniois-btn:last-child{
+    margin-right:15px
+}
+

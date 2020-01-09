@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BatchMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Batch_Material"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_batch_material(
+		<if test="record_id!='' and record_id!=null">record_id</if>
+		<if test="record_num!='' and record_num!=null">,record_num</if>
+		<if test="pro_code!='' and pro_code!=null">,pro_code</if>
+		<if test="pro_name!='' and pro_name!=null">,pro_name</if>
+		<if test="batch!='' and batch!=null">,batch</if>
+		<if test="batch_num!='' and batch_num!=null">,batch_num</if>
+		<if test="btime!='' and btime!=null">,btime</if>
+		)
+		VALUES (
+		<if test="record_id!='' and record_id!=null">#{record_id}</if>
+		<if test="record_num!='' and record_num!=null">,#{record_num}</if>
+		<if test="pro_code!='' and pro_code!=null">,#{pro_code}</if>
+		<if test="pro_name!='' and pro_name!=null">,#{pro_name}</if>
+		<if test="batch!='' and batch!=null">,#{batch}</if>
+		<if test="batch_num!='' and batch_num!=null">,#{batch_num}</if>
+		<if test="btime!='' and btime!=null">,#{btime}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Batch_Material">
+		insert into trace_batch_material
+		(record_id,record_num,pro_code,pro_name,batch,batch_num,btime)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.record_id},
+			#{e.record_num},
+			#{e.pro_code},
+			#{e.pro_name},
+			#{e.batch},
+			#{e.batch_num},
+			#{e.btime}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Batch_Material">
+		update trace_batch_material
+		<set>
+			<if test="batch_id !=null and batch_id !=''">batch_id=#{batch_id},</if>
+			<if test="record_id !=null and record_id !=''">record_id=#{record_id},</if>
+			<if test="record_num !=null and record_num !=''">record_num=#{record_num},</if>
+			<if test="pro_code !=null and pro_code !=''">pro_code=#{pro_code},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="batch !=null and batch !=''">batch=#{batch},</if>
+			<if test="batch_num !=null and batch_num !=''">batch_num=#{batch_num},</if>
+			<if test="btime !=null and btime !=''">btime=#{btime},</if>
+		</set>
+		where batch_id=#{batch_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Batch_Material">
+		update trace_batch_material
+		<set>
+			<if test="batch_id !=null and batch_id !=''">batch_id=#{batch_id},</if>
+			<if test="record_id !=null and record_id !=''">record_id=#{record_id},</if>
+			<if test="record_num !=null and record_num !=''">record_num=#{record_num},</if>
+			<if test="pro_code !=null and pro_code !=''">pro_code=#{pro_code},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="batch !=null and batch !=''">batch=#{batch},</if>
+			<if test="batch_num !=null and batch_num !=''">batch_num=#{batch_num},</if>
+			<if test="btime !=null and btime !=''">btime=#{btime},</if>
+		</set>
+		where batch_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Batch_Material">
+		delete from trace_batch_material
+		where 1=1
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="record_id !=null and record_id !=''">and record_id=#{record_id}</if>
+		<if test="record_num !=null and record_num !=''">and record_num=#{record_num}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="batch !=null and batch !=''">and batch=#{batch}</if>
+		<if test="batch_num !=null and batch_num !=''">and batch_num=#{batch_num}</if>
+		<if test="btime !=null and btime !=''">and btime=#{btime}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_batch_material
+		where batch_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Batch_Material" resultType="com.hniois.trace.entity.Batch_Material">
+		select *
+		from trace_batch_material
+		where 1=1
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="record_id !=null and record_id !=''">and record_id=#{record_id}</if>
+		<if test="record_num !=null and record_num !=''">and record_num=#{record_num}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="batch !=null and batch !=''">and batch=#{batch}</if>
+		<if test="batch_num !=null and batch_num !=''">and batch_num=#{batch_num}</if>
+		<if test="btime !=null and btime !=''">and btime=#{btime}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Batch_Material" resultType="com.hniois.trace.entity.Batch_Material">
+		select t.*
+		from trace_batch_material t
+		where 1=1
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="record_id !=null and record_id !=''">and t.record_id=#{record_id}</if>
+		<if test="record_num !=null and record_num !=''">and t.record_num=#{record_num}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="batch !=null and batch !=''">and t.batch=#{batch}</if>
+		<if test="batch_num !=null and batch_num !=''">and t.batch_num=#{batch_num}</if>
+		<if test="btime !=null and btime !=''">and t.btime=#{btime}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Batch_Material" resultType="java.lang.Integer">
+		select count(*)
+		from trace_batch_material t
+		where 1=1
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="record_id !=null and record_id !=''">and t.record_id=#{record_id}</if>
+		<if test="record_num !=null and record_num !=''">and t.record_num=#{record_num}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="batch !=null and batch !=''">and t.batch=#{batch}</if>
+		<if test="batch_num !=null and batch_num !=''">and t.batch_num=#{batch_num}</if>
+		<if test="btime !=null and btime !=''">and t.btime=#{btime}</if>
+
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Batch_Material" resultType="com.hniois.trace.entity.Batch_Material">
+		select *
+		from trace_batch_material
+		where 1=1
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="record_id !=null and record_id !=''">and record_id=#{record_id}</if>
+		<if test="record_num !=null and record_num !=''">and record_num=#{record_num}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="batch !=null and batch !=''">and batch=#{batch}</if>
+		<if test="batch_num !=null and batch_num !=''">and batch_num=#{batch_num}</if>
+		<if test="btime !=null and btime !=''">and btime=#{btime}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Batch_Material" resultType="java.lang.Integer">
+		select count(*)
+		from trace_batch_material t
+		where 1=1
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="record_id !=null and record_id !=''">and t.record_id=#{record_id}</if>
+		<if test="record_num !=null and record_num !=''">and t.record_num=#{record_num}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="batch !=null and batch !=''">and t.batch=#{batch}</if>
+		<if test="batch_num !=null and batch_num !=''">and t.batch_num=#{batch_num}</if>
+		<if test="btime !=null and btime !=''">and t.btime=#{btime}</if>
+	</select>
+</mapper>

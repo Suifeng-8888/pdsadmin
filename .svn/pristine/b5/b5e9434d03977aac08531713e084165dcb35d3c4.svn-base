@@ -1,0 +1,7 @@
+package com.hniois.entity.demo;
+
+import com.hniois.common.page.Page;
+
+public class Demo extends Page{
+
+}

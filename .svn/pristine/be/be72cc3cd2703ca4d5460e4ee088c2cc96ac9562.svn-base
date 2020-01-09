@@ -1,0 +1,25 @@
+package com.hniois.service.item;
+
+import com.hniois.common.service.Service;
+import com.hniois.entity.item.Item;
+import com.hniois.entity.send.SendCheck;
+
+import java.util.List;
+
+public interface ItemManage extends Service<Item> {
+
+    /**
+     * 送检样品接口,获取送检样品信息
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    List<Item> sendCheck(Item e) throws Exception;
+
+    /**
+     * 根据送检样品生成新的送检对象信息
+     * @param e
+     * @return
+     */
+    SendCheck getSend(List<Item> e);
+}

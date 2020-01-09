@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RecordMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.machine.Record"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_mach_record(id
+		<if test="mach_ids!='' and mach_ids!=null">,mach_ids</if>
+		<if test="mach_names!='' and mach_names!=null">,mach_names</if>
+		<if test="begin_time!='' and begin_time!=null">,begin_time</if>
+		<if test="for_use!='' and for_use!=null">,for_use</if>
+		<if test="people!='' and people!=null">,people</if>
+		<if test="status!='' and status!=null">,status</if>
+		<if test="bz!='' and bz!=null">,bz</if>
+		)
+		VALUES (id
+		<if test="mach_ids!='' and mach_ids!=null">,#{mach_ids}</if>
+		<if test="mach_names!='' and mach_names!=null">,#{mach_names}</if>
+		<if test="begin_time!='' and begin_time!=null">,#{begin_time}</if>
+		<if test="for_use!='' and for_use!=null">,#{for_use}</if>
+		<if test="people!='' and people!=null">,#{people}</if>
+		<if test="status!='' and status!=null">,#{status}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.machine.Record">
+		insert into tb_mach_record
+		(mach_ids,mach_names ,begin_time,for_use,people,status,bz)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.mach_ids},
+			#{e.mach_names},
+			#{e.begin_time},
+			#{e.for_use},
+			#{e.people},
+			#{e.status},
+			#{e.bz}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.machine.Record">
+		update tb_mach_record
+		<set>
+			<if test="begin_time !=null and begin_time !=''">begin_time=#{begin_time},</if>
+			<if test="mach_ids !=null and mach_ids !=''">mach_ids=#{mach_ids},</if>
+			<if test="mach_names !=null and mach_names !=''">mach_names=#{mach_names},</if>
+			<if test="for_use !=null and for_use !=''">for_use=#{for_use},</if>
+			<if test="people !=null and people !=''">people=#{people},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz}</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.machine.Record">
+		update tb_mach_record
+		<set>
+			<if test="begin_time !=null and begin_time !=''">begin_time=#{begin_time},</if>
+			<if test="mach_ids !=null and mach_ids !=''">mach_ids=#{mach_ids},</if>
+			<if test="mach_names !=null and mach_names !=''">mach_names=#{mach_names},</if>
+			<if test="for_use !=null and for_use !=''">for_use=#{for_use},</if>
+			<if test="people !=null and people !=''">people=#{people},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz}</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.machine.Record">
+		delete from tb_mach_record where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="mach_ids !=null and mach_ids !=''">and mach_ids=#{mach_ids}</if>
+		<if test="mach_names !=null and mach_names !=''">and mach_names=#{mach_names}</if>
+		<if test="begin_time !=null and begin_time !=''">and begin_time=#{begin_time}</if>
+		<if test="for_use !=null and for_use !=''">and for_use=#{for_use}</if>
+		<if test="people !=null and people !=''">and people=#{people}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="bz !=null and bz !=''">and bz=#{bz}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_mach_record
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.machine.Record" resultType="com.hniois.entity.machine.Record">
+		select t.*
+		from tb_mach_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="mach_ids !=null and mach_ids !=''">and t.mach_ids=#{mach_ids}</if>
+		<if test="mach_names !=null and mach_names !=''">and t.mach_names=#{mach_names}</if>
+		<if test="begin_time !=null and begin_time !=''">and t.begin_time=#{begin_time}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="people !=null and people !=''">and t.people=#{people}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.machine.Record" resultType="com.hniois.entity.machine.Record">
+		select t.*
+		from tb_mach_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="mach_ids !=null and mach_ids !=''">and t.mach_ids=#{mach_ids}</if>
+		<if test="mach_names !=null and mach_names !=''">and t.mach_names=#{mach_names}</if>
+		<if test="begin_time !=null and begin_time !=''">and t.begin_time=#{begin_time}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="people !=null and people !=''">and t.people=#{people}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.machine.Record" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="mach_ids !=null and mach_ids !=''">and t.mach_ids=#{mach_ids}</if>
+		<if test="mach_names !=null and mach_names !=''">and t.mach_names=#{mach_names}</if>
+		<if test="begin_time !=null and begin_time !=''">and t.begin_time=#{begin_time}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="people !=null and people !=''">and t.people=#{people}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.machine.Record" resultType="com.hniois.entity.machine.Record">
+		select t.id,t.mach_ids,t.mach_names ,t.begin_time,t.for_use,t.people,CASE t.status WHEN "0" THEN "正常" WHEN "1" THEN "故障" end AS status,t.bz
+		from tb_mach_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="mach_ids !=null and mach_ids !=''">and t.mach_ids=#{mach_ids}</if>
+		<if test="mach_names !=null and mach_names !=''">and t.mach_names=#{mach_names}</if>
+		<if test="begin_time !=null and begin_time !=''">and t.begin_time=#{begin_time}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="people !=null and people !=''">and t.people=#{people}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.machine.Record" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="mach_ids !=null and mach_ids !=''">and t.mach_ids=#{mach_ids}</if>
+		<if test="mach_names !=null and mach_names !=''">and t.mach_names=#{mach_names}</if>
+		<if test="begin_time !=null and begin_time !=''">and t.begin_time=#{begin_time}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="people !=null and people !=''">and t.people=#{people}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RetailerMapper">
+	<sql id="keySql">
+		id,name,licence,organization,site,phone,email,contact,publicity
+	</sql>
+	<!--分页-->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Retailer" resultType="com.hniois.trace.entity.Retailer">
+		SELECT
+		<include refid="keySql"></include>
+		FROM trace_retailer
+		<where>
+			<if test="name != null and name != ''">name LIKE '%${name}%'</if>
+			<if test="licence != null and licence != ''">AND licence = #{licence}</if>
+			<if test="organization != null and organization != ''">AND organization = #{organization}</if>
+			<if test="site != null and site != ''">AND site = #{site}</if>
+			<if test="phone != null and phone != ''">AND phone = #{phone}</if>
+			<if test="email != null and email != ''">AND email = #{email}</if>
+			<if test="contact != null and contact != ''">AND contact = #{contact}</if>
+			<if test="publicity != null and publicity != ''">AND publicity = #{publicity}</if>
+		</where>
+		ORDER BY id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!--分页 count数-->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Retailer" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM trace_retailer
+		<where>
+			<if test="name != null and name != ''">name LIKE '%${name}%'</if>
+			<if test="licence != null and licence != ''">AND licence = #{licence}</if>
+			<if test="organization != null and organization != ''">AND organization = #{organization}</if>
+			<if test="site != null and site != ''">AND site = #{site}</if>
+			<if test="phone != null and phone != ''">AND phone = #{phone}</if>
+			<if test="email != null and email != ''">AND email = #{email}</if>
+			<if test="contact != null and contact != ''">AND contact = #{contact}</if>
+			<if test="publicity != null and publicity != ''">AND publicity = #{publicity}</if>
+		</where>
+	</select>
+
+	<!--单个查询-->
+	<select id="find" parameterType="com.hniois.trace.entity.Retailer" resultType="com.hniois.trace.entity.Retailer">
+		SELECT
+		<include refid="keySql"></include>
+		FROM trace_retailer
+		<where>
+			<if test="id != null and id != ''">id = #{id}</if>
+			<if test="name != null and name != ''">AND name = #{name}</if>
+			<if test="licence != null and licence != ''">AND licence = #{licence}</if>
+			<if test="organization != null and organization != ''">AND organization = #{organization}</if>
+			<if test="site != null and site != ''">AND site = #{site}</if>
+			<if test="phone != null and phone != ''">AND phone = #{phone}</if>
+			<if test="email != null and email != ''">AND email = #{email}</if>
+			<if test="contact != null and contact != ''">AND contact = #{contact}</if>
+			<if test="publicity != null and publicity != ''">AND publicity = #{publicity}</if>
+		</where>
+	</select>
+	<!--新增-->
+	<insert id="save" parameterType="com.hniois.trace.entity.Retailer" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO trace_retailer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null and name != ''" >name,</if>
+			<if test="licence != null and licence != ''" >licence,</if>
+			<if test="organization != null and organization != ''" >organization,</if>
+			<if test="site != null and site != ''" >site,</if>
+			<if test="phone != null and phone != ''" >phone,</if>
+			<if test="email != null and email != ''" >email,</if>
+			<if test="contact != null and contact != ''" >contact,</if>
+			<if test="publicity != null and publicity != ''" >publicity,</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null and name != ''" >#{name},</if>
+			<if test="licence != null and licence != ''" >#{licence},</if>
+			<if test="organization != null and organization != ''" >#{organization},</if>
+			<if test="site != null and site != ''" >#{site},</if>
+			<if test="phone != null and phone != ''" >#{phone},</if>
+			<if test="email != null and email != ''" >#{email},</if>
+			<if test="contact != null and contact != ''" >#{contact},</if>
+			<if test="publicity != null and publicity != ''" >#{publicity},</if>
+		</trim>
+	</insert>
+	<!--更新-->
+	<update id="update" parameterType="com.hniois.trace.entity.Retailer">
+		UPDATE trace_retailer
+		<set>
+			<if test="name != null and name != ''" >name = #{name},</if>
+			<if test="licence != null and licence != ''" >licence = #{licence},</if>
+			<if test="organization != null and organization != ''" >organization = #{organization},</if>
+			<if test="site != null and site != ''" >site = #{site},</if>
+			<if test="phone != null and phone != ''" >phone = #{phone},</if>
+			<if test="email != null and email != ''" >email = #{email},</if>
+			<if test="contact != null and contact != ''" >contact = #{contact},</if>
+			<if test="publicity != null and publicity != ''" >publicity = #{publicity},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<!--删除-->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Retailer">
+		DELETE FROM trace_retailer
+		WHERE id=#{id}
+	</delete>
+	<!--批量删除-->
+	<delete id="batchDelete" parameterType="java.util.ArrayList">
+		DELETE FROM trace_retailer
+		WHERE id IN
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+</mapper>

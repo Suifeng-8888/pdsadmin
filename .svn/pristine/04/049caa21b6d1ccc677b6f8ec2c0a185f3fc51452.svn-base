@@ -1,0 +1,15 @@
+package com.hniois.controller.norm;
+
+import com.hniois.controller.base.BaseController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ *  检测标准详情
+ *
+ */
+@Controller
+@RequestMapping(value = "/normDetail")
+public class NormDetailAction extends BaseController {
+
+}

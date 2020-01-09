@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CheckMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.machine.Check"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_mach_check(id
+		<if test="mach_id!='' and mach_id!=null">,mach_id</if>
+		<if test="period!='' and period!=null">,period</if>
+		<if test="check_unit!='' and check_unit!=null">,check_unit</if>
+		<if test="check_time!='' and check_time!=null">,check_time</if>
+		)
+		VALUES (id
+		<if test="mach_id!='' and mach_id!=null">,#{mach_id}</if>
+		<if test="period!='' and period!=null">,#{period}</if>
+		<if test="check_unit!='' and check_unit!=null">,#{check_unit}</if>
+		<if test="check_time!='' and check_time!=null">,#{check_time}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.machine.Check">
+		insert into tb_mach_check
+		(mach_id,period,check_unit,check_time)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.mach_id},
+			#{e.period},
+			#{e.check_unit},
+			#{e.check_time}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.machine.Check">
+		update tb_mach_check
+		<set>
+			<if test="mach_id !=null and mach_id !=''">mach_id=#{mach_id},</if>
+			<if test="period !=null and period !=''">period=#{period},</if>
+			<if test="check_unit !=null and check_unit !=''">check_unit=#{check_unit},</if>
+			<if test="check_time !=null and check_time !=''">check_time=#{check_time},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.machine.Check">
+		update tb_mach_check
+		<set>
+			<if test="period !=null and period !=''">period=#{period},</if>
+			<if test="check_unit !=null and check_unit !=''">check_unit=#{check_unit},</if>
+			<if test="check_time !=null and check_time !=''">check_time=#{check_time},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.machine.Check">
+		delete from tb_mach_check where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="status!=null and status!=''">and status=#{status}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_mach_check
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.machine.Check" resultType="com.hniois.entity.machine.Check">
+		select t.*,r.model,r.mach_name,r.factory
+		from tb_mach_check t
+		LEFT JOIN tb_machine r ON t.mach_id=r.mach_id
+		where 1=1
+		<if test="id!=null and id!=''">and t.id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and t.mach_id=#{mach_id}</if>
+		<if test="period!=null and period!=''">and t.period=#{period}</if>
+		<if test="check_unit!=null and check_unit!=''">and t.check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and t.check_time=#{check_time}</if>
+		<if test="status!=null and status!=''">and t.status=#{status}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.machine.Check" resultType="com.hniois.entity.machine.Check">
+		select t.*,r.model,r.mach_name,r.factory
+		from tb_mach_check t
+		LEFT JOIN tb_machine r ON t.mach_id=r.mach_id
+		where 1=1
+		<if test="id!=null and id!=''">and t.id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and t.mach_id=#{mach_id}</if>
+		<if test="period!=null and period!=''">and t.period=#{period}</if>
+		<if test="check_unit!=null and check_unit!=''">and t.check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and t.check_time=#{check_time}</if>
+		<if test="status!=null and status!=''">and t.status=#{status}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.machine.Check" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_check t
+		where 1=1
+		<if test="id!=null and id!=''">and t.id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and t.mach_id=#{mach_id}</if>
+		<if test="period!=null and period!=''">and t.period=#{period}</if>
+		<if test="check_unit!=null and check_unit!=''">and t.check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and t.check_time=#{check_time}</if>
+		<if test="status!=null and status!=''">and t.status=#{status}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.machine.Check" resultType="com.hniois.entity.machine.Check">
+		select t.id,t.mach_id,t.period,t.check_unit,t.check_time,CASE t.status WHEN "0" THEN "已送检" WHEN "1" THEN "未送检" end AS status,r.model,r.mach_name,r.factory
+		from tb_mach_check t
+		LEFT JOIN tb_machine r ON t.mach_id=r.mach_id
+		where 1=1
+		<if test="id!=null and id!=''">and t.id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and t.mach_id=#{mach_id}</if>
+		<if test="period!=null and period!=''">and t.period=#{period}</if>
+		<if test="check_unit!=null and check_unit!=''">and t.check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and t.check_time &lt;=#{check_time}</if>
+		<if test="status!=null and status!=''">and t.status=#{status}</if>
+		order by t.status DESC,t.id ASC
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.machine.Check" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_check t
+		where 1=1
+		<if test="id!=null and id!=''">and t.id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and t.mach_id=#{mach_id}</if>
+		<if test="period!=null and period!=''">and t.period=#{period}</if>
+		<if test="check_unit!=null and check_unit!=''">and t.check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and t.check_time=#{check_time}</if>
+		<if test="status!=null and status!=''">and t.status=#{status}</if>
+	</select>
+
+	<!--查询送检的仪器-->
+	<select id="sendCheck" parameterType="java.util.ArrayList" resultType="com.hniois.entity.machine.Check">
+		select t.*,r.model,r.mach_name,r.factory
+		from tb_mach_check t
+		LEFT JOIN tb_machine r ON t.mach_id=r.mach_id
+		where t.id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

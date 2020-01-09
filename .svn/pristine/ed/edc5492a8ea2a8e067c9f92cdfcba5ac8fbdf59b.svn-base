@@ -1,0 +1,161 @@
+package com.hniois.controller.system;
+
+import com.alibaba.fastjson.JSON;
+import com.hniois.common.page.Page;
+import com.hniois.controller.base.BaseController;
+import com.hniois.entity.system.Menu;
+import com.hniois.service.system.menu.MenuManage;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Controller
+@RequestMapping(value="/menu")
+public class MenuAction extends BaseController{
+    //用户
+    @Resource(name="menuService")
+    private MenuManage menuService;
+
+    private String menu_list = "system/menu/menu_list";
+    private String menu_edit = "system/menu/menu_edit";
+
+    @RequestMapping(value="/toPage")
+    public ModelAndView toPage(){
+        ModelAndView mv = this.getModelAndView();
+        mv.setViewName(menu_list);
+        return mv;
+    }
+
+    /**
+     * 分页查询
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public String list(Menu e) throws Exception{
+
+        Page page = menuService.findPage(e);
+        return JSON.toJSONString(page);
+    }
+
+    /**
+     * 查询List
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/findList")
+    @ResponseBody
+    public String findList(Menu e) throws Exception {
+        List<Menu> list = menuService.findList(e);
+        JSONArray arr = JSONArray.fromObject(list);
+        return arr.toString();
+    }
+
+    /**
+     * 查询count
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/findCount")
+    @ResponseBody
+    public String findCount(Menu e) throws Exception {
+        Integer count = menuService.findCount(e);
+        return String.valueOf(count);
+    }
+
+    /**
+     * 查询
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/find")
+    @ResponseBody
+    public String find(Menu e) throws Exception {
+        Menu m = menuService.find(e);
+        JSONObject obj = JSONObject.fromObject(m);
+        return obj.toString();
+    }
+
+
+    /**
+     * 新增 or 保存页面
+     */
+    @RequestMapping(value="/toEdit")
+    public ModelAndView toAorU(Menu e,String todo) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        mv.setViewName(menu_edit);
+        if(StringUtils.isNotEmpty(todo)){
+            Menu menu = menuService.find(e);
+            mv.addObject("menu",menu);
+        }
+        return mv;
+    }
+
+    /**
+     * 保存
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/add")
+    @ResponseBody
+    public String add(Menu e) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        Menu p = new Menu();
+        p.setMenu_id(e.getMenu_id());
+        if(menuService.findCount(p)>0){
+            setMsg(obj,"error","用户ID已存在!");
+        }else{
+            menuService.save(e);
+        }
+        return obj.toString();
+    }
+
+    /**
+     * 修改
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/update")
+    @ResponseBody
+    public String update(Menu e) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        Menu p = new Menu();
+        p.setMenu_id(e.getMenu_id());
+        List<Menu> list = menuService.findList(p);
+        if(list != null && list.size() > 0 && !(list.get(0).getId().equals(e.getId()))){
+            setMsg(obj,"error","用户ID已存在!");
+        }else{
+            menuService.update(e);
+        }
+        return obj.toString();
+    }
+
+    /**
+     * 删除
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/delete")
+    @ResponseBody
+    public String delete(Menu e) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        Menu p = new Menu();
+        p.setMenu_id(e.getMenu_id());
+        List<Menu> list = menuService.findList(p);
+        if(list != null && list.size() > 0 && !(list.get(0).getId().equals(e.getId()))){
+            setMsg(obj,"error","用户ID已存在!");
+        }else{
+            menuService.update(e);
+        }
+        return obj.toString();
+    }
+
+}

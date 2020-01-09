@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RoleMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.system.Role"
+			useGeneratedKeys="true" keyProperty="role_id">
+		insert into sys_role(
+			role_id,role_name,rights
+		)
+		values (
+			role_id,#{role_name},#{rights}
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.system.Role">
+		insert into sys_role(
+			role_id,role_name,rights
+		)
+		values
+		<foreach collection="data" item="e" index="index" separator=",">
+			(
+			#{e.role_id},
+			#{e.role_name},
+			#{e.rights}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.system.Role">
+		update sys_role
+		<set>
+			<if test="role_name !=null and role_name !=''">role_name=#{role_name},</if>
+			<if test="rights !=null and rights !=''">rights=#{rights},</if>
+		</set>
+		where role_id=#{role_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.system.Role">
+		update sys_role
+		<set>
+			<if test="role_name !=null and role_name !=''">role_name=#{role_name},</if>
+			<if test="rights !=null and rights !=''">rights=#{rights},</if>
+		</set>
+		where role_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.system.Role">
+		delete from sys_role where 1=1
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="role_name !=null and role_name !=''">and role_name=#{role_name}</if>
+		<if test="rights !=null and rights !=''">and rights=#{rights}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from sys_role
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.system.Role" resultType="com.hniois.entity.system.Role">
+		select t.*
+		from sys_role t
+		where 1=1
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="role_name !=null and role_name !=''">and role_name=#{role_name}</if>
+		<if test="rights !=null and rights !=''">and rights=#{rights}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.system.Role" resultType="com.hniois.entity.system.Role">
+		select t.*
+		from sys_role t
+		where 1=1
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="role_name !=null and role_name !=''">and role_name=#{role_name}</if>
+		<if test="rights !=null and rights !=''">and rights=#{rights}</if>
+		order by t.role_id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.system.Role" resultType="java.lang.Integer">
+		select count(*)
+		from sys_role t
+		where 1=1
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="role_name !=null and role_name !=''">and role_name=#{role_name}</if>
+		<if test="rights !=null and rights !=''">and rights=#{rights}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.system.Role" resultType="com.hniois.entity.system.Role">
+		select t.*
+		from sys_role t
+		where 1=1
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="role_name !=null and role_name !=''">and role_name like '%${role_name}%'</if>
+		<if test="rights !=null and rights !=''">and rights=#{rights}</if>
+		order by t.role_id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.system.Role" resultType="java.lang.Integer">
+		select count(*)
+		from sys_role t
+		where 1=1
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="role_name !=null and role_name !=''">and role_name like '%${role_name}%'</if>
+		<if test="rights !=null and rights !=''">and rights=#{rights}</if>
+	</select>
+</mapper>

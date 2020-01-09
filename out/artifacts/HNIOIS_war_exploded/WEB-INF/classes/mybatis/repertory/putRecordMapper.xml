@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PutRecordMapper">
+
+	<sql id="keySql">
+		id,record_type,odd_number,order_number,type,name,get_name,unit,number,time,operator,bz
+	</sql>
+	<select id="find" parameterType="com.hniois.entity.repertory.PutRecord" resultType="com.hniois.entity.repertory.PutRecord">
+		SELECT
+		<include refid="keySql"></include>
+		FROM nj_ioput_record
+		WHERE 1 = 1
+		<if test="id != null and id != ''">AND id = #{id}</if>
+		<if test="record_type != null and record_type != ''">AND record_type = #{record_type}</if>
+		<if test="odd_number != null and odd_number != ''">AND odd_number = #{odd_number}</if>
+		<if test="order_number != null and order_number != ''">AND order_number = #{order_number}</if>
+		<if test="type != null and type != ''">AND type = #{type}</if>
+		<if test="name != null and name != ''">AND name = #{name}</if>
+		<if test="get_name != null and get_name != ''">AND get_name = #{get_name}</if>
+		<if test="unit != null and unit != ''">AND unit = #{unit}</if>
+		<if test="number != null and number != ''">AND number = #{number}</if>
+		<if test="time != null and time != ''">AND time = #{time}</if>
+		<if test="operator != null and operator != ''">AND operator = #{operator}</if>
+		<if test="bz != null and bz != ''">AND bz = #{bz}</if>
+	</select>
+
+	<select id="findPage" parameterType="com.hniois.entity.repertory.PutRecord" resultType="com.hniois.entity.repertory.PutRecord">
+		SELECT
+		<include refid="keySql"></include>
+		FROM nj_ioput_record
+		WHERE 1 = 1
+		<if test="id != null and id != ''">AND id = #{id}</if>
+		<if test="record_type != null and record_type != ''">AND record_type = #{record_type}</if>
+		<if test="odd_number != null and odd_number != ''">AND odd_number LIKE '%${odd_number}%'</if>
+		<if test="order_number != null and order_number != ''">AND order_number = #{order_number}</if>
+		<if test="type != null and type != ''">AND type = #{type}</if>
+		<if test="name != null and name != ''">AND name = #{name}</if>
+		<if test="get_name != null and get_name != ''">AND get_name = #{get_name}</if>
+		<if test="unit != null and unit != ''">AND unit = #{unit}</if>
+		<if test="number != null and number != ''">AND number = #{number}</if>
+		<if test="time != null and time != ''">AND time = #{time}</if>
+		<if test="operator != null and operator != ''">AND operator = #{operator}</if>
+		<if test="bz != null and bz != ''">AND bz = #{bz}</if>
+		ORDER BY id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<select id="findPageCount" parameterType="com.hniois.entity.repertory.PutRecord" resultType="java.lang.Integer">
+		SELECT COUNT(id)
+		FROM nj_ioput_record
+		WHERE 1 = 1
+		<if test="id != null and id != ''">AND id = #{id}</if>
+		<if test="record_type != null and record_type != ''">AND record_type = #{record_type}</if>
+		<if test="odd_number != null and odd_number != ''">AND odd_number LIKE '%${odd_number}%'</if>
+		<if test="order_number != null and order_number != ''">AND order_number = #{order_number}</if>
+		<if test="type != null and type != ''">AND type = #{type}</if>
+		<if test="name != null and name != ''">AND name = #{name}</if>
+		<if test="get_name != null and get_name != ''">AND get_name = #{get_name}</if>
+		<if test="unit != null and unit != ''">AND unit = #{unit}</if>
+		<if test="number != null and number != ''">AND number = #{number}</if>
+		<if test="time != null and time != ''">AND time = #{time}</if>
+		<if test="operator != null and operator != ''">AND operator = #{operator}</if>
+		<if test="bz != null and bz != ''">AND bz = #{bz}</if>
+	</select>
+
+	<insert id="save" parameterType="com.hniois.entity.repertory.PutRecord" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO nj_ioput_record (
+        record_type,odd_number,order_number,type,name,get_name,unit,number,time,operator,bz
+        ) VALUES (
+        #{record_type},#{odd_number},#{order_number},#{type},#{name},#{get_name},#{unit},#{number},#{time},#{operator},#{bz}
+        )
+	</insert>
+</mapper>

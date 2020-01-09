@@ -1,0 +1,10 @@
+package com.hniois.service.purchase.buy;
+
+import com.hniois.common.service.Service;
+import com.hniois.entity.machine.Apply;
+import com.hniois.entity.purchase.Purchase;
+
+public interface PurchaseManage extends Service<Purchase> {
+
+    Boolean saveAsk(Purchase e);
+}

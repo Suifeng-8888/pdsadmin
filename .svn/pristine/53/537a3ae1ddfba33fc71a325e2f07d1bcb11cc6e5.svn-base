@@ -1,0 +1,79 @@
+package com.hniois.controller.demo;
+
+import com.hniois.controller.base.BaseController;
+import com.hniois.entity.demo.Demo;
+import com.hniois.service.demo.DemoManage;
+import com.hniois.util.FileDownload;
+import com.hniois.util.FileZip;
+import com.hniois.util.Freemarker;
+import com.hniois.util.PathUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+@RequestMapping(value="/demo")
+public class DemoAction extends BaseController{
+    //用户
+    @Resource(name="demoService")
+    private DemoManage demoService;
+
+    /**
+     * 自动生成代码
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value="/doCreate")
+    public void proCode(HttpServletResponse response,Demo e) throws Exception{
+        //字段字段集合
+        List list = demoService.findTableField(e);
+        //包名
+        String packageName = e.getPackageName();
+        //类名
+        String objectName = e.getObjectName();
+        //表名
+        String tableName = e.getTableName();
+
+        //创建数据模型
+        Map<String,Object> root = new HashMap<String,Object>();
+        root.put("fieldList",list);
+        root.put("packageName",packageName);
+        root.put("objectName",objectName);
+        root.put("tableName",tableName);
+        root.put("nowDate", new Date());//当前日期
+        /* ============================================================================================= */
+        String filePath = "admin/ftl/code/";						//存放路径
+        String ftlPath = "";								//ftl路径
+        /*生成实体类*/
+        Freemarker.printFile("DomBean.ftl", root, "bean/"+packageName+"/"+objectName+".java", filePath, ftlPath);
+        /*生成Maper*/
+        Freemarker.printFile("Dom_Mapper.ftl", root, "mapper/"+packageName+"/"+objectName+"Mapper.xml", filePath, ftlPath);
+        /*生成Dao*/
+        Freemarker.printFile("DomDao.ftl", root, "dao/"+objectName+"Dao.java", filePath, ftlPath);
+        /*生成DaoImpl*/
+        Freemarker.printFile("DomDaoImpl.ftl", root, "dao/"+packageName+"/impl/"+objectName+"DaoImpl.java", filePath, ftlPath);
+        /*生成ServiceManage*/
+        Freemarker.printFile("DomManage.ftl", root, "serivice/"+packageName+"/"+objectName+"Manage.java", filePath, ftlPath);
+        /*生成Service*/
+        Freemarker.printFile("DomSerivice.ftl", root, "serivice/"+packageName+"/impl/"+objectName+"Serivice.java", filePath, ftlPath);
+        /*生成Action*/
+        Freemarker.printFile("DomAction.ftl", root, "controller/"+packageName+"/"+objectName+"Action.java", filePath, ftlPath);
+        /*生成查询页面*/
+        Freemarker.printFile("Dom_list.ftl", root, "jsp/"+packageName+"/"+packageName+"_list.jsp", filePath, ftlPath);
+        /*生成修改页面*/
+        Freemarker.printFile("Dom_edit.ftl", root, "jsp/"+packageName+"/"+packageName+"_edit.jsp", filePath, ftlPath);
+
+        /*生成的全部代码压缩成zip文件*/
+        if(FileZip.zip(PathUtil.getClasspath()+"admin/ftl/code", PathUtil.getClasspath()+"admin/ftl/code.zip")){
+            /*下载代码*/
+            FileDownload.fileDownload(response, PathUtil.getClasspath()+"admin/ftl/code.zip", "code.zip");
+        }
+
+    }
+}

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AptitudeMapper">
+	<sql id="keySql">
+		id,number,type,unit,time,in_date,scope,certificate
+	</sql>
+	<!--分页-->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Aptitude" resultType="com.hniois.trace.entity.Aptitude">
+		SELECT
+		<include refid="keySql"></include>
+		FROM trace_aptitude
+		<where>
+			<if test="number != null and number != ''">number LIKE '%${number}%'</if>
+			<if test="type != null and type != ''">AND type = #{type}</if>
+			<if test="unit != null and unit != ''">AND unit = #{unit}</if>
+			<if test="time != null and time != ''">AND time = #{time}</if>
+			<if test="in_date != null and in_date != ''">AND in_date = #{in_date}</if>
+			<if test="scope != null and scope != ''">AND scope = #{scope}</if>
+			<if test="certificate != null and certificate != ''">AND certificate = #{certificate}</if>
+		</where>
+		ORDER BY id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!--分页 count数-->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Aptitude" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM trace_aptitude
+		<where>
+			<if test="number != null and number != ''">number LIKE '%${number}%'</if>
+			<if test="type != null and type != ''">AND type = #{type}</if>
+			<if test="unit != null and unit != ''">AND unit = #{unit}</if>
+			<if test="time != null and time != ''">AND time = #{time}</if>
+			<if test="in_date != null and in_date != ''">AND in_date = #{in_date}</if>
+			<if test="scope != null and scope != ''">AND scope = #{scope}</if>
+			<if test="certificate != null and certificate != ''">AND certificate = #{certificate}</if>
+		</where>
+	</select>
+
+	<!--单条查询-->
+	<select id="find" parameterType="com.hniois.trace.entity.Aptitude" resultType="com.hniois.trace.entity.Aptitude">
+		SELECT
+		<include refid="keySql"></include>
+		FROM trace_aptitude
+		<where>
+			<if test="id != null and id != ''">id = #{id}</if>
+			<if test="number != null and number != ''">AND number = #{number}</if>
+			<if test="type != null and type != ''">AND type = #{type}</if>
+			<if test="unit != null and unit != ''">AND unit = #{unit}</if>
+			<if test="time != null and time != ''">AND time = #{time}</if>
+			<if test="in_date != null and in_date != ''">AND in_date = #{in_date}</if>
+			<if test="scope != null and scope != ''">AND scope = #{scope}</if>
+			<if test="certificate != null and certificate != ''">AND certificate = #{certificate}</if>
+		</where>
+	</select>
+	<!--新增-->
+	<insert id="save" parameterType="com.hniois.trace.entity.Aptitude" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO trace_aptitude
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="number != null and number != ''" >number,</if>
+			<if test="type != null and type != ''" >type,</if>
+			<if test="unit != null and unit != ''" >unit,</if>
+			<if test="time != null and time != ''" >time,</if>
+			<if test="in_date != null and in_date != ''" >in_date,</if>
+			<if test="scope != null and scope != ''" >scope,</if>
+			<if test="certificate != null and certificate != ''" >certificate,</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="number != null and number != ''" >#{number},</if>
+			<if test="type != null and type != ''" >#{type},</if>
+			<if test="unit != null and unit != ''" >#{unit},</if>
+			<if test="time != null and time != ''" >#{time},</if>
+			<if test="in_date != null and in_date != ''" >#{in_date},</if>
+			<if test="scope != null and scope != ''" >#{scope},</if>
+			<if test="certificate != null and certificate != ''" >#{certificate},</if>
+		</trim>
+	</insert>
+	<!--更新-->
+	<update id="update" parameterType="com.hniois.trace.entity.Aptitude">
+		UPDATE trace_aptitude
+		<set>
+			<if test="number != null and number != ''">number=#{number},</if>
+			<if test="type != null and type != ''">type=#{type},</if>
+			<if test="unit != null and unit != ''">unit=#{unit},</if>
+			<if test="time != null and time != ''">time=#{time},</if>
+			<if test="in_date != null and in_date != ''">in_date=#{in_date},</if>
+			<if test="scope != null and scope != ''">scope=#{scope},</if>
+			<if test="certificate != null and certificate != ''">certificate=#{certificate},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<!--删除-->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Aptitude">
+		DELETE FROM trace_aptitude
+		WHERE id=#{id}
+	</delete>
+	<!--批量删除-->
+	<delete id="batchDelete" parameterType="java.util.ArrayList">
+		DELETE FROM trace_aptitude
+		WHERE id IN
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

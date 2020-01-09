@@ -1,0 +1,22 @@
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.junit.Test;
+
+/**
+ * 测试类
+ *
+ * */
+public class TestAction {
+
+    @Test
+    public void testAAA() throws Exception {
+
+        String rights = "20,2001";
+        String checked = ","+rights+",";
+        String p1 = "a0";
+        String p2 = "2001";
+        System.out.println(checked.indexOf(","+p1+","));
+        System.out.println(checked.indexOf(","+p2+","));
+    }
+
+
+}

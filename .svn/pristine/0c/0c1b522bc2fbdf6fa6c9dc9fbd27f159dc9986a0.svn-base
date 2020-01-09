@@ -1,0 +1,16 @@
+查询 <i class="fa fa-search" aria-hidden="true"></i>
+新增 <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+删除 <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+修改 <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+统计 <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+
+主页 <i class="fa fa-home fa-lg"></i>
+系统 <i class="fa fa-cog fa-lg"></i>
+其它 <i class="fa fa-leaf fa-lg"></i>
+用户管理 <i class="fa fa-users fa-lg"></i>
+角色管理 <i class="fa fa-user-circle fa-lg"></i>
+菜单管理 <i class="fa fa-desktop fa-lg"></i>
+字典管理 <i class="fa fa-font fa-lg"></i>
+部门管理 <i class="fa fa-bar fa-lg"></i>
+
+

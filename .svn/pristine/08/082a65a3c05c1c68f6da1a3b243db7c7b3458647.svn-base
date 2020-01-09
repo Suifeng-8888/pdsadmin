@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ItemMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.item.Item"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_item(
+		<if test="itemid!='' and itemid!=null">itemid</if>
+		<if test="itemname!='' and itemname!=null">,itemname</if>
+		<if test="num!='' and num!=null">,`num`</if>
+		<if test="typeid!='' and typeid!=null">,typeid</if>
+		<if test="describe!='' and describe!=null">,`describe`</if>
+		<if test="sender!='' and sender!=null">,sender</if>
+		<if test="send_time!='' and send_time!=null">,send_time</if>
+		<if test="note!='' and note!=null">,note</if>
+		<if test="checked!='' and checked!=null">,checked</if>
+		)
+		VALUES (
+		<if test="itemid!='' and itemid!=null">#{itemid}</if>
+		<if test="itemname!='' and itemname!=null">,#{itemname}</if>
+		<if test="num!='' and num!=null">,#{num}</if>
+		<if test="typeid!='' and typeid!=null">,#{typeid}</if>
+		<if test="describe!='' and describe!=null">,#{describe}</if>
+		<if test="sender!='' and sender!=null">,#{sender}</if>
+		<if test="send_time!='' and send_time!=null">,#{send_time}</if>
+		<if test="note!='' and note!=null">,#{note}</if>
+		<if test="checked!='' and checked!=null">,#{checked}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.item.Item">
+		insert into tb_item
+		(itemid,itemname,num,typeid,describe,sender,send_time,note,checked)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.itemid},
+			#{e.itemname},
+			#{e.num},
+			#{e.typeid},
+			#{e.describe},
+			#{e.sender},
+			#{e.send_time},
+			#{e.note},
+			#{e.checked}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.item.Item">
+		update tb_item
+		<set>
+			<if test="itemid !=null and itemid !=''">itemid=#{itemid},</if>
+			<if test="itemname !=null and itemname !=''">itemname=#{itemname},</if>
+			<if test="num !=null and num !=''">`num`=#{num},</if>
+			<if test="describe !=null and describe !=''">`describe`=#{describe},</if>
+			<if test="typeid !=null and typeid !=''">typeid=#{typeid},</if>
+            <if test="state !=null and state !=''">state=#{state}</if>
+			<if test="sender !=null and sender !=''">`sender`=#{sender},</if>
+			<if test="note !=null and note !=''">`note`=#{note},</if>
+			<if test="checked !=null and checked !=''">checked=#{checked},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.item.Item">
+		update tb_item
+		<set>
+			<if test="itemid !=null and itemid !=''">itemid=#{itemid},</if>
+			<if test="itemname !=null and itemname !=''">itemname=#{itemname},</if>
+			<if test="num !=null and num !=''">`num`=#{num},</if>
+			<if test="describe !=null and describe !=''">`describe`=#{describe},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="note !=null and note !=''">note=#{note},</if>
+			<if test="checked !=null and checked !=''">checked=#{checked},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.item.Item">
+		delete from tb_item where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="itemid!=null and itemid!=''">and itemid=#{itemid}</if>
+		<if test="itemname!=null and itemname!=''">and itemname=#{itemname}</if>
+		<if test="num!=null and num!=''">and `num`=#{num}</if>
+		<if test="typeid!=null and typeid!=''">and typeid=#{typeid}</if>
+		<if test="describe!=null and describe!=''">and `describe`=#{describe}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="note!=null and note!=''">and note=#{note}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_item
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		select t.*
+		from tb_item t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="itemid!=null and itemid!=''">and itemid=#{itemid}</if>
+		<if test="itemname!=null and itemname!=''">and itemname=#{itemname}</if>
+		<if test="num!=null and num!=''">and `num`=#{num}</if>
+		<if test="typeid!=null and typeid!=''">and typeid=#{typeid}</if>
+		<if test="describe!=null and describe!=''">and `describe`=#{describe}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="note!=null and note!=''">and note=#{note}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		select t.*
+		from tb_item t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="itemid !=null and itemid !=''">and itemid=#{itemid}</if>
+		<if test="itemname !=null and itemname !=''">and itemname=#{itemname}</if>
+		<if test="num !=null and num !=''">and `num`=#{num}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="describe !=null and describe !=''">and `describe=`#{describe}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="note !=null and note !=''">and note=#{note}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.item.Item" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="itemid !=null and itemid !=''">and itemid=#{itemid}</if>
+		<if test="itemname !=null and itemname !=''">and itemname=#{itemname}</if>
+		<if test="num !=null and num !=''">and `num`=#{num}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="describe !=null and describe !=''">and `describe`=#{describe}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="note !=null and note !=''">and note=#{note}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		select t.*
+			,c.typename
+		from tb_item t
+		left JOIN tb_item_cate c ON t.typeid=c.typeid
+		where 1=1
+		<if test="itemid !=null and itemid !=''">and itemid=#{itemid}</if>
+		<if test="itemname !=null and itemname !=''">and itemname=#{itemname}</if>
+		<if test="num !=null and num !=''">and `num`=#{num}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="describe !=null and describe !=''">and `describe`=#{describe}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="note !=null and note !=''">and note=#{note}</if>
+		<if test="state !=null and state !=''">and state=#{state}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.item.Item" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="itemid !=null and itemid !=''">and itemid=#{itemid}</if>
+		<if test="itemname !=null and itemname !=''">and itemname=#{itemname}</if>
+		<if test="num !=null and num !=''">and `num`=#{num}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="describe !=null and describe !=''">and `describe`=#{describe}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="note !=null and note !=''">and note=#{note}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+	</select>
+
+
+	<!--查询送检的商品-->
+	<select id="sendCheck" parameterType="java.util.ArrayList" resultType="com.hniois.entity.item.Item">
+		SELECT * from tb_item
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

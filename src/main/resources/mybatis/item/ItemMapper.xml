@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ItemMapper">
+	<sql id="keySql">
+		id,item_number,item_sort,item_name,item_state,item_num,send_person,send_unit,send_site,send_number,send_time,
+		testing_time,detection_name,detection_type,norm_id,use_standard,checked
+	</sql>
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.item.Item" useGeneratedKeys="true" keyProperty="id">
+		insert into tb_item(id
+		<if test="item_number!='' and item_number!=null">,item_number</if>
+		<if test="item_sort!='' and item_sort!=null">,item_sort</if>
+		<if test="item_name!='' and item_name!=null">,item_name</if>
+		<if test="item_state!='' and item_state!=null">,item_state</if>
+		<if test="item_num!='' and item_num!=null">,item_num</if>
+		<if test="send_person!='' and send_person!=null">,send_person</if>
+		<if test="send_unit!='' and send_unit!=null">,send_unit</if>
+		<if test="send_site!='' and send_site!=null">,send_site</if>
+		<if test="send_number!='' and send_number!=null">,send_number</if>
+		<if test="send_time!='' and send_time!=null">,send_time</if>
+		<if test="testing_time!='' and testing_time!=null">,testing_time</if>
+		<if test="detection_name!='' and detection_name!=null">,detection_name</if>
+		<if test="detection_type!='' and detection_type!=null">,detection_type</if>
+		<if test="norm_id!='' and norm_id!=null">,norm_id</if>
+		<if test="use_standard!='' and use_standard!=null">,use_standard</if>
+		<if test="checked!='' and checked!=null">,checked</if>
+		)
+		VALUES (id
+		<if test="item_number!='' and item_number!=null">,#{item_number}</if>
+		<if test="item_sort!='' and item_sort!=null">,#{item_sort}</if>
+		<if test="item_name!='' and item_name!=null">,#{item_name}</if>
+		<if test="item_state!='' and item_state!=null">,#{item_state}</if>
+		<if test="item_num!='' and item_num!=null">,#{item_num}</if>
+		<if test="send_person!='' and send_person!=null">,#{send_person}</if>
+		<if test="send_unit!='' and send_unit!=null">,#{send_unit}</if>
+		<if test="send_site!='' and send_site!=null">,#{send_site}</if>
+		<if test="send_number!='' and send_number!=null">,#{send_number}</if>
+		<if test="send_time!='' and send_time!=null">,#{send_time}</if>
+		<if test="testing_time!='' and testing_time!=null">,#{testing_time}</if>
+		<if test="detection_name!='' and detection_name!=null">,#{detection_name}</if>
+		<if test="detection_type!='' and detection_type!=null">,#{detection_type}</if>
+		<if test="norm_id!='' and norm_id!=null">,#{norm_id}</if>
+		<if test="use_standard!='' and use_standard!=null">,#{use_standard}</if>
+		<if test="checked!='' and checked!=null">,#{checked}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.item.Item">
+		insert into tb_item
+		(itemid,itemname,num,typeid,describe,sender,send_time,note,checked)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.itemid},
+			#{e.itemname},
+			#{e.num},
+			#{e.typeid},
+			#{e.describe},
+			#{e.sender},
+			#{e.send_time},
+			#{e.note},
+			#{e.checked}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.item.Item">
+		update tb_item
+		<trim prefix="set" suffixOverrides=",">
+			<if test="item_number != null and item_number != ''">item_number=#{item_number},</if>
+			<if test="item_sort != null and item_sort != ''">item_sort=#{item_sort},</if>
+			<if test="item_name != null and item_name != ''">item_name=#{item_name},</if>
+			<if test="item_state != null and item_state != ''">item_state=#{item_state},</if>
+			<if test="item_num != null and item_num != ''">item_num=#{item_num},</if>
+			<if test="send_person != null and send_person != ''">send_person=#{send_person},</if>
+			<if test="send_unit != null and send_unit != ''">send_unit=#{send_unit},</if>
+			<if test="send_site != null and send_site != ''">send_site=#{send_site},</if>
+			<if test="send_number != null and send_number != ''">send_number=#{send_number},</if>
+			<if test="send_time != null and send_time != ''">send_time=#{send_time},</if>
+			<if test="testing_time != null and testing_time != ''">testing_time=#{testing_time},</if>
+			<if test="detection_name != null and detection_name != ''">detection_name=#{detection_name},</if>
+			<if test="detection_type != null and detection_type != ''">detection_type=#{detection_type},</if>
+			<if test="norm_id != null and norm_id != ''">norm_id=#{norm_id},</if>
+			<if test="use_standard != null and use_standard != ''">use_standard=#{use_standard},</if>
+			<if test="checked != null and checked != ''">checked=#{checked},</if>
+		</trim>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.item.Item">
+		update tb_item
+		<trim prefix="set" suffixOverrides=",">
+			<if test="item_number != null and item_number != ''">item_number=#{item_number},</if>
+			<if test="item_sort != null and item_sort != ''">item_sort=#{item_sort},</if>
+			<if test="item_name != null and item_name != ''">item_name=#{item_name},</if>
+			<if test="item_state != null and item_state != ''">item_state=#{item_state},</if>
+			<if test="item_num != null and item_num != ''">item_num=#{item_num},</if>
+			<if test="send_person != null and send_person != ''">send_person=#{send_person},</if>
+			<if test="send_unit != null and send_unit != ''">send_unit=#{send_unit},</if>
+			<if test="send_site != null and send_site != ''">send_site=#{send_site},</if>
+			<if test="send_number != null and send_number != ''">send_number=#{send_number},</if>
+			<if test="send_time != null and send_time != ''">send_time=#{send_time},</if>
+			<if test="testing_time != null and testing_time != ''">testing_time=#{testing_time},</if>
+			<if test="detection_name != null and detection_name != ''">detection_name=#{detection_name},</if>
+			<if test="detection_type != null and detection_type != ''">detection_type=#{detection_type},</if>
+			<if test="norm_id != null and norm_id != ''">norm_id=#{norm_id},</if>
+			<if test="use_standard != null and use_standard != ''">use_standard=#{use_standard},</if>
+			<if test="checked != null and checked != ''">checked=#{checked},</if>
+		</trim>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.item.Item">
+		delete from tb_item where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_number!=null and item_number!=''">and item_number=#{item_number}</if>
+		<if test="item_sort!=null and item_sort!=''">and item_sort=#{item_sort}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="item_state!=null and item_state!=''">and item_state=#{item_state}</if>
+		<if test="item_num!=null and item_num!=''">and item_num=#{item_num}</if>
+		<if test="send_person!=null and send_person!=''">and send_person=#{send_person}</if>
+		<if test="send_unit!=null and send_unit!=''">and send_unit=#{send_unit}</if>
+		<if test="send_site!=null and send_site!=''">and send_site=#{send_site}</if>
+		<if test="send_number!=null and send_number!=''">and send_number=#{send_number}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="testing_time!=null and testing_time!=''">and testing_time=#{testing_time}</if>
+		<if test="detection_name!=null and detection_name!=''">and detection_name=#{detection_name}</if>
+		<if test="detection_type!=null and detection_type!=''">and detection_type=#{detection_type}</if>
+		<if test="norm_id!=null and norm_id!=''">and norm_id=#{norm_id}</if>
+		<if test="use_standard!=null and use_standard!=''">and use_standard=#{use_standard}</if>
+		<if test="checked!=null and checked!=''">and checked=#{checked}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_item
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		SELECT
+		<include refid="keySql"></include>
+		FROM tb_item
+		where 1=1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="item_number != null and item_number != ''">and item_number = #{item_number}</if>
+		<if test="item_sort != null and item_sort != ''">and item_sort = #{item_sort}</if>
+		<if test="item_name != null and item_name != ''">and item_name = #{item_name}</if>
+		<if test="item_state != null and item_state != ''">and item_state = #{item_state}</if>
+		<if test="item_num != null and item_num != ''">and item_num = #{item_num}</if>
+		<if test="send_person != null and send_person != ''">and send_person = #{send_person}</if>
+		<if test="send_unit != null and send_unit != ''">and send_unit = #{send_unit}</if>
+		<if test="send_site != null and send_site != ''">and send_site = #{send_site}</if>
+		<if test="send_number != null and send_number != ''">and send_number = #{send_number}</if>
+		<if test="send_time != null and send_time != ''">and send_time = #{send_time}</if>
+		<if test="testing_time != null and testing_time != ''">and testing_time = #{testing_time}</if>
+		<if test="detection_name != null and detection_name != ''">and detection_name = #{detection_name}</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="norm_id != null and norm_id != ''">and norm_id = #{norm_id}</if>
+		<if test="use_standard != null and use_standard != ''">and use_standard = #{use_standard}</if>
+		<if test="checked != null and checked != ''">and checked = #{checked}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		select t.*
+		from tb_item t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="itemid !=null and itemid !=''">and itemid=#{itemid}</if>
+		<if test="itemname !=null and itemname !=''">and itemname=#{itemname}</if>
+		<if test="num !=null and num !=''">and `num`=#{num}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="describe !=null and describe !=''">and `describe=`#{describe}</if>
+		<if test="sender !=null and sender !=''">and sender=#{sender}</if>
+		<if test="send_time !=null and send_time !=''">and send_time=#{send_time}</if>
+		<if test="note !=null and note !=''">and note=#{note}</if>
+		<if test="checked !=null and checked !=''">and checked=#{checked}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.item.Item" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item
+		where 1=1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="item_number != null and item_number != ''">and item_number = #{item_number}</if>
+		<if test="item_sort != null and item_sort != ''">and item_sort = #{item_sort}</if>
+		<if test="item_name != null and item_name != ''">and item_name = #{item_name}'</if>
+		<if test="item_state != null and item_state != ''">and item_state = #{item_state}</if>
+		<if test="item_num != null and item_num != ''">and item_num = #{item_num}</if>
+		<if test="send_person != null and send_person != ''">and send_person = #{send_person}</if>
+		<if test="send_unit != null and send_unit != ''">and send_unit = #{send_unit}</if>
+		<if test="send_site != null and send_site != ''">and send_site = #{send_site}</if>
+		<if test="send_number != null and send_number != ''">and send_number = #{send_number}</if>
+		<if test="send_time != null and send_time != ''">and send_time = #{send_time}</if>
+		<if test="testing_time != null and testing_time != ''">and testing_time = #{testing_time}</if>
+		<if test="detection_name != null and detection_name != ''">and detection_name = #{detection_name}</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="norm_id != null and norm_id != ''">and norm_id = #{norm_id}</if>
+		<if test="use_standard != null and use_standard != ''">and use_standard = #{use_standard}</if>
+		<if test="checked != null and checked != ''">and checked = #{checked}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		SELECT
+		<include refid="keySql"></include>
+		FROM tb_item
+		where 1=1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="item_number != null and item_number != ''">and item_number = #{item_number}</if>
+		<if test="item_sort != null and item_sort != ''">and item_sort = #{item_sort}</if>
+		<if test="item_name != null and item_name != ''">and item_name LIKE '%${item_name}%'</if>
+		<if test="item_state != null and item_state != ''">and item_state = #{item_state}</if>
+		<if test="item_num != null and item_num != ''">and item_num = #{item_num}</if>
+		<if test="send_person != null and send_person != ''">and send_person = #{send_person}</if>
+		<if test="send_unit != null and send_unit != ''">and send_unit = #{send_unit}</if>
+		<if test="send_site != null and send_site != ''">and send_site = #{send_site}</if>
+		<if test="send_number != null and send_number != ''">and send_number = #{send_number}</if>
+		<if test="send_time != null and send_time != ''">and send_time = #{send_time}</if>
+		<if test="testing_time != null and testing_time != ''">and testing_time = #{testing_time}</if>
+		<if test="detection_name != null and detection_name != ''">and detection_name = #{detection_name}</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="norm_id != null and norm_id != ''">and norm_id = #{norm_id}</if>
+		<if test="use_standard != null and use_standard != ''">and use_standard = #{use_standard}</if>
+		<if test="checked != null and checked != ''">and checked = #{checked}</if>
+		order by id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.item.Item" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item
+		where 1=1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="item_number != null and item_number != ''">and item_number = #{item_number}</if>
+		<if test="item_sort != null and item_sort != ''">and item_sort = #{item_sort}</if>
+		<if test="item_name != null and item_name != ''">and item_name LIKE '%${item_name}%'</if>
+		<if test="item_state != null and item_state != ''">and item_state = #{item_state}</if>
+		<if test="item_num != null and item_num != ''">and item_num = #{item_num}</if>
+		<if test="send_person != null and send_person != ''">and send_person = #{send_person}</if>
+		<if test="send_unit != null and send_unit != ''">and send_unit = #{send_unit}</if>
+		<if test="send_site != null and send_site != ''">and send_site = #{send_site}</if>
+		<if test="send_number != null and send_number != ''">and send_number = #{send_number}</if>
+		<if test="send_time != null and send_time != ''">and send_time = #{send_time}</if>
+		<if test="testing_time != null and testing_time != ''">and testing_time = #{testing_time}</if>
+		<if test="detection_name != null and detection_name != ''">and detection_name = #{detection_name}</if>
+		<if test="detection_type != null and detection_type != ''">and detection_type = #{detection_type}</if>
+		<if test="norm_id != null and norm_id != ''">and norm_id = #{norm_id}</if>
+		<if test="use_standard != null and use_standard != ''">and use_standard = #{use_standard}</if>
+		<if test="checked != null and checked != ''">and checked = #{checked}</if>
+	</select>
+
+	<!--查询送检的商品-->
+	<select id="sendCheck" parameterType="com.hniois.entity.item.Item" resultType="com.hniois.entity.item.Item">
+		SELECT
+		<include refid="keySql"></include>
+		from tb_item
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

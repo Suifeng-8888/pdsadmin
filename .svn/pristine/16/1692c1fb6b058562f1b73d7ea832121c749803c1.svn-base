@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ImportMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Im_Porduct"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_im_product(
+		<if test="pro_name!='' and pro_name!=null">pro_name</if>
+		<if test="bar_code!='' and bar_code!=null">,bar_code</if>
+		<if test="sup_id!='' and sup_id!=null">,sup_id</if>
+		<if test="sup_name!='' and sup_name!=null">,sup_name</if>
+		<if test="im_patch!='' and im_patch!=null">,im_patch</if>
+		<if test="sup_patch!='' and sup_patch!=null">,sup_patch</if>
+		<if test="recipient!='' and recipient!=null">,recipient</if>
+		<if test="im_time!='' and im_time!=null">,im_time</if>
+		<if test="im_num!='' and im_num!=null">,im_num</if>
+		<if test="result!='' and result!=null">,result</if>
+		<if test="rest!='' and rest!=null">,rest</if>
+		<if test="report!='' and report!=null">,report</if>
+		<if test="attach_file!='' and attach_file!=null">,attach_file</if>
+		)
+		VALUES (
+		<if test="pro_name!='' and pro_name!=null">#{pro_name}</if>
+		<if test="bar_code!='' and bar_code!=null">,#{bar_code}</if>
+		<if test="sup_id!='' and sup_id!=null">,#{sup_id}</if>
+		<if test="sup_name!='' and sup_name!=null">,#{sup_name}</if>
+		<if test="im_patch!='' and im_patch!=null">,#{im_patch}</if>
+		<if test="sup_patch!='' and sup_patch!=null">,#{sup_patch}</if>
+		<if test="recipient!='' and recipient!=null">,#{recipient}</if>
+		<if test="im_time!='' and im_time!=null">,#{im_time}</if>
+		<if test="im_num!='' and im_num!=null">,#{im_num}</if>
+		<if test="result!='' and result!=null">,#{result}</if>
+		<if test="rest!='' and rest!=null">,#{rest}</if>
+		<if test="report!='' and report!=null">,#{report}</if>
+		<if test="attach_file!='' and attach_file!=null">,#{attach_file}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Im_Porduct">
+		insert into trace_im_product
+		(pro_name,bar_code,sup_id,sup_name,im_patch,sup_patch,recipient,im_time,im_num,result,rest,report,attach_file)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.pro_name},
+			#{e.bar_code},
+			#{e.sup_id},
+			#{e.sup_name},
+			#{e.im_patch},
+			#{e.sup_patch},
+			#{e.recipient},
+			#{e.im_time},
+			#{e.im_num},
+			#{e.result},
+			#{e.rest},
+			#{e.report},
+			#{e.attach_file}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Im_Porduct">
+		update trace_im_product
+		<set>
+			<if test="im_id !=null and im_id !=''">im_id=#{im_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="bar_code !=null and bar_code !=''">bar_code=#{bar_code},</if>
+			<if test="sup_id !=null and sup_id !=''">sup_id=#{sup_id},</if>
+			<if test="sup_name !=null and sup_name !=''">sup_name=#{sup_name},</if>
+			<if test="im_patch !=null and im_patch !=''">im_patch=#{im_patch},</if>
+			<if test="sup_patch !=null and sup_patch !=''">sup_patch=#{sup_patch},</if>
+			<if test="recipient !=null and recipient !=''">recipient=#{recipient},</if>
+			<if test="im_time !=null and im_time !=''">im_time=#{im_time},</if>
+			<if test="im_num !=null and im_num !=''">im_num=#{im_num},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+			<if test="rest !=null and rest !=''">rest=#{rest},</if>
+			<if test="report !=null and report !=''">report=#{report},</if>
+			<if test="attach_file !=null and attach_file !=''">attach_file=#{attach_file},</if>
+		</set>
+		where im_id=#{im_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Im_Porduct">
+		update trace_im_product
+		<set>
+			<if test="im_id !=null and im_id !=''">im_id=#{im_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="bar_code !=null and bar_code !=''">bar_code=#{bar_code},</if>
+			<if test="sup_id !=null and sup_id !=''">sup_id=#{sup_id},</if>
+			<if test="sup_name !=null and sup_name !=''">sup_name=#{sup_name},</if>
+			<if test="im_patch !=null and im_patch !=''">im_patch=#{im_patch},</if>
+			<if test="sup_patch !=null and sup_patch !=''">sup_patch=#{sup_patch},</if>
+			<if test="recipient !=null and recipient !=''">recipient=#{recipient},</if>
+			<if test="im_time !=null and im_time !=''">im_time=#{im_time},</if>
+			<if test="im_num !=null and im_num !=''">im_num=#{im_num},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+			<if test="rest !=null and rest !=''">rest=#{rest},</if>
+			<if test="report !=null and report !=''">report=#{report},</if>
+			<if test="attach_file !=null and attach_file !=''">attach_file=#{attach_file},</if>
+		</set>
+		where im_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Im_Porduct">
+		delete from trace_im_product where 1=1
+		<if test="im_id !=null and im_id !=''">and im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="bar_code !=null and bar_code !=''">and bar_code=#{bar_code}</if>
+		<if test="sup_id !=null and sup_id !=''">and sup_id=#{sup_id}</if>
+		<if test="sup_name !=null and sup_name !=''">and sup_name=#{sup_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and im_patch=#{im_patch}</if>
+		<if test="sup_patch !=null and sup_patch !=''">and sup_patch=#{sup_patch}</if>
+		<if test="recipient !=null and recipient !=''">and recipient=#{recipient}</if>
+		<if test="im_time !=null and im_time !=''">and im_time=#{im_time}</if>
+		<if test="im_num !=null and im_num !=''">and im_num=#{im_num}</if>
+		<if test="result !=null and result !=''">and result=#{result}</if>
+		<if test="rest !=null and rest !=''">and rest=#{rest}</if>
+		<if test="report !=null and report !=''">and report=#{report}</if>
+		<if test="attach_file !=null and attach_file !=''">and attach_file=#{attach_file}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_im_product
+		where im_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Im_Porduct" resultType="com.hniois.trace.entity.Im_Porduct">
+		select t.*
+		from trace_im_product t
+		where 1=1
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="bar_code !=null and bar_code !=''">and t.bar_code=#{bar_code}</if>
+		<if test="sup_id !=null and sup_id !=''">and t.sup_id=#{sup_id}</if>
+		<if test="sup_name !=null and sup_name !=''">and t.sup_name=#{sup_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="sup_patch !=null and sup_patch !=''">and t.sup_patch=#{sup_patch}</if>
+		<if test="recipient !=null and recipient !=''">and t.recipient=#{recipient}</if>
+		<if test="im_time !=null and im_time !=''">and t.im_time=#{im_time}</if>
+		<if test="im_num !=null and im_num !=''">and t.im_num=#{im_num}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+		<if test="rest !=null and rest !=''">and t.rest=#{rest}</if>
+		<if test="report !=null and report !=''">and t.report=#{report}</if>
+		<if test="attach_file !=null and attach_file !=''">and t.attach_file=#{attach_file}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Im_Porduct" resultType="com.hniois.trace.entity.Im_Porduct">
+		select t.*
+		from trace_im_product t
+		where 1=1
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="bar_code !=null and bar_code !=''">and t.bar_code=#{bar_code}</if>
+		<if test="sup_id !=null and sup_id !=''">and t.sup_id=#{sup_id}</if>
+		<if test="sup_name !=null and sup_name !=''">and t.sup_name=#{sup_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="sup_patch !=null and sup_patch !=''">and t.sup_patch=#{sup_patch}</if>
+		<if test="recipient !=null and recipient !=''">and t.recipient=#{recipient}</if>
+		<if test="im_time !=null and im_time !=''">and t.im_time=#{im_time}</if>
+		<if test="im_num !=null and im_num !=''">and t.im_num=#{im_num}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+		<if test="rest !=null and rest !=''">and t.rest=#{rest}</if>
+		<if test="report !=null and report !=''">and t.report=#{report}</if>
+		<if test="attach_file !=null and attach_file !=''">and t.attach_file=#{attach_file}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Im_Porduct" resultType="java.lang.Integer">
+		select count(*)
+		from trace_im_product t
+		where 1=1
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="bar_code !=null and bar_code !=''">and t.bar_code=#{bar_code}</if>
+		<if test="sup_id !=null and sup_id !=''">and t.sup_id=#{sup_id}</if>
+		<if test="sup_name !=null and sup_name !=''">and t.sup_name=#{sup_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="sup_patch !=null and sup_patch !=''">and t.sup_patch=#{sup_patch}</if>
+		<if test="recipient !=null and recipient !=''">and t.recipient=#{recipient}</if>
+		<if test="im_time !=null and im_time !=''">and t.im_time=#{im_time}</if>
+		<if test="im_num !=null and im_num !=''">and t.im_num=#{im_num}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+		<if test="rest !=null and rest !=''">and t.rest=#{rest}</if>
+		<if test="report !=null and report !=''">and t.report=#{report}</if>
+		<if test="attach_file !=null and attach_file !=''">and t.attach_file=#{attach_file}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Im_Porduct" resultType="com.hniois.trace.entity.Im_Porduct">
+		select *
+		from trace_im_product
+		where 1=1
+		<if test="sup_name !=null and sup_name !=''">and sup_name=#{sup_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and im_patch=#{im_patch}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="bar_code !=null and bar_code !=''">and bar_code=#{bar_code}</if>
+		<if test="sup_patch !=null and sup_patch !=''">and sup_patch=#{sup_patch}</if>
+		<if test="recipient !=null and recipient !=''">and recipient=#{recipient}</if>
+		<if test="im_time !=null and im_time !=''">and im_time=#{im_time}</if>
+		<if test="im_num !=null and im_num !=''">and im_num=#{im_num}</if>
+		<if test="result !=null and result !=''">and result=#{result}</if>
+		<if test="rest !=null and rest !=''">and rest=#{rest}</if>
+		<if test="report !=null and report !=''">and report=#{report}</if>
+		<if test="attach_file !=null and attach_file !=''">and attach_file=#{attach_file}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Im_Porduct" resultType="java.lang.Integer">
+		select count(*)
+		from trace_im_product t
+		where 1=1
+		<if test="im_id !=null and im_id !=''">and t.im_id=#{im_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="bar_code !=null and bar_code !=''">and t.bar_code=#{bar_code}</if>
+		<if test="sup_id !=null and sup_id !=''">and t.sup_id=#{sup_id}</if>
+		<if test="sup_name !=null and sup_name !=''">and t.sup_name=#{sup_name}</if>
+		<if test="im_patch !=null and im_patch !=''">and t.im_patch=#{im_patch}</if>
+		<if test="sup_patch !=null and sup_patch !=''">and t.sup_patch=#{sup_patch}</if>
+		<if test="recipient !=null and recipient !=''">and t.recipient=#{recipient}</if>
+		<if test="im_time !=null and im_time !=''">and t.im_time=#{im_time}</if>
+		<if test="im_num !=null and im_num !=''">and t.im_num=#{im_num}</if>
+		<if test="result !=null and result !=''">and t.result=#{result}</if>
+		<if test="rest !=null and rest !=''">and t.rest=#{rest}</if>
+		<if test="report !=null and report !=''">and t.report=#{report}</if>
+		<if test="attach_file !=null and attach_file !=''">and t.attach_file=#{attach_file}</if>
+	</select>
+</mapper>

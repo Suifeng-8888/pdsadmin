@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="HNIOIS:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/HNIOIS_war</output-path>
+    <root id="archive" name="HNIOIS_war.war">
+      <element id="artifact" artifact-name="HNIOIS:war exploded" />
+    </root>
+  </artifact>
+</component>

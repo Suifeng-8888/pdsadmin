@@ -1,0 +1,151 @@
+package com.hniois.controller.norm;
+
+import com.alibaba.fastjson.JSON;
+import com.hniois.common.page.Page;
+import com.hniois.controller.base.BaseController;
+import com.hniois.entity.norm.Norm;
+import com.hniois.service.norm.NormService;
+import com.hniois.util.DateUtil;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import java.util.Date;
+
+/**
+ *  检测标准 action
+ */
+@Controller
+@RequestMapping(value = "/norm")
+public class NormAction extends BaseController{
+
+    @Resource(name = "normService")
+    private NormService normService;
+
+    private String norm_list = "norm/norm_list";
+
+    private String norm_edit = "norm/norm_edit";
+    /**
+     *  进入检测标准列表方法
+     * @return
+     */
+    @RequestMapping(value = "/toPage")
+    public ModelAndView toPage() {
+        ModelAndView mv = getModelAndView();
+        mv.setViewName(norm_list);
+        return mv;
+    }
+
+    /**
+     * norm分页列表
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public String list(Norm e) throws Exception{
+        // 当前页
+        int currPage = getThisPage(e.getPage());
+        // 每页显示条数
+        int limit = getThisLimit(e.getLimit());
+
+        e.setOffset((currPage-1)*limit);
+        e.setPageSize(limit);
+        Page page = normService.findPage(e);
+        return JSON.toJSONString(page);
+    }
+
+    /**
+     * 查询count总数
+     * @param norm
+     * @return
+     */
+    @RequestMapping(value = "/findCount")
+    @ResponseBody
+    public String findCount(Norm norm) throws Exception {
+        Integer count = normService.findCount(norm);
+        return String.valueOf(count);
+    }
+
+    /**
+     * norm查询
+     * @param norm
+     * @return
+     */
+    @RequestMapping(value = "/find")
+    @ResponseBody
+    public String find(Norm norm) throws Exception {
+        Norm n = normService.find(norm);
+        JSONObject obj = JSONObject.fromObject(n);
+        return obj.toString();
+    }
+
+    /**
+     * 新增 or 修改页面
+     */
+    @RequestMapping(value="/toEdit")
+    public ModelAndView toAorU(String id, Integer code) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        Norm norm = new Norm();
+        if (StringUtils.isNotEmpty(id)) {
+            norm.setId(id);
+            norm = normService.find(norm);
+        }
+        norm.setCode(code);
+        mv.addObject("norm",norm);
+        mv.setViewName(norm_edit);
+        return mv;
+    }
+    /**
+     * 保存
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/add")
+    @ResponseBody
+    public String add(Norm e) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        Norm p = new Norm();
+        p.setNorm_number(e.getNorm_number());
+        if(normService.findCount(p) > 0){
+            setMsg(obj,"error","标准编号已存在!");
+        }else{
+            String time = DateUtil.getDay();
+            e.setCreate_time(time);
+            normService.save(e);
+        }
+        return obj.toString();
+    }
+
+    /**
+     * 修改
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/update")
+    @ResponseBody
+    public String update(Norm e) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        normService.update(e);
+        return obj.toString();
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return json
+     * */
+    @RequestMapping(value="/delete")
+    @ResponseBody
+    public String delete(String id) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        Norm norm = new Norm();
+        norm.setId(id);
+        normService.delete(norm);
+        return obj.toString();
+    }
+}

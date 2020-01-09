@@ -1,0 +1,69 @@
+package com.hniois.entity.cate;
+
+import com.hniois.common.page.Page;
+
+import java.util.Date;
+
+public class Cate extends Page {
+    /**
+     * 基础属性
+     **************************************/
+    private String typeid;
+    private String typename;
+    private String status;
+    private String createTime;
+    private String updateTime;
+    private String person;
+
+
+    public String getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(String typeid) {
+        this.typeid = typeid;
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPerson() {
+        return person;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+
+
+}

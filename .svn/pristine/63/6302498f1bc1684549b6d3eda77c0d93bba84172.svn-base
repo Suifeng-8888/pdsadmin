@@ -1,0 +1,47 @@
+package com.hniois.service.item.impl;
+
+import com.hniois.common.page.Page;
+import com.hniois.common.service.ServiceSupport;
+import com.hniois.dao.item.ItemDao;
+import com.hniois.entity.item.Item;
+import com.hniois.entity.item.SendCheck;
+import com.hniois.service.item.ItemManage;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service("itemService")
+public class ItemService extends ServiceSupport<Item,ItemDao> implements ItemManage {
+
+    @Resource(name = "itemDaoImpl")
+    public void setDao(ItemDao dao){this.dao=dao; }
+
+
+    @Override
+    public List<Item> sendCheck(Item e) throws Exception {
+        return dao.sendCheck(e);
+    }
+
+    @Override
+    public SendCheck getSend(List<Item> e) {
+        SendCheck send=new SendCheck();
+        //创建一个集合.存放样品的编号,名字和个数等信息
+        List<String> ids=new ArrayList<String>();
+        List<String> names=new ArrayList<String>();
+        List<String> nums=new ArrayList<String>();
+        for(Item obj:e){
+            names.add(obj.getItemname());
+            ids.add(obj.getItemid());
+            nums.add(obj.getNum());
+        }
+        System.out.println(ids.toString());
+        send.setItem_id(ids.toString());
+        send.setNums(nums.toString());
+        send.setItem_name(names.toString());
+        return send;
+    }
+
+
+}

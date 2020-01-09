@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="QuartzMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.quartz.CheckQuartz"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_quartz_msg(id
+		<if test="entity_id!='' and entity_id!=null">,entity_id</if>
+		<if test="rolename!='' and rolename!=null">,rolename</if>
+		<if test="flag!='' and flag!=null">,flag</if>
+		<if test="msg!='' and msg!=null">,msg</if>
+		<if test="msg_time!='' and msg_time!=null">,msg_time</if>
+		)
+		VALUES (id
+		<if test="entity_id!='' and entity_id!=null">,#{entity_id}</if>
+		<if test="rolename!='' and rolename!=null">,#{rolename}</if>
+		<if test="flag!='' and flag!=null">,#{flag}</if>
+		<if test="msg!='' and msg!=null">,#{msg}</if>
+		<if test="msg_time!='' and msg_time!=null">,#{msg_time}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.quartz.CheckQuartz">
+		insert into t_quartz_msg
+		(entity_id,rolename,flag,msg)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.entity_id},
+			#{e.rolename},
+			#{e.flag},
+			#{e.msg},
+			#{e.msg_time}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.quartz.CheckQuartz">
+		update t_quartz_msg
+		<set>
+			<if test="entity_id !=null and entity_id !=''">entity_id=#{entity_id},</if>
+			<if test="rolename !=null and rolename !=''">rolename=#{rolename},</if>
+			<if test="flag !=null and flag !=''">flag=#{flag},</if>
+			<if test="msg !=null and msg !=''">msg=#{msg},</if>
+			<if test="msg_time !=null and msg_time !=''">msg_time=#{msg_time},</if>
+			<if test="rdstate !=null and rdstate !=''">rdstate=#{rdstate},</if>
+			<if test="cancel !=null and cancel !=''">cancel=#{cancel},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.quartz.CheckQuartz">
+		update t_quartz_msg
+		<set>
+			<if test="entity_id !=null and entity_id !=''">entity_id=#{entity_id},</if>
+			<if test="rolename !=null and rolename !=''">rolename=#{rolename},</if>
+			<if test="flag !=null and flag !=''">flag=#{flag},</if>
+			<if test="msg !=null and msg !=''">msg=#{msg},</if>
+			<if test="msg_time !=null and msg_time !=''">msg_time=#{msg_time},</if>
+			<if test="rdstate !=null and rdstate !=''">rdstate=#{rdstate},</if>
+			<if test="cancel !=null and cancel !=''">cancel=#{cancel},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.quartz.CheckQuartz">
+		delete from t_quartz_msg where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="entity_id !=null and entity_id !=''">and entity_id=#{entity_id}</if>
+		<if test="rolename !=null and rolename !=''">and rolename=#{rolename}</if>
+		<if test="flag !=null and flag!=''">and flag=#{flag}</if>
+		<if test="msg !=null and msg !=''">and msg=#{msg}</if>
+		<if test="msg_time !=null and msg_time !=''">and msg_time=#{msg_time}</if>
+		<if test="rdstate !=null and rdstate !=''">and rdstate=#{rdstate}</if>
+		<if test="cancel !=null and cancel !=''">and cancel=#{cancel}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from t_quartz_msg
+		where entity_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.quartz.CheckQuartz" resultType="com.hniois.entity.quartz.CheckQuartz">
+		select t.*,r.mach_name
+		from t_quartz_msg t
+		LEFT JOIN tb_machine r ON t.entity_id=r.mach_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="entity_id !=null and entity_id !=''">and t.entity_id=#{entity_id}</if>
+		<if test="rolename !=null and rolename !=''">and t.rolename=#{rolename}</if>
+		<if test="flag !=null and flag !=''">and t.flag=#{flag}</if>
+		<if test="msg !=null and msg !=''">and t.msg=#{msg}</if>
+		<if test="msg_time !=null and msg_time !=''">and t.msg_time=#{msg_time}</if>
+		<if test="rdstate !=null and rdstate !=''">and t.rdstate=#{rdstate}</if>
+		<if test="cancel !=null and cancel !=''">and t.cancel=#{cancel}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.quartz.CheckQuartz" resultType="com.hniois.entity.quartz.CheckQuartz">
+		select t.*
+		from t_quartz_msg t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="entity_id !=null and entity_id !=''">and t.entity_id=#{entity_id}</if>
+		<if test="rolename !=null and rolename !=''">and t.rolename=#{rolename}</if>
+		<if test="flag !=null and flag !=''">and t.flag=#{flag}</if>
+		<if test="msg !=null and msg !=''">and t.msg=#{msg}</if>
+		<if test="msg_time !=null and msg_time !=''">and t.msg_time=#{msg_time}</if>
+		<if test="rdstate !=null and rdstate !=''">and t.rdstate=#{rdstate}</if>
+		<if test="cancel !=null and cancel !=''">and t.cancel=#{cancel}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.quartz.CheckQuartz" resultType="java.lang.Integer">
+		select count(*)
+		from t_quartz_msg t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="entity_id !=null and entity_id !=''">and t.entity_id=#{entity_id}</if>
+		<if test="rolename !=null and rolename !=''">and t.rolename=#{rolename}</if>
+		<if test="flag !=null and flag !=''">and t.flag=#{flag}</if>
+		<if test="msg !=null and msg !=''">and t.msg=#{msg}</if>
+		<if test="msg_time !=null and msg_time !=''">and t.msg_time=#{msg_time}</if>
+		<if test="rdstate !=null and rdstate !=''">and t.rdstate=#{rdstate}</if>
+		<if test="cancel !=null and cancel !=''">and t.cancel=#{cancel}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.quartz.CheckQuartz" resultType="com.hniois.entity.quartz.CheckQuartz">
+		select t.*,r.mach_name
+		from t_quartz_msg t
+		LEFT JOIN tb_machine r ON t.entity_id=r.mach_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="entity_id !=null and entity_id !=''">and t.entity_id=#{entity_id}</if>
+		<if test="rolename !=null and rolename !=''">and t.rolename=#{rolename}</if>
+		<if test="flag !=null and flag !=''">and t.flag=#{flag}</if>
+		<if test="msg !=null and msg !=''">and t.msg=#{msg}</if>
+		<if test="msg_time !=null and msg_time !=''">and t.msg_time=#{msg_time}</if>
+		<if test="rdstate !=null and rdstate !=''">and t.rdstate=#{rdstate}</if>
+		<if test="cancel !=null and cancel !=''">and t.cancel=#{cancel}</if>
+		ORDER by t.rdstate DESC,t.id ASC
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.quartz.CheckQuartz" resultType="java.lang.Integer">
+		select count(*)
+		from t_quartz_msg t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="entity_id !=null and entity_id !=''">and t.entity_id=#{entity_id}</if>
+		<if test="rolename !=null and rolename !=''">and t.rolename=#{rolename}</if>
+		<if test="flag !=null and flag !=''">and t.flag=#{flag}</if>
+		<if test="msg !=null and msg !=''">and t.msg=#{msg}</if>
+		<if test="msg_time !=null and msg_time !=''">and t.msg_time=#{msg_time}</if>
+		<if test="rdstate !=null and rdstate !=''">and t.rdstate=#{rdstate}</if>
+		<if test="cancel !=null and cancel !=''">and t.cancel=#{cancel}</if>
+	</select>
+</mapper>

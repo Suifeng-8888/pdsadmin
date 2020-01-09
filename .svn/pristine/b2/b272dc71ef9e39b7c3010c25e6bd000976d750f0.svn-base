@@ -1,0 +1,17 @@
+package com.hniois.service.search.impl;
+
+import com.hniois.common.service.ServiceSupport;
+import com.hniois.dao.search.SearchDao;
+import com.hniois.entity.search.Search;
+import com.hniois.service.search.SearchManage;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+@Service("searchService")
+public class SearchService extends ServiceSupport<Search,SearchDao> implements SearchManage {
+    @Resource(name="SearchDaoImpl")
+    @Override
+    public void setDao(SearchDao dao) {
+        this.dao = dao;
+    }
+}

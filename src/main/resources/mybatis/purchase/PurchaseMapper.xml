@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PurchaseMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.purchase.Purchase"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_purchase_record(id
+		<if test="pro_id!='' and pro_id!=null">,pro_id</if>
+		<if test="pro_name!='' and pro_name!=null">,pro_name</if>
+		<if test="pur_num!='' and pur_num!=null">,pur_num</if>
+		<if test="pur_batch!='' and pur_batch!=null">,pur_batch</if>
+		<if test="supply_id!='' and supply_id!=null">,supply_id</if>
+		<if test="supply_name!='' and supply_name!=null">,supply_name</if>
+		<if test="buyer!='' and buyer!=null">,buyer</if>
+		<if test="price!='' and price!=null">,price</if>
+		)
+		VALUES (id
+		<if test="pro_id!='' and pro_id!=null">,#{pro_id}</if>
+		<if test="pro_name!='' and pro_name!=null">,#{pro_name}</if>
+		<if test="pur_num!='' and pur_num!=null">,#{pur_num}</if>
+		<if test="pur_batch!='' and pur_batch!=null">,#{pur_batch}</if>
+		<if test="supply_id!='' and supply_id!=null">,#{supply_id}</if>
+		<if test="supply_name!='' and supply_name!=null">,#{supply_name}</if>
+		<if test="buyer!='' and buyer!=null">,#{buyer}</if>
+		<if test="price!='' and price!=null">,#{price}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.purchase.Purchase">
+		insert into t_purchase_record
+		(pro_id,pro_name,pur_num,pur_batch,supply_id,supply_name,buyer,price)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.pro_id},
+			#{e.pro_name},
+			#{e.pur_num},
+			#{e.pur_batch},
+			#{e.supply_id},
+			#{e.supply_name},
+			#{e.buyer},
+			#{e.price}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.purchase.Purchase">
+		update t_purchase_record
+		<set>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pur_num !=null and pur_num !=''">pur_num=#{pur_num},</if>
+			<if test="pur_batch !=null and pur_batch !=''">pur_batch=#{pur_batch},</if>
+			<if test="supply_id !=null and supply_id !=''">supply_id=#{supply_id},</if>
+			<if test="supply_name !=null and supply_name !=''">supply_name=#{supply_name},</if>
+			<if test="buyer !=null and buyer !=''">buyer=#{buyer},</if>
+			<if test="price !=null and price !=''">price=#{price},</if>
+			<if test="record !=null and record !=''">record=#{record},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.purchase.Purchase">
+		update t_purchase_record
+		<set>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pur_num !=null and pur_num !=''">pur_num=#{pur_num},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pur_batch !=null and pur_batch !=''">pur_batch=#{pur_batch},</if>
+			<if test="supply_id !=null and supply_id !=''">supply_id=#{supply_id},</if>
+			<if test="supply_name !=null and supply_name !=''">supply_name=#{supply_name},</if>
+			<if test="buyer !=null and buyer !=''">buyer=#{buyer},</if>
+			<if test="price !=null and price !=''">price=#{price},</if>
+			<if test="record !=null and record !=''">record=#{record},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.purchase.Purchase">
+		delete from t_purchase_record where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and pur_num=#{pur_num}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and pur_batch=#{pur_batch}</if>
+		<if test="supply_id !=null and supply_id !=''">and supply_id=#{supply_id}</if>
+		<if test="supply_name !=null and supply_name !=''">and supply_name=#{supply_name}</if>
+		<if test="buyer !=null and buyer !=''">and buyer=#{buyer}</if>
+		<if test="price !=null and price !=''">and price=#{price}</if>
+		<if test="record !=null and record !=''">and record=#{record}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from t_purchase_record
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.purchase.Purchase" resultType="com.hniois.entity.purchase.Purchase">
+		select t.*,s.name,s.address
+		from t_purchase_record t
+		LEFT JOIN t_supplier s ON t.supply_id=s.id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="supply_id !=null and supply_id !=''">and t.supply_id=#{supply_id}</if>
+		<if test="supply_name !=null and supply_name !=''">and t.supply_name=#{supply_name}</if>
+		<if test="buyer !=null and buyer !=''">and t.buyer=#{buyer}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="record !=null and record !=''">and t.record=#{record}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.purchase.Purchase" resultType="com.hniois.entity.purchase.Purchase">
+		select t.*,s.name,s.address
+		from t_purchase_record t
+		LEFT JOIN t_supplier s ON t.supply_id=s.id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="supply_id !=null and supply_id !=''">and t.supply_id=#{supply_id}</if>
+		<if test="supply_name !=null and supply_name !=''">and t.supply_name=#{supply_name}</if>
+		<if test="buyer !=null and buyer !=''">and t.buyer=#{buyer}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="record !=null and record !=''">and t.record=#{record}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.purchase.Purchase" resultType="java.lang.Integer">
+		select count(*)
+		from t_purchase_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="supply_id !=null and supply_id !=''">and t.supply_id=#{supply_id}</if>
+		<if test="supply_name !=null and supply_name !=''">and t.supply_name=#{supply_name}</if>
+		<if test="buyer !=null and buyer !=''">and t.buyer=#{buyer}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="record !=null and record !=''">and t.record=#{record}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.purchase.Purchase" resultType="com.hniois.entity.purchase.Purchase">
+		select t.id,t.pro_id,t.pro_name,t.pur_num,t.pur_batch,t.supply_id,t.supply_name,t.buyer,t.price,CASE t.record WHEN "0" THEN "已备案" WHEN "1" THEN
+		"未备案" END AS record,s.address
+		from t_purchase_record t
+		LEFT JOIN t_supplier s ON t.supply_id=s.id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="supply_id !=null and supply_id !=''">and t.supply_id=#{supply_id}</if>
+		<if test="supply_name !=null and supply_name !=''">and t.supply_name=#{supply_name}</if>
+		<if test="buyer !=null and buyer !=''">and t.buyer=#{buyer}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="record !=null and record !=''">and t.record=#{record}</if>
+		ORDER BY t.record DESC ,t.id ASC
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.purchase.Purchase" resultType="java.lang.Integer">
+		select count(*)
+		from t_purchase_record t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="supply_id !=null and supply_id !=''">and t.supply_id=#{supply_id}</if>
+		<if test="supply_name !=null and supply_name !=''">and t.supply_name=#{supply_name}</if>
+		<if test="buyer !=null and buyer !=''">and t.buyer=#{buyer}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="record !=null and record !=''">and t.record=#{record}</if>
+	</select>
+
+	<!--查询备案的商品-->
+	<select id="sendRecord" parameterType="java.util.ArrayList" resultType="com.hniois.entity.purchase.Purchase">
+		SELECT * from t_purchase_record
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

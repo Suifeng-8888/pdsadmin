@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CateMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.cate.Cate"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_item_cate(
+		<if test="typeid!='' and typeid!=null">typeid</if>
+		<if test="parentid!='' and parentid!=null">,parentid</if>
+		<if test="typename!='' and typename!=null">,typename</if>
+		<if test="isParent!='' and isParent!=null">,isParent</if>
+		<if test="createTime!='' and createTime!=null">,createTime</if>
+		<if test="updateTime!='' and updateTime!=null">,updateTime</if>
+		)
+		VALUES (
+		<if test="typeid!='' and typeid!=null">#{typeid}</if>
+		<if test="parentid!='' and parentid!=null">,#{parentid}</if>
+		<if test="typename!='' and typename!=null">,#{typename}</if>
+		<if test="isParent!='' and isParent!=null">,#{isParent}</if>
+		<if test="createTime!='' and createTime!=null">,#{createTime}</if>
+		<if test="updateTime!='' and updateTime!=null">,#{updateTime}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.cate.Cate">
+		insert into tb_item_cate
+		(typeid,parentid,typename,isParent,createTime,updateTime)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.typeid},
+			#{e.parentid},
+			#{e.typename},
+			#{e.isParent},
+			#{e.createTime},
+			#{e.updateTime}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.cate.Cate">
+		update tb_item_cate
+		<set>
+			<if test="typeid !=null and typeid !=''">typeid=#{typeid},</if>
+			<if test="parentid !=null and parentid !=''">parentid=#{parentid},</if>
+			<if test="typename !=null and typename !=''">typename=#{typename},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="isParent !=null and isParent !=''">isParent=#{isParent},</if>
+			<if test="createTime !=null and createTime !=''">createTime=#{createTime},</if>
+			<if test="updateTime !=null and updateTime !=''">updateTime=#{updateTime},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.cate.Cate">
+		update tb_item_cate
+		<set>
+			<if test="typeid !=null and typeid !=''">typeid=#{typeid},</if>
+			<if test="parentid !=null and parentid !=''">parentid=#{parentid},</if>
+			<if test="typename !=null and typename !=''">typename=#{typename},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="isParent !=null and isParent !=''">isParent=#{isParent},</if>
+			<if test="createTime !=null and createTime !=''">createTime=#{createTime},</if>
+			<if test="updateTime !=null and updateTime !=''">updateTime=#{updateTime},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.cate.Cate">
+		delete from tb_item_cate where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="parentid !=null and parentid !=''">and parentid=#{parentid}</if>
+		<if test="typename !=null and typename !=''">and typename=#{typename}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="isParent !=null and isParent !=''">and isParent=#{isParent}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		<if test="updateTime !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_item_cate
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.cate.Cate" resultType="com.hniois.entity.cate.Cate">
+		select t.*
+		from tb_item_cate t
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="parentid !=null and parentid !=''">and parentid=#{parentid}</if>
+		<if test="typename !=null and typename !=''">and typename=#{typename}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="isParent !=null and isParent !=''">and isParent=#{isParent}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		<if test="updateTime !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.cate.Cate" resultType="com.hniois.entity.cate.Cate">
+		select t.*
+		from tb_item_cate t
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="parentid !=null and parentid !=''">and parentid=#{parentid}</if>
+		<if test="typename !=null and typename !=''">and typename=#{typename}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="isParent !=null and isParent !=''">and isParent=#{isParent}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		<if test="updateTime !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.cate.Cate" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item_cate
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="parentid !=null and parentid !=''">and parentid=#{parentid}</if>
+		<if test="typename !=null and typename !=''">and typename=#{typename}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="isParent !=null and isParent !=''">and isParent=#{isParent}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		<if test="updateTime !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.cate.Cate" resultType="com.hniois.entity.cate.Cate">
+		select t.*
+		from tb_item_cate t
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="parentid !=null and parentid !=''">and parentid=#{parentid}</if>
+		<if test="typename !=null and typename !=''">and typename=#{typename}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="isParent !=null and isParent !=''">and isParent=#{isParent}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		<if test="updateTime !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.cate.Cate" resultType="java.lang.Integer">
+		select count(*)
+		from tb_item_cate t
+		where 1=1
+        <if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="typeid !=null and typeid !=''">and typeid=#{typeid}</if>
+		<if test="parentid !=null and parentid !=''">and parentid=#{parentid}</if>
+		<if test="typename !=null and typename !=''">and typename=#{typename}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="isParent !=null and isParent !=''">and isParent=#{isParent}</if>
+		<if test="createTime !=null and createTime !=''">and createTime=#{createTime}</if>
+		<if test="updateTime !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+	</select>
+</mapper>

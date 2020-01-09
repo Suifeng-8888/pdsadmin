@@ -1,0 +1,35 @@
+package com.hniois.service.purchase.buy;
+
+import com.hniois.common.service.Service;
+import com.hniois.entity.machine.Apply;
+import com.hniois.entity.purchase.Purchase;
+
+import java.util.List;
+
+public interface PurchaseManage extends Service<Purchase> {
+
+    /**
+     * 去询价
+     * @param e
+     * @return
+     */
+    Boolean saveAsk(Purchase e);
+
+    /**
+     * 采购备案接口,获取要备案的采购信息
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    List<Purchase> sendRecord(Purchase e) throws Exception;
+
+    /**
+     * 去备案
+     */
+
+    /**
+     * 去财务备案
+     */
+
+    Boolean goRecord( List<Purchase> list);
+}

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TdataMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.TraceData"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_data(
+		<if test="fill_time!='' and fill_time!=null">fill_time</if>
+		<if test="mat_type!='' and mat_type!=null">,mat_type</if>
+		<if test="attach_id!='' and attach_id!=null">,attach_id</if>
+		<if test="page_id!='' and page_id!=null">,page_id</if>
+		<if test="batch_id!='' and batch_id!=null">,batch_id</if>
+		<if test="bz!='' and bz!=null">,bz</if>
+		)
+		VALUES (
+		<if test="fill_time!='' and fill_time!=null">#{fill_time}</if>
+		<if test="mat_type!='' and mat_type!=null">,#{mat_type}</if>
+		<if test="attach_id!='' and attach_id!=null">,#{attach_id}</if>
+		<if test="page_id!='' and page_id!=null">,#{page_id}</if>
+		<if test="batch_id!='' and batch_id!=null">,#{batch_id}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.TraceData">
+		insert into trace_data
+		(fill_time,mat_type,mat_type,attach_id,page_id,batch_id,bz)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.fill_time},
+			#{e.mat_type},
+			#{e.attach_id},
+			#{e.page_id},
+			#{e.batch_id},
+			#{e.bz}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.TraceData">
+		update trace_data
+		<set>
+			<if test="dat_id !=null and dat_id !=''">dat_id=#{dat_id},</if>
+			<if test="fill_time !=null and fill_time !=''">fill_time=#{fill_time},</if>
+			<if test="mat_type !=null and mat_type !=''">mat_type=#{mat_type},</if>
+			<if test="attach_id !=null and attach_id !=''">attach_id=#{attach_id},</if>
+			<if test="page_id !=null and page_id !=''">page_id=#{page_id},</if>
+			<if test="batch_id !=null and batch_id !=''">batch_id=#{batch_id},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+		</set>
+		where dat_id=#{dat_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.TraceData">
+		update trace_data
+		<set>
+			<if test="dat_id !=null and dat_id !=''">dat_id=#{dat_id},</if>
+			<if test="fill_time !=null and fill_time !=''">fill_time=#{fill_time},</if>
+			<if test="mat_type !=null and mat_type !=''">mat_type=#{mat_type},</if>
+			<if test="attach_id !=null and attach_id !=''">attach_id=#{attach_id},</if>
+			<if test="page_id !=null and page_id !=''">page_id=#{page_id},</if>
+			<if test="batch_id !=null and batch_id !=''">batch_id=#{batch_id},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+		</set>
+		where dat_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.TraceData">
+		delete from trace_data
+		where 1=1
+		<if test="dat_id !=null and dat_id !=''">and dat_id=#{dat_id}</if>
+		<if test="fill_time !=null and fill_time !=''">and fill_time=#{fill_time}</if>
+		<if test="mat_type !=null and mat_type !=''">and mat_type=#{mat_type}</if>
+		<if test="attach_id !=null and attach_id !=''">and attach_id=#{attach_id}</if>
+		<if test="page_id !=null and page_id !=''">and page_id=#{page_id}</if>
+		<if test="batch_id !=null and batch_id !=''">and batch_id=#{batch_id}</if>
+		<if test="bz !=null and bz !=''">and bz=#{bz}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_data
+		where dat_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.TraceData" resultType="com.hniois.trace.entity.TraceData">
+		select t.*
+		from trace_data t
+		where 1=1
+		<if test="dat_id !=null and dat_id !=''">and t.dat_id=#{dat_id}</if>
+		<if test="fill_time !=null and fill_time !=''">and t.fill_time=#{fill_time}</if>
+		<if test="mat_type !=null and mat_type !=''">and t.mat_type=#{mat_type}</if>
+		<if test="attach_id !=null and attach_id !=''">and t.attach_id=#{attach_id}</if>
+		<if test="page_id !=null and page_id !=''">and t.page_id=#{page_id}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.TraceData" resultType="com.hniois.trace.entity.TraceData">
+		select t.*
+		from trace_data t
+		where 1=1
+		<if test="dat_id !=null and dat_id !=''">and t.dat_id=#{dat_id}</if>
+		<if test="fill_time !=null and fill_time !=''">and t.fill_time=#{fill_time}</if>
+		<if test="mat_type !=null and mat_type !=''">and t.mat_type=#{mat_type}</if>
+		<if test="attach_id !=null and attach_id !=''">and t.attach_id=#{attach_id}</if>
+		<if test="page_id !=null and page_id !=''">and t.page_id=#{page_id}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.TraceData" resultType="java.lang.Integer">
+		select count(*)
+		from trace_data t
+		where 1=1
+		<if test="dat_id !=null and dat_id !=''">and t.dat_id=#{dat_id}</if>
+		<if test="fill_time !=null and fill_time !=''">and t.fill_time=#{fill_time}</if>
+		<if test="mat_type !=null and mat_type !=''">and t.mat_type=#{mat_type}</if>
+		<if test="attach_id !=null and attach_id !=''">and t.attach_id=#{attach_id}</if>
+		<if test="page_id !=null and page_id !=''">and t.page_id=#{page_id}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.TraceData" resultType="com.hniois.trace.entity.TraceData">
+		select t.*
+		from trace_data t
+		where 1=1
+		<if test="dat_id !=null and dat_id !=''">and t.dat_id=#{dat_id}</if>
+		<if test="fill_time !=null and fill_time !=''">and t.fill_time=#{fill_time}</if>
+		<if test="mat_type !=null and mat_type !=''">and t.mat_type=#{mat_type}</if>
+		<if test="attach_id !=null and attach_id !=''">and t.attach_id=#{attach_id}</if>
+		<if test="page_id !=null and page_id !=''">
+			and instr(CONCAT(",",#{page_id},","),CONCAT(",",t.page_id,","))>0
+		</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.TraceData" resultType="java.lang.Integer">
+		select count(*)
+		from trace_data t
+		where 1=1
+		<if test="dat_id !=null and dat_id !=''">and t.dat_id=#{dat_id}</if>
+		<if test="fill_time !=null and fill_time !=''">and t.fill_time=#{fill_time}</if>
+		<if test="mat_type !=null and mat_type !=''">and t.mat_type=#{mat_type}</if>
+		<if test="attach_id !=null and attach_id !=''">and t.attach_id=#{attach_id}</if>
+		<if test="page_id !=null and page_id !=''">and t.page_id=#{page_id}</if>
+		<if test="batch_id !=null and batch_id !=''">and t.batch_id=#{batch_id}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+</mapper>

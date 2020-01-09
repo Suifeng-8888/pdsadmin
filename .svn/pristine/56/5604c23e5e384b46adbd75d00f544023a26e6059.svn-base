@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PurApproveMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.purchase.PurApprove"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_purchase_approve(id
+		<if test="pro_id!='' and pro_id!=null">,pro_id</if>
+		<if test="pro_name!='' and pro_name!=null">,pro_name</if>
+		<if test="pur_num!='' and pur_num!=null">,pur_num</if>
+		<if test="applyer!='' and applyer!=null">,applyer</if>
+		<if test="apply_time!='' and apply_time!=null">,apply_time</if>
+		<if test="approver!='' and approver!=null">,approver</if>
+		<if test="approve_time!='' and approve_time!=null">,approve_time</if>
+		<if test="pur_batch!='' and pur_batch!=null">,pur_batch</if>
+		<if test="purchaser!='' and purchaser!=null">,purchaser</if>
+		<if test="bz!='' and bz!=null">,bz</if>
+		)
+		VALUES (id
+		<if test="pro_id!='' and pro_id!=null">,#{pro_id}</if>
+		<if test="pro_name!='' and pro_name!=null">,#{pro_name}</if>
+		<if test="pur_num!='' and pur_num!=null">,#{pur_num}</if>
+		<if test="applyer!='' and applyer!=null">,#{applyer}</if>
+		<if test="apply_time!='' and apply_time!=null">,#{apply_time}</if>
+		<if test="approver!='' and approver!=null">,#{approver}</if>
+		<if test="approve_time!='' and approve_time!=null">,#{approve_time}</if>
+		<if test="pur_batch!='' and pur_batch!=null">,#{pur_batch}</if>
+		<if test="purchaser!='' and purchaser!=null">,#{purchaser}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.purchase.PurApprove">
+		insert into t_purchase_approve
+		(pro_id,pro_name,pur_num,applyer,apply_time,approver,approve_time,pur_batch,purchaser,bz)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.pro_id},
+			#{e.pro_name},
+			#{e.pur_num},
+			#{e.applyer},
+			#{e.apply_time},
+			#{e.approver},
+			#{e.approve_time},
+			#{e.pur_batch},
+			#{e.purchaser},
+			#{e.bz}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.purchase.PurApprove">
+		update t_purchase_approve
+		<set>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pur_num !=null and pur_num !=''">pur_num=#{pur_num},</if>
+			<if test="applyer !=null and applyer !=''">applyer=#{applyer},</if>
+			<if test="apply_time !=null and apply_time !=''">apply_time=#{apply_time},</if>
+			<if test="approver !=null and approver !=''">approver=#{approver},</if>
+			<if test="approve_time !=null and approve_time !=''">approve_time=#{approve_time},</if>
+			<if test="pur_batch !=null and pur_batch !=''">pur_batch=#{pur_batch},</if>
+			<if test="purchaser !=null and purchaser !=''">purchaser=#{purchaser},</if>
+			<if test="state !=null and state !=''">state=#{state},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.purchase.PurApprove">
+		update t_purchase_approve
+		<set>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pur_num !=null and pur_num !=''">pur_num=#{pur_num},</if>
+			<if test="applyer !=null and applyer !=''">applyer=#{applyer},</if>
+			<if test="apply_time !=null and apply_time !=''">apply_time=#{apply_time},</if>
+			<if test="approver !=null and approver !=''">approver=#{approver},</if>
+			<if test="approve_time !=null and approve_time !=''">approve_time=#{approve_time},</if>
+			<if test="pur_batch !=null and pur_batch !=''">pur_batch=#{pur_batch},</if>
+			<if test="purchaser !=null and purchaser !=''">purchaser=#{purchaser},</if>
+			<if test="state !=null and state !=''">state=#{state},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.purchase.PurApprove">
+		delete from t_purchase_approve where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+		<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+		<if test="pur_num !=null and pur_num !=''">pur_num=#{pur_num},</if>
+		<if test="applyer !=null and applyer !=''">applyer=#{applyer},</if>
+		<if test="apply_time !=null and apply_time !=''">apply_time=#{apply_time},</if>
+		<if test="approver !=null and approver !=''">approver=#{approver},</if>
+		<if test="approve_time !=null and approve_time !=''">approve_time=#{approve_time},</if>
+		<if test="pur_batch !=null and pur_batch !=''">pur_batch=#{pur_batch},</if>
+		<if test="purchaser !=null and purchaser !=''">purchaser=#{purchaser},</if>
+		<if test="state !=null and state !=''">state=#{state},</if>
+		<if test="bz !=null and bz !=''">bz=#{bz},</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from t_purchase_approve
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.purchase.PurApprove" resultType="com.hniois.entity.purchase.PurApprove">
+		select t.*
+		from t_purchase_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="purchaser !=null and purchaser !=''">and t.purchaser=#{purchaser}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.purchase.PurApprove" resultType="com.hniois.entity.purchase.PurApprove">
+		select t.*
+		from t_purchase_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="purchaser !=null and purchaser !=''">and t.purchaser=#{purchaser}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.purchase.PurApprove" resultType="java.lang.Integer">
+		select count(*)
+		from t_purchase_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="purchaser !=null and purchaser !=''">and t.purchaser=#{purchaser}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.purchase.PurApprove" resultType="com.hniois.entity.purchase.PurApprove">
+		select t.*
+		from t_purchase_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="purchaser !=null and purchaser !=''">and t.purchaser=#{purchaser}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		order by t.state DESC ,t.id ASC
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.purchase.PurApprove" resultType="java.lang.Integer">
+		select count(*)
+		from t_purchase_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pur_num !=null and pur_num !=''">and t.pur_num=#{pur_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+		<if test="pur_batch !=null and pur_batch !=''">and t.pur_batch=#{pur_batch}</if>
+		<if test="purchaser !=null and purchaser !=''">and t.purchaser=#{purchaser}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!--根据id批量查询对象的购买商品信息-->
+	<select id="findListById" parameterType="com.hniois.entity.purchase.PurApprove" resultType="com.hniois.entity.purchase.PurApprove">
+		select t.*
+		from t_purchase_approve t
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

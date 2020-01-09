@@ -1,0 +1,17 @@
+package com.hniois.dao.item;
+
+import com.hniois.common.dao.Dao;
+import com.hniois.entity.item.Item;
+
+import java.util.List;
+
+public interface ItemDao extends Dao<Item> {
+
+    /**
+     * 送检样品接口
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    public List<Item> sendCheck(Item e) throws Exception;
+}

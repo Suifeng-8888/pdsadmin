@@ -1,0 +1,73 @@
+package com.hniois.controller.task;
+
+import com.hniois.entity.item.Item;
+import com.hniois.service.item.ItemManage;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
+
+@EnableScheduling
+@Component
+public class JfreeChartTask {
+
+    @Resource(name = "itemService")
+    private ItemManage itemService;
+
+    //@Scheduled(cron = "* 0/1 * * * ?")
+    /*public void test1()throws Exception{
+
+        System.out.println("开始********************************一次");
+        //创建数据集合
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        List<Item> list = itemService.findList(new Item());
+        //获取检测样品名和检测的次数
+        for(Item it:list){
+            dataset.addValue(Integer.parseInt(it.getNum()),"平顶山农检所",it.getItemname());
+        }
+        *//*
+         * 解决字体乱码（在创建图表之前设定）
+         *//*
+        StandardChartTheme standardChartTheme = new StandardChartTheme("CN");
+        standardChartTheme.setExtraLargeFont(new Font("隶书", Font.BOLD, 20));
+        standardChartTheme.setRegularFont(new Font("宋书", Font.PLAIN, 15));
+        standardChartTheme.setLargeFont(new Font("宋书", Font.PLAIN, 15));
+        ChartFactory.setChartTheme(standardChartTheme);
+
+        //调用工厂方法生成柱状图
+        JFreeChart chart= ChartFactory.createBarChart("检测样品数量统计", "样品名","样品数量",dataset,
+                PlotOrientation.VERTICAL,// 图表方向：水平、垂直
+                true,// 是否显示图例(对于简单的柱状图必须是false)
+                true,// 是否生成工具
+                false // 是否生成URL链接
+        );
+        //从这里开始
+       *//* CategoryPlot plot=chart.getCategoryPlot();//获取图表区域对象
+        ValueAxis rangeAxis=plot.getRangeAxis();//获取柱状
+
+        rangeAxis.setLabelFont(new Font("黑体",Font.BOLD,15));
+        chart.getLegend().setItemFont(new Font("黑体", Font.BOLD, 15));
+        chart.getTitle().setFont(new Font("宋体",Font.BOLD,20));//设置标题字体*//*
+        //到这里结束，虽然代码有点多，但只为一个目的，解决汉字乱码问题
+
+
+        //确定图片输出位置及名称
+        FileOutputStream out=new FileOutputStream(new File("d:\\bar1.jpg"));
+        //使用chartUtil工具类输出
+        ChartUtils.writeChartAsJPEG(out,chart,700,500);
+        System.out.println("结束********************************一次");
+    }*/
+}

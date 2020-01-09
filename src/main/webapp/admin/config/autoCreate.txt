@@ -1,0 +1,40 @@
+<系统开发工具使用说明指南V1.0>
+----------------------------------------------------------------------------------------------
+代码一键生成工具
+http://localhost:8080/demo/doCreate.do?tableName=t_temp&demo=temp&demoName=模板
+http://localhost:8080/demo/doCreate.do?tableName=t_temp_filed&demo=tempFiled&demoName=模板明细
+
+描述
+    V1.0 单表逆向一件生成 Mapper Bean Dao Service Action
+
+参数说明
+tableName   表名称
+demo        模版KEY         aaa
+demoName    模版名称        测试123
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+导出Excel 通用版(无模版方式,模版导出需单独重写)
+1.demo_list 页面添加 按钮
+    <c:if test="${fn:contains(QX,'demo/export')}">
+        <a id="hniois-export" onclick="doExport('demo/doExport')" class="layui-btn layui-btn-sm layui-bg-orange" href="javascript:;" >
+            <i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i> 导出</a>
+    </c:if>
+2.DemoAction 添加导出方法
+    /**
+     * 导出
+     * @param e 信息
+     * @return json
+     * */
+    @RequestMapping(value="/doExport")
+    @ResponseBody
+    public void doExport(Demo e) throws Exception {
+        //导出工具
+        ExportExcelUtil<Demo> export = new ExportExcelUtil<Demo>();
+        //文件名称
+        String filename = "DemoList" + DateUtil.getTimes();
+        //导出数据信息
+        List list = demoService.findPage(e).getData();
+        //执行导出
+        doExport(filename,list,export);
+    }
+----------------------------------------------------------------------------------------------

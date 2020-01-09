@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MachineMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.machine.Machine"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_machine(
+		<if test="mach_id!='' and mach_id!=null">mach_id</if>
+		<if test="model!='' and model!=null">,model</if>
+		<if test="factory!='' and factory!=null">,factory</if>
+		<if test="out_num!='' and out_num!=null">,out_num</if>
+		<if test="attach!='' and attach!=null">,attach</if>
+		<if test="mach_name!='' and mach_name!=null">,mach_name</if>
+		<if test="for_use!='' and for_use!=null">,for_use</if>
+		<if test="arrive_time!='' and arrive_time!=null">,arrive_time</if>
+		<if test="use_time!='' and use_time!=null">,use_time</if>
+		<if test="address!='' and address!=null">,address</if>
+		<if test="situation!='' and situation!=null">,situation</if>
+		<if test="person!='' and person!=null">,person</if>
+		<if test="bz!='' and bz!=null">,bz</if>
+		)
+		VALUES (
+		<if test="mach_id!='' and mach_id!=null">#{mach_id}</if>
+		<if test="model!='' and model!=null">,#{model}</if>
+		<if test="factory!='' and factory!=null">,#{factory}</if>
+		<if test="out_num!='' and out_num!=null">,#{out_num}</if>
+		<if test="attach!='' and attach!=null">,#{attach}</if>
+		<if test="mach_name!='' and mach_name!=null">,#{mach_name}</if>
+		<if test="for_use!='' and for_use!=null">,#{for_use}</if>
+		<if test="arrive_time!='' and arrive_time!=null">,#{arrive_time}</if>
+		<if test="use_time!='' and use_time!=null">,#{use_time}</if>
+		<if test="address!='' and address!=null">,#{address}</if>
+		<if test="situation!='' and situation!=null">,#{situation}</if>
+		<if test="person!='' and person!=null">,#{person}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.machine.Machine">
+		insert into tb_machine
+		(mach_id,model,factory,out_num,attach,mach_name,for_use,arrive_time,use_time,address,situation,person,bz)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.mach_id},
+			#{e.model},
+			#{e.factory},
+			#{e.out_num},
+			#{e.attach},
+			#{e.mach_name},
+			#{e.for_use},
+			#{e.arrive_time},
+			#{e.use_time},
+			#{e.address},
+			#{e.situation},
+			#{e.person},
+			#{e.bz}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.machine.Machine">
+		update tb_machine
+		<set>
+			<if test="mach_id !=null and mach_id !=''">mach_id=#{mach_id},</if>
+			<if test="model !=null and model !=''">model=#{model},</if>
+			<if test="factory !=null and factory !=''">factory=#{factory},</if>
+			<if test="out_num !=null and out_num !=''">out_num=#{out_num},</if>
+			<if test="attach !=null and attach !=''">attach=#{attach},</if>
+			<if test="mach_name !=null and mach_name !=''">mach_name=#{mach_name},</if>
+			<if test="for_use !=null and for_use !=''">for_use=#{for_use},</if>
+			<if test="arrive_time !=null and arrive_time !=''">arrive_time=#{arrive_time},</if>
+			<if test="use_time !=null and use_time !=''">use_time=#{use_time},</if>
+			<if test="address !=null and address !=''">address=#{address},</if>
+			<if test="situation !=null and situation !=''">situation=#{situation},</if>
+			<if test="person !=null and person !=''">person=#{person},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz}</if>
+		</set>
+		where mach_id=#{mach_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.machine.Machine">
+		update tb_machine
+		<set>
+			<if test="model !=null and model !=''">model=#{model},</if>
+			<if test="factory !=null and factory !=''">factory=#{factory},</if>
+			<if test="out_num !=null and out_num !=''">out_num=#{out_num},</if>
+			<if test="attach !=null and attach !=''">attach=#{attach},</if>
+			<if test="mach_name !=null and mach_name !=''">mach_name=#{mach_name},</if>
+			<if test="for_use !=null and for_use !=''">for_use=#{for_use},</if>
+			<if test="arrive_time !=null and arrive_time !=''">arrive_time=#{arrive_time},</if>
+			<if test="use_time !=null and use_time !=''">use_time=#{use_time},</if>
+			<if test="address !=null and address !=''">address=#{address},</if>
+			<if test="situation !=null and situation !=''">situation=#{situation},</if>
+			<if test="person !=null and person !=''">person=#{person},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz}</if>
+		</set>
+		where mach_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.machine.Machine">
+		delete from tb_machine where 1=1
+		<if test="mach_id !=null and mach_id !=''">and mach_id=#{mach_id}</if>
+		<if test="model !=null and model !=''">and model=#{model}</if>
+		<if test="factory !=null and factory !=''">and factory=#{factory}</if>
+		<if test="out_num !=null and out_num !=''">and out_num=#{out_num}</if>
+		<if test="attach !=null and attach !=''">and attach=#{attach}</if>
+		<if test="mach_name !=null and mach_name !=''">and mach_name=#{mach_name}</if>
+		<if test="for_use !=null and for_use !=''">and for_use=#{for_use}</if>
+		<if test="arrive_time !=null and arrive_time !=''">and arrive_time=#{arrive_time}</if>
+		<if test="use_time !=null and use_time !=''">and use_time=#{use_time}</if>
+		<if test="address !=null and address !=''">and address=#{address}</if>
+		<if test="situation !=null and situation !=''">and situation=#{situation}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="bz !=null and bz !=''">and bz=#{bz}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_machine
+		where mach_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.machine.Machine" resultType="com.hniois.entity.machine.Machine">
+		select t.*
+		from tb_machine t
+		where 1=1
+		<if test="mach_id !=null and mach_id !=''">and mach_id=#{mach_id}</if>
+		<if test="model !=null and model !=''">and model=#{model}</if>
+		<if test="factory !=null and factory !=''">and factory=#{factory}</if>
+		<if test="out_num !=null and out_num !=''">and out_num=#{out_num}</if>
+		<if test="attach !=null and attach !=''">and attach=#{attach}</if>
+		<if test="mach_name !=null and mach_name !=''">and mach_name=#{mach_name}</if>
+		<if test="for_use !=null and for_use !=''">and for_use=#{for_use}</if>
+		<if test="arrive_time !=null and arrive_time !=''">and arrive_time=#{arrive_time}</if>
+		<if test="use_time !=null and use_time !=''">and use_time=#{use_time}</if>
+		<if test="address !=null and address !=''">and address=#{address}</if>
+		<if test="situation !=null and situation !=''">and situation=#{situation}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="bz !=null and bz !=''">and bz=#{bz}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.machine.Machine" resultType="com.hniois.entity.machine.Machine">
+		select t.*
+		from tb_machine t
+		where 1=1
+		<if test="mach_id !=null and mach_id !=''">and t.mach_id=#{mach_id}</if>
+		<if test="model !=null and model !=''">and t.model=#{model}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="out_num !=null and out_num !=''">and t.out_num=#{out_num}</if>
+		<if test="attach !=null and attach !=''">and t.attach=#{attach}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="arrive_time !=null and arrive_time !=''">and t.arrive_time=#{arrive_time}</if>
+		<if test="use_time !=null and use_time !=''">and t.use_time=#{use_time}</if>
+		<if test="address !=null and address !=''">and t.address=#{address}</if>
+		<if test="situation !=null and situation !=''">and t.situation=#{situation}</if>
+		<if test="person !=null and person !=''">and t.person=#{person}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.machine.Machine" resultType="java.lang.Integer">
+		select count(*)
+		from tb_machine t
+		where 1=1
+		<if test="mach_id !=null and mach_id !=''">and t.mach_id=#{mach_id}</if>
+		<if test="model !=null and model !=''">and t.model=#{model}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="out_num !=null and out_num !=''">and t.out_num=#{out_num}</if>
+		<if test="attach !=null and attach !=''">and t.attach=#{attach}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="arrive_time !=null and arrive_time !=''">and t.arrive_time=#{arrive_time}</if>
+		<if test="use_time !=null and use_time !=''">and t.use_time=#{use_time}</if>
+		<if test="address !=null and address !=''">and t.address=#{address}</if>
+		<if test="situation !=null and situation !=''">and t.situation=#{situation}</if>
+		<if test="person !=null and person !=''">and t.person=#{person}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.machine.Machine" resultType="com.hniois.entity.machine.Machine">
+		select
+		mach_id,model,factory,out_num,attach,mach_name,for_use,arrive_time,use_time,address,CASE situation  WHEN "0" THEN "在用" when "1" THEN "停用" WHEN "2" THEN "限用" end AS situation,person,bz
+		from tb_machine
+		where 1=1
+		<if test="mach_id !=null and mach_id !=''">and mach_id=#{mach_id}</if>
+		<if test="model !=null and model !=''">and model=#{model}</if>
+		<if test="factory !=null and factory !=''">and factory=#{factory}</if>
+		<if test="out_num !=null and out_num !=''">and out_num=#{out_num}</if>
+		<if test="attach !=null and attach !=''">and attach=#{attach}</if>
+		<if test="mach_name !=null and mach_name !=''">and mach_name=#{mach_name}</if>
+		<if test="for_use !=null and for_use !=''">and for_use=#{for_use}</if>
+		<if test="arrive_time !=null and arrive_time !=''">and arrive_time=#{arrive_time}</if>
+		<if test="use_time !=null and use_time !=''">and use_time=#{use_time}</if>
+		<if test="address !=null and address !=''">and address=#{address}</if>
+		<if test="situation !=null and situation !=''">and situation=#{situation}</if>
+		<if test="person !=null and person !=''">and person=#{person}</if>
+		<if test="bz !=null and bz !=''">and bz=#{bz}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.machine.Machine" resultType="java.lang.Integer">
+		select count(*)
+		from tb_machine t
+		where 1=1
+		<if test="mach_id !=null and mach_id !=''">and t.mach_id=#{mach_id}</if>
+		<if test="model !=null and model !=''">and t.model=#{model}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="out_num !=null and out_num !=''">and t.out_num=#{out_num}</if>
+		<if test="attach !=null and attach !=''">and t.attach=#{attach}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="for_use !=null and for_use !=''">and t.for_use=#{for_use}</if>
+		<if test="arrive_time !=null and arrive_time !=''">and t.arrive_time=#{arrive_time}</if>
+		<if test="use_time !=null and use_time !=''">and t.use_time=#{use_time}</if>
+		<if test="address !=null and address !=''">and t.address=#{address}</if>
+		<if test="situation !=null and situation !=''">and t.situation=#{situation}</if>
+		<if test="person !=null and person !=''">and t.person=#{person}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+	</select>
+</mapper>

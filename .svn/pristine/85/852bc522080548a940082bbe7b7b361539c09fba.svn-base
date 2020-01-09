@@ -1,0 +1,10 @@
+package com.hniois.controller.purchase;
+
+import com.hniois.controller.base.BaseController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/plan")
+public class PurApply extends BaseController {
+}

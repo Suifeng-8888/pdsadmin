@@ -1,0 +1,120 @@
+package com.hniois.entity.item;
+
+import com.hniois.common.page.Page;
+
+public class Item extends Page{
+    /**基础字段
+     *****************************************/
+    private String id; // 主键id
+    private String itemid;//样品编号
+    private String itemname;//样品名称
+    private String num;//样品数量
+    private String typeid;//样品所属种类
+    private String describe;//样品描述
+    private String sender;//送检单位
+    private String note;//注释
+    private String state;//是否禁用
+     private String checked;//是否已检测
+     private String send_time;//送样时间
+    /*****************************************/
+    private String typename;//分类名称
+
+    public String getItemid() {
+        return itemid;
+    }
+
+    public void setItemid(String itemid) {
+        this.itemid = itemid;
+    }
+
+    public String getItemname() {
+        return itemname;
+    }
+
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(String typeid) {
+        this.typeid = typeid;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
+
+    public String getSend_time() {
+        return send_time;
+    }
+
+    public void setSend_time(String send_time) {
+        this.send_time = send_time;
+    }
+
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+}

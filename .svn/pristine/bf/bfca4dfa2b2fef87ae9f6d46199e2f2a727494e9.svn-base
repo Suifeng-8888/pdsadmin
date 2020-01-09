@@ -1,0 +1,43 @@
+package com.hniois.controller.item;
+
+import com.alibaba.fastjson.JSON;
+import com.hniois.controller.base.BaseController;
+import com.hniois.entity.item.Item;
+import com.hniois.entity.item.SendCheck;
+import com.hniois.service.item.ItemManage;
+import com.hniois.service.item.SendManage;
+import net.sf.json.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Controller
+@RequestMapping("/send")
+public class SendCheckAction extends BaseController {
+
+    @Resource(name = "sendService")
+    private SendManage sendService;
+    @Resource(name = "itemService")
+    private ItemManage itemService;
+    /**
+     * 保存新增送检信息
+     * @param e
+     * @return
+     */
+    @RequestMapping("/add")
+    @ResponseBody
+    public String add(SendCheck e)throws Exception{
+        JSONObject obj=getMsg();
+
+        if (!sendService.sendCheck(e)){
+            setMsg(obj,"error","送检失败");
+        }
+        return obj.toString();
+    }
+
+}

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.system.User"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user(`id`
+		<if test="user_id!='' and user_id!=null">,user_id</if>
+		<if test="username!='' and username!=null">,username</if>
+		<if test="password!='' and password!=null">,password</if>
+		<if test="phone!='' and phone!=null">,phone</if>
+		<if test="email!='' and email!=null">,email</if>
+		<if test="bz!='' and bz!=null">,bz</if>
+		<if test="state!='' and state!=null">,state</if>
+		<if test="create_time!='' and create_time!=null">,create_time</if>
+		<if test="role_id!='' and role_id!=null">,role_id</if>
+		<if test="dept_id!='' and dept_id!=null">,dept_id</if>
+		<if test="user_img!='' and user_img!=null">,user_img</if>
+		)
+		VALUES (id
+		<if test="user_id!='' and user_id!=null">,#{user_id}</if>
+		<if test="username!='' and username!=null">,#{username}</if>
+		<if test="password!='' and password!=null">,#{password}</if>
+		<if test="phone!='' and phone!=null">,#{phone}</if>
+		<if test="email!='' and email!=null">,#{email}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		<if test="state!='' and state!=null">,#{state}</if>
+		<if test="create_time!='' and create_time!=null">,#{create_time}</if>
+		<if test="role_id!='' and role_id!=null">,#{role_id}</if>
+		<if test="dept_id!='' and dept_id!=null">,#{dept_id}</if>
+		<if test="user_img!='' and user_img!=null">,#{user_img}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.system.User">
+		insert into sys_user
+		(user_id,username,password,phone,email,bz,state,create_time,role_id,dept_id,user_img)
+		values
+		<foreach collection="data" item="e" index="index" separator=",">
+			(
+			#{e.user_id},
+			#{e.username},
+			#{e.password},
+			#{e.phone},
+			#{e.email},
+			#{e.bz},
+			#{e.state},
+			#{e.create_time},
+			#{e.role_id},
+			#{e.dept_id},
+			#{e.user_img}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.system.User">
+		update sys_user
+		<set>
+			<if test="username !=null and username !=''">username=#{username},</if>
+			<if test="password !=null and password !=''">password=#{password},</if>
+			<if test="phone !=null and phone !=''">phone=#{phone},</if>
+			<if test="email !=null and email !=''">email=#{email},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+			<if test="state !=null and state !=''">state=#{state},</if>
+			<if test="create_time !=null and create_time !=''">create_time=#{create_time},</if>
+			<if test="role_id !=null and role_id !=''">role_id=#{role_id},</if>
+			<if test="dept_id !=null and dept_id !=''">dept_id=#{dept_id},</if>
+			<if test="user_img !=null and user_img !=''">user_img=#{user_img},</if>
+		</set>
+		where user_id=#{user_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.system.User">
+		update sys_user
+		<set>
+			<if test="username !=null and username !=''">username=#{username},</if>
+			<if test="password !=null and password !=''">password=#{password},</if>
+			<if test="phone !=null and phone !=''">phone=#{phone},</if>
+			<if test="email !=null and email !=''">email=#{email},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+			<if test="state !=null and state !=''">state=#{state},</if>
+			<if test="create_time !=null and create_time !=''">create_time=#{create_time},</if>
+			<if test="role_id !=null and role_id !=''">role_id=#{role_id},</if>
+			<if test="dept_id !=null and dept_id !=''">dept_id=#{dept_id},</if>
+			<if test="user_img !=null and user_img !=''">user_img=#{user_img},</if>
+		</set>
+		where user_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.system.User">
+		delete from sys_user where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="user_id !=null and user_id !=''">and user_id=#{user_id}</if>
+		<if test="username !=null and username !=''">and username=#{username}</if>
+		<if test="password !=null and password !=''">and password=#{password}</if>
+		<if test="phone !=null and phone !=''">and phone=#{phone}</if>
+		<if test="email !=null and email !=''">and email=#{email}</if>
+		<if test="bz !=null and bz !=''">and bz=#{bz}</if>
+		<if test="state !=null and state !=''">and state=#{state}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="role_id !=null and role_id !=''">and role_id=#{role_id}</if>
+		<if test="dept_id !=null and dept_id !=''">and dept_id=#{dept_id}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from sys_user
+		where user_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.system.User" resultType="com.hniois.entity.system.User">
+		select	t.*
+			,r.role_name
+			,r.rights
+			,d.`name` as 'dept_name'
+		from sys_user t
+		left join sys_dept d on t.dept_id = d.id
+		left join sys_role r on t.role_id = r.role_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="user_id !=null and user_id !=''">and t.user_id=#{user_id}</if>
+		<if test="username !=null and username !=''">and t.username=#{username}</if>
+		<if test="password !=null and password !=''">and t.password=#{password}</if>
+		<if test="phone !=null and phone !=''">and t.phone=#{phone}</if>
+		<if test="email !=null and email !=''">and t.email=#{email}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="role_id !=null and role_id !=''">and t.role_id=#{role_id}</if>
+		<if test="dept_id !=null and dept_id !=''">and t.dept_id=#{dept_id}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.system.User" resultType="com.hniois.entity.system.User">
+		select	t.*
+			,r.role_name
+			,r.rights
+			,d.`name` as 'dept_name'
+		from sys_user t
+		left join sys_dept d on t.dept_id = d.id
+		left join sys_role r on t.role_id = r.role_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="user_id !=null and user_id !=''">and t.user_id=#{user_id}</if>
+		<if test="username !=null and username !=''">and t.username=#{username}</if>
+		<if test="password !=null and password !=''">and t.password=#{password}</if>
+		<if test="phone !=null and phone !=''">and t.phone=#{phone}</if>
+		<if test="email !=null and email !=''">and t.email=#{email}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="role_id !=null and role_id !=''">and t.role_id=#{role_id}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.system.User" resultType="java.lang.Integer">
+		select count(*)
+		from sys_user t
+		left join sys_dept d on t.dept_id = d.id
+		left join sys_role r on t.role_id = r.role_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="user_id !=null and user_id !=''">and t.user_id=#{user_id}</if>
+		<if test="username !=null and username !=''">and t.username=#{username}</if>
+		<if test="password !=null and password !=''">and t.password=#{password}</if>
+		<if test="phone !=null and phone !=''">and t.phone=#{phone}</if>
+		<if test="email !=null and email !=''">and t.email=#{email}</if>
+		<if test="bz !=null and bz !=''">and t.bz=#{bz}</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="role_id !=null and role_id !=''">and t.role_id=#{role_id}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.system.User" resultType="com.hniois.entity.system.User">
+		select	t.*
+			,r.role_name
+			,r.rights
+			,d.`name` as 'dept_name'
+		from sys_user t
+		left join sys_dept d on t.dept_id = d.id
+		left join sys_role r on t.role_id = r.role_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="user_id !=null and user_id !=''">and t.user_id like '%${user_id}%'</if>
+		<if test="username !=null and username !=''">and t.username like '%${username}%'</if>
+		<if test="password !=null and password !=''">and t.password like '%${password}%'</if>
+		<if test="phone !=null and phone !=''">and t.phone like '%${phone}%'</if>
+		<if test="email !=null and email !=''">and t.email like '%${email}%'</if>
+		<if test="bz !=null and bz !=''">and t.bz like '%${bz}%'</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="role_id !=null and role_id !=''">and t.role_id=#{role_id}</if>
+		<if test="dept_id !=null and dept_id !=''">and t.dept_id=#{dept_id}</if>
+		<if test="dept_name !=null and dept_name !=''">and d.dept_name like '%${dept_name}%'</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.system.User" resultType="java.lang.Integer">
+		select count(*)
+		from sys_user t
+		left join sys_dept d on t.dept_id = d.id
+		left join sys_role r on t.role_id = r.role_id
+		where 1=1
+		<if test="id !=null and id !=''">and t.id=#{id}</if>
+		<if test="user_id !=null and user_id !=''">and t.user_id like '%${user_id}%'</if>
+		<if test="username !=null and username !=''">and t.username like '%${username}%'</if>
+		<if test="password !=null and password !=''">and t.password like '%${password}%'</if>
+		<if test="phone !=null and phone !=''">and t.phone like '%${phone}%'</if>
+		<if test="email !=null and email !=''">and t.email like '%${email}%'</if>
+		<if test="bz !=null and bz !=''">and t.bz like '%${bz}%'</if>
+		<if test="state !=null and state !=''">and t.state=#{state}</if>
+		<if test="create_time !=null and create_time !=''">and t.create_time=#{create_time}</if>
+		<if test="role_id !=null and role_id !=''">and t.role_id=#{role_id}</if>
+		<if test="dept_id !=null and dept_id !=''">and t.dept_id=#{dept_id}</if>
+		<if test="dept_name !=null and dept_name !=''">and d.dept_name like '%${dept_name}%'</if>
+	</select>
+</mapper>

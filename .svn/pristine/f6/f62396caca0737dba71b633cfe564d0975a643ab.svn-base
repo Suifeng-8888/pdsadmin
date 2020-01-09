@@ -1,0 +1,133 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="<%=basePath%>">
+    <meta charset="utf-8">
+    <title>仪器列表</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable=no">
+    <link href="static/layui/css/layui.css" rel="stylesheet" />
+    <link href="static/layui/css/search.css" rel="stylesheet" />
+    <link href="static/font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<%--查询表格--%>
+<table class="layui-hide" id="table" lay-filter="lay_table">
+
+</table>
+<div class="hniois-search-btns">
+    <a id="hniois-add" onclick="sendMsg()" class="layui-btn layui-btn-sm layui-btn-normal" href="javascript:;">
+        <i class="fa  fa-lg" aria-hidden="true"></i> 确定</a>
+    <a id="hniois-deletes" onclick="closeWin();" class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" >
+        <i class="fa  fa-lg" aria-hidden="true"></i> 关闭</a>
+</div>
+
+</body>
+<script src="static/layui/layui.all.js"></script>
+<script src="static/js/jQuery/jquery-1.7.2.js"></script>
+<script src="static/hniois/hniois.js"></script>
+<script>
+    //初始化函数 order-1
+    var data_table ;//数据表格
+    $(document).ready(function() {
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        data_table = table.render({
+            elem: '#table',
+            url:'machine/list.do',
+            cols: [[
+                {type:'checkbox'},
+                //{field:'model', title: '仪器型号',edit:'text'},
+                {field:'factory',  title: '制造商',width:160},
+                //{field:'mach_name', title: '仪器名称',edit:'text'},
+                //{field:'number',  title: '数量',edit:'text',sort:'true'},
+                // {field:'for_use',  title: '用途',edit:'text'},
+                // {field:'use_time', title: '启用时间',edit:'text'},
+                {field:'address',  title: '存放位置',edit:'text'},
+                {field:'situation', title: '设备状况',edit:'text',templet:function (d){
+                        var st='<input style="border: none;" if(d.situation==0){ value="优秀"}else if(d.situation==1){value="良好"}else if(d.situation==2){value="疵品"}' +
+                            'else if(d.situation==3){vlaue="废品"}>'
+                        return st+"";
+                    } },
+                //{field:'person',  title: '责任人',edit:'text'},
+                //{field:'bz', title: '备注',edit:'text'},
+            ]],
+            height: 'full-200', cellMinWidth: 60,page: true
+        });
+
+        //监听单元格编辑
+        table.on('edit(lay_table)', function(obj){
+            if("${QX}".indexOf("machine/update")!=-1){
+            var field = obj.field , //得到字段
+                value = obj.value ,//得到修改后的值
+                data = obj.data ;//得到所在行所有键值
+            var obj = new Object();
+            obj.mach_id = data.mach_id;
+            obj[field] = value;
+            //修改数据
+            doEdit(obj);
+            }else{
+                layer.msg("无修改权限")
+            }
+        });
+
+    });
+
+    //执行重载 表单查询
+    function formReload() {
+        var param = getSearchData();
+        data_table.reload({
+            where: param
+        });
+    }
+
+
+    //表格编辑 修改数据
+    function doEdit(obj){
+        $.ajax({
+            url: "machine/update.do",
+            data: obj,
+            type: "post",
+            dataType:'json',
+            success: function(data){
+                layui.layer.msg(data.msg);
+            }
+        });
+    }
+
+
+    //给父页面传值
+    function sendMsg(){
+        var d = layui.table.checkStatus('table');
+        if (d.data.length === 0) {
+            layui.layer.msg('请选择要使用的仪器');
+            return;
+        }
+        var data = d.data,
+            names=[];
+        for(var i=0;i<data.length;i++){
+            names.push(data[i].mach_name);
+        }
+        parent.$('#test').val(names.toString());
+        closeWin();
+    }
+
+    function closeWin(){
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</html>

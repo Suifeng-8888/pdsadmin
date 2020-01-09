@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ApplyMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.machine.Apply"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_mach_buy_apply(
+		<if test="apply_id!='' and apply_id!=null">apply_id</if>
+		<if test="mach_name!='' and mach_name!=null">,mach_name</if>
+		<if test="mach_model!='' and mach_model!=null">,mach_model</if>
+		<if test="fate!='' and fate!=null">,fate</if>
+		<if test="factory!='' and factory!=null">,factory</if>
+		<if test="price!='' and price!=null">,price</if>
+		<!--<if test="status!='' and status!=null">,status</if>-->
+		<if test="apply_num!='' and apply_num!=null">,apply_num</if>
+		<if test="applyer!='' and applyer!=null">,applyer</if>
+		<if test="reason!='' and reason!=null">,reason</if>
+		<if test="cment!='' and cment!=null">,cment</if>
+		<if test="apply_time!='' and apply_time!=null">,apply_time</if>
+		<if test="approver!='' and approver!=null">,approver</if>
+		<if test="approve_time!='' and approve_time!=null">,approve_time</if>
+		)
+		VALUES (
+		<if test="apply_id!='' and apply_id!=null">#{apply_id}</if>
+		<if test="mach_name!='' and mach_name!=null">,#{mach_name}</if>
+		<if test="mach_model!='' and mach_model!=null">,#{mach_model}</if>
+		<if test="fate!='' and fate!=null">,#{fate}</if>
+		<if test="factory!='' and factory!=null">,#{factory}</if>
+		<if test="price!='' and price!=null">,#{price}</if>
+		<!--<if test="status!='' and status!=null">,#{status}</if>-->
+		<if test="apply_num!='' and apply_num!=null">,#{apply_num}</if>
+		<if test="applyer!='' and applyer!=null">,#{applyer}</if>
+		<if test="reason!='' and reason!=null">,#{reason}</if>
+		<if test="cment!='' and cment!=null">,#{cment}</if>
+		<if test="apply_time!='' and apply_time!=null">,#{apply_time}</if>
+		<if test="approver!='' and approver!=null">,#{approver}</if>
+		<if test="approve_time!='' and approve_time!=null">,#{approve_time}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.machine.Apply">
+		insert into tb_mach_buy_apply
+		(apply_id,mach_name,mach_model,fate,factory,price,apply_num,applyer,reason,cment,apply_time,approver,approve_time)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.apply_id},
+			#{e.mach_name},
+			#{e.mach_model},
+			#{e.fate},
+			#{e.factory},
+			#{e.price},
+			/*#{e.status},*/
+			#{e.apply_num},
+			#{e.applyer},
+			#{e.reason},
+			#{e.cment},
+			#{e.apply_time},
+			#{e.approver},
+			#{e.approve_time}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.machine.Apply">
+		update tb_mach_buy_apply
+		<set>
+			<if test="mach_name !=null and mach_name !=''">mach_name=#{mach_name},</if>
+			<if test="mach_model !=null and mach_model !=''">mach_model=#{mach_model},</if>
+			<if test="fate !=null and fate !=''">fate=#{fate},</if>
+			<if test="factory !=null and factory !=''">factory=#{factory},</if>
+			<if test="price !=null and price !=''">price=#{price},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="apply_num !=null and apply_num !=''">apply_num=#{apply_num},</if>
+			<if test="applyer !=null and applyer !=''">applyer=#{applyer},</if>
+			<if test="reason !=null and reason !=''">reason=#{reason},</if>
+			<if test="cment !=null and cment !=''">cment=#{cment},</if>
+			<if test="apply_time !=null and apply_time !=''">apply_time=#{apply_time},</if>
+			<if test="approver !=null and approver !=''">approver=#{approver},</if>
+			<if test="approve_time !=null and approve_time !=''">approve_time=#{approve_time},</if>
+		</set>
+		where apply_id=#{apply_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.machine.Apply">
+		update tb_mach_buy_apply
+		<set>
+			<if test="mach_name !=null and mach_name !=''">mach_name=#{mach_name},</if>
+			<if test="mach_model !=null and mach_model !=''">mach_model=#{mach_model},</if>
+			<if test="fate !=null and fate !=''">fate=#{fate},</if>
+			<if test="factory !=null and factory !=''">factory=#{factory},</if>
+			<if test="price !=null and price !=''">price=#{price},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="apply_num !=null and apply_num !=''">apply_num=#{apply_num},</if>
+			<if test="applyer !=null and applyer !=''">applyer=#{applyer},</if>
+			<if test="reason !=null and reason !=''">reason=#{reason},</if>
+			<if test="cment !=null and cment !=''">cment=#{cment},</if>
+			<if test="apply_time !=null and apply_time !=''">apply_time=#{apply_time},</if>
+			<if test="approver !=null and approver !=''">approver=#{approver},</if>
+			<if test="approve_time !=null and approve_time !=''">approve_time=#{approve_time},</if>
+		</set>
+		where apply_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.machine.Apply">
+		delete from tb_mach_buy_apply where 1=1
+		<if test="apply_id !=null and apply_id !=''">and apply_id=#{apply_id}</if>
+		<if test="mach_name !=null and mach_name !=''">and mach_name=#{mach_name}</if>
+		<if test="mach_model !=null and mach_model !=''">and mach_model=#{mach_model}</if>
+		<if test="fate !=null and fate !=''">and fate=#{fate}</if>
+		<if test="factory !=null and factory !=''">and factory=#{factory}</if>
+		<if test="price !=null and price !=''">and price=#{price}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="apply_num !=null and apply_num !=''">and apply_num=#{apply_num}</if>
+		<if test="applyer !=null and applyer !=''">and applyer=#{applyer}</if>
+		<if test="reason !=null and reason !=''">and reason=#{reason}</if>
+		<if test="cment !=null and cment !=''">and cment=#{cment}</if>
+		<if test="apply_time !=null and apply_time !=''">and apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and approve_time=#{approve_time}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_mach_buy_apply
+		where apply_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.machine.Apply" resultType="com.hniois.entity.machine.Apply">
+		select t.*
+		from tb_mach_buy_apply t
+		where 1=1
+		<if test="apply_id !=null and apply_id !=''">and t.apply_id=#{apply_id}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="mach_model !=null and mach_model !=''">and t.mach_model=#{mach_model}</if>
+		<if test="fate !=null and fate !=''">and t.fate=#{fate}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="apply_num !=null and apply_num !=''">and t.apply_num=#{apply_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="reason !=null and reason !=''">and t.reason=#{reason}</if>
+		<if test="cment !=null and cment !=''">and t.cment=#{cment}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.machine.Apply" resultType="com.hniois.entity.machine.Apply">
+		select t.*
+		from tb_mach_buy_apply t
+		where 1=1
+		<if test="apply_id !=null and apply_id !=''">and t.apply_id=#{apply_id}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="mach_model !=null and mach_model !=''">and t.mach_model=#{mach_model}</if>
+		<if test="fate !=null and fate !=''">and t.fate=#{fate}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="apply_num !=null and apply_num !=''">and t.apply_num=#{apply_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="reason !=null and reason !=''">and t.reason=#{reason}</if>
+		<if test="cment !=null and cment !=''">and t.cment=#{cment}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.machine.Apply" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_buy_apply t
+		where 1=1
+		<if test="apply_id !=null and apply_id !=''">and t.apply_id=#{apply_id}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="mach_model !=null and mach_model !=''">and t.mach_model=#{mach_model}</if>
+		<if test="fate !=null and fate !=''">and t.fate=#{fate}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="apply_num !=null and apply_num !=''">and t.apply_num=#{apply_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="reason !=null and reason !=''">and t.reason=#{reason}</if>
+		<if test="cment !=null and cment !=''">and t.cment=#{cment}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.machine.Apply" resultType="com.hniois.entity.machine.Apply">
+		select apply_id,mach_name,mach_model,fate,factory,price,CASE status WHEN "0" THEN "审批通过" WHEN "1" THEN "审批未通过" WHEN "2" THEN "待审批" end AS status,apply_num,applyer,reason,cment,apply_time,approver,approve_time
+		from tb_mach_buy_apply
+		where 1=1
+		<if test="apply_id !=null and apply_id !=''">and apply_id=#{apply_id}</if>
+		<if test="mach_name !=null and mach_name !=''">and mach_name=#{mach_name}</if>
+		<if test="mach_model !=null and mach_model !=''">and mach_model=#{mach_model}</if>
+		<if test="fate !=null and fate !=''">and fate=#{fate}</if>
+		<if test="factory !=null and factory !=''">and factory=#{factory}</if>
+		<if test="price !=null and price !=''">and price=#{price}</if>
+		<if test="status !=null and status !=''">and status=#{status}</if>
+		<if test="apply_num !=null and apply_num !=''">and apply_num=#{apply_num}</if>
+		<if test="applyer !=null and applyer !=''">and applyer=#{applyer}</if>
+		<if test="reason !=null and reason !=''">and reason=#{reason}</if>
+		<if test="cment !=null and cment !=''">and cment=#{cment}</if>
+		<if test="apply_time !=null and apply_time !=''">and apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and approve_time=#{approve_time}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.machine.Apply" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_buy_apply t
+		where 1=1
+		<if test="apply_id !=null and apply_id !=''">and t.apply_id=#{apply_id}</if>
+		<if test="mach_name !=null and mach_name !=''">and t.mach_name=#{mach_name}</if>
+		<if test="mach_model !=null and mach_model !=''">and t.mach_model=#{mach_model}</if>
+		<if test="fate !=null and fate !=''">and t.fate=#{fate}</if>
+		<if test="factory !=null and factory !=''">and t.factory=#{factory}</if>
+		<if test="price !=null and price !=''">and t.price=#{price}</if>
+		<if test="status !=null and status !=''">and t.status=#{status}</if>
+		<if test="apply_num !=null and apply_num !=''">and t.apply_num=#{apply_num}</if>
+		<if test="applyer !=null and applyer !=''">and t.applyer=#{applyer}</if>
+		<if test="reason !=null and reason !=''">and t.reason=#{reason}</if>
+		<if test="cment !=null and cment !=''">and t.cment=#{cment}</if>
+		<if test="apply_time !=null and apply_time !=''">and t.apply_time=#{apply_time}</if>
+		<if test="approver !=null and approver !=''">and t.approver=#{approver}</if>
+		<if test="approve_time !=null and approve_time !=''">and t.approve_time=#{approve_time}</if>
+	</select>
+</mapper>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zsProductMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Productor"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_productor(
+		<if test="pro_id!='' and pro_id!=null">pro_id</if>
+		<if test="pro_name!='' and pro_name!=null">,pro_name</if>
+		<if test="pro_code!='' and pro_code!=null">,pro_code</if>
+		<if test="isfinish!='' and isfinish!=null">,isfinish</if>
+		<if test="pro_type!='' and pro_type!=null">,pro_type</if>
+		<if test="pro_statu!='' and pro_statu!=null">,pro_statu</if>
+		<if test="stand_num!='' and stand_num!=null">,stand_num</if>
+		<if test="stand_name!='' and stand_name!=null">,stand_name</if>
+		<if test="stand_type!='' and stand_type!=null">,stand_type</if>
+		<if test="pro_mark!='' and pro_mark!=null">,pro_mark</if>
+		<if test="pro_unit!='' and pro_unit!=null">,pro_unit</if>
+		<if test="end_time!='' and end_time!=null">,end_time</if>
+		<if test="forge_id!='' and forge_id!=null">,forge_id</if>
+		<if test="pro_img!='' and pro_img!=null">,pro_img</if>
+		<if test="net_weight!='' and net_weight!=null">,net_weight</if>
+		)
+		VALUES (
+		<if test="pro_id!='' and pro_id!=null">#{pro_id}</if>
+		<if test="pro_name!='' and pro_name!=null">,#{pro_name}</if>
+		<if test="pro_code!='' and pro_code!=null">,#{pro_code}</if>
+		<if test="isfinish!='' and isfinish!=null">,#{isfinish}</if>
+		<if test="pro_type!='' and pro_type!=null">,#{pro_type}</if>
+		<if test="pro_statu!='' and pro_statu!=null">,#{pro_statu}</if>
+		<if test="stand_num!='' and stand_num!=null">,#{stand_num}</if>
+		<if test="stand_name!='' and stand_name!=null">,#{stand_name}</if>
+		<if test="stand_type!='' and stand_type!=null">,#{stand_type}</if>
+		<if test="pro_mark!='' and pro_mark!=null">,#{pro_mark}</if>
+		<if test="pro_unit!='' and pro_unit!=null">,#{pro_unit}</if>
+		<if test="end_time!='' and end_time!=null">,#{end_time}</if>
+		<if test="forge_id!='' and forge_id!=null">,#{forge_id}</if>
+		<if test="pro_img!='' and pro_img!=null">,#{pro_img}</if>
+		<if test="net_weight!='' and net_weight!=null">,#{net_weight}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Productor">
+		insert into trace_productor
+		(pro_id,pro_name,pro_code,isfinish,pro_type,pro_statu,stand_num,stand_name,stand_type,pro_mark,pro_unit,end_time,forge_id,pro_img,net_weight)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.pro_id},
+			#{e.pro_name},
+			#{e.pro_code},
+			#{e.isfinish},
+			#{e.pro_type},
+			#{e.pro_statu},
+			#{e.stand_num},
+			#{e.stand_name},
+			#{e.stand_type},
+			#{e.pro_mark},
+			#{e.pro_unit},
+			#{e.end_time},
+			#{e.forge_id},
+			#{e.pro_img},
+			#{e.net_weight}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Productor">
+		update trace_productor
+		<set>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pro_code !=null and pro_code !=''">pro_code=#{pro_code},</if>
+			<if test="isfinish !=null and isfinish !=''">isfinish=#{isfinish},</if>
+			<if test="pro_type !=null and pro_type !=''">pro_type=#{pro_type},</if>
+			<if test="pro_statu !=null and pro_statu !=''">pro_statu=#{pro_statu},</if>
+			<if test="stand_num !=null and stand_num !=''">stand_num=#{stand_num},</if>
+			<if test="stand_name !=null and stand_name !=''">stand_name=#{stand_name},</if>
+			<if test="stand_type !=null and stand_type !=''">stand_type=#{stand_type},</if>
+			<if test="pro_mark !=null and pro_mark !=''">pro_mark=#{pro_mark},</if>
+			<if test="pro_unit !=null and pro_unit !=''">pro_unit=#{pro_unit},</if>
+			<if test="end_time !=null and end_time !=''">end_time=#{end_time},</if>
+			<if test="forge_id !=null and forge_id !=''">forge_id=#{forge_id},</if>
+			<if test="pro_img !=null and pro_img !=''">pro_img=#{pro_img},</if>
+			<if test="net_weight !=null and net_weight !=''">net_weight=#{net_weight},</if>
+		</set>
+		where pro_id=#{pro_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Productor">
+		update trace_productor
+		<set>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pro_code !=null and pro_code !=''">pro_code=#{pro_code},</if>
+			<if test="isfinish !=null and isfinish !=''">isfinish=#{isfinish},</if>
+			<if test="pro_type !=null and pro_type !=''">pro_type=#{pro_type},</if>
+			<if test="pro_statu !=null and pro_statu !=''">pro_statu=#{pro_statu},</if>
+			<if test="stand_num !=null and stand_num !=''">stand_num=#{stand_num},</if>
+			<if test="stand_name !=null and stand_name !=''">stand_name=#{stand_name},</if>
+			<if test="stand_type !=null and stand_type !=''">stand_type=#{stand_type},</if>
+			<if test="pro_mark !=null and pro_mark !=''">pro_mark=#{pro_mark},</if>
+			<if test="pro_unit !=null and pro_unit !=''">pro_unit=#{pro_unit},</if>
+			<if test="end_time !=null and end_time !=''">end_time=#{end_time},</if>
+			<if test="forge_id !=null and forge_id !=''">forge_id=#{forge_id},</if>
+			<if test="pro_img !=null and pro_img !=''">pro_img=#{pro_img},</if>
+			<if test="net_weight !=null and net_weight !=''">net_weight=#{net_weight},</if>
+		</set>
+		where pro_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Productor">
+		delete from trace_productor
+		where 1=1
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		<if test="isfinish !=null and isfinish !=''">and isfinish=#{isfinish}</if>
+		<if test="pro_type !=null and pro_type !=''">and pro_type=#{pro_type}</if>
+		<if test="pro_statu !=null and pro_statu !=''">and pro_statu=#{pro_statu}</if>
+		<if test="stand_num !=null and stand_num !=''">and stand_num=#{stand_num}</if>
+		<if test="stand_name !=null and stand_name !=''">and stand_name=#{stand_name}</if>
+		<if test="stand_type !=null and stand_type !=''">and stand_type=#{stand_type}</if>
+		<if test="pro_mark !=null and pro_mark !=''">and pro_mark=#{pro_mark}</if>
+		<if test="pro_unit !=null and pro_unit !=''">and pro_unit=#{pro_unit}</if>
+		<if test="end_time !=null and end_time !=''">and end_time=#{end_time}</if>
+		<if test="forge_id !=null and forge_id !=''">and forge_id=#{forge_id}</if>
+		<if test="pro_img !=null and pro_img !=''">and pro_img=#{pro_img}</if>
+		<if test="net_weight !=null and net_weight !=''">and net_weight=#{net_weight}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_productor
+		where pro_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Productor" resultType="com.hniois.trace.entity.Productor">
+		select *
+		from trace_productor
+		where 1=1
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		<if test="isfinish !=null and isfinish !=''">and isfinish=#{isfinish}</if>
+		<if test="pro_type !=null and pro_type !=''">and pro_type=#{pro_type}</if>
+		<if test="pro_statu !=null and pro_statu !=''">and pro_statu=#{pro_statu}</if>
+		<if test="stand_num !=null and stand_num !=''">and stand_num=#{stand_num}</if>
+		<if test="stand_name !=null and stand_name !=''">and stand_name=#{stand_name}</if>
+		<if test="stand_type !=null and stand_type !=''">and stand_type=#{stand_type}</if>
+		<if test="pro_mark !=null and pro_mark !=''">and pro_mark=#{pro_mark}</if>
+		<if test="pro_unit !=null and pro_unit !=''">and pro_unit=#{pro_unit}</if>
+		<if test="end_time !=null and end_time !=''">and end_time=#{end_time}</if>
+		<if test="forge_id !=null and forge_id !=''">and forge_id=#{forge_id}</if>
+		<if test="pro_img !=null and pro_img !=''">and pro_img=#{pro_img}</if>
+		<if test="net_weight !=null and net_weight !=''">and net_weight=#{net_weight}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Productor" resultType="com.hniois.trace.entity.Productor">
+		select t.*
+		from trace_productor t
+		where 1=1
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+		<if test="isfinish !=null and isfinish !=''">and t.isfinish=#{isfinish}</if>
+		<if test="pro_type !=null and pro_type !=''">and t.pro_type=#{pro_type}</if>
+		<if test="pro_statu !=null and pro_statu !=''">and t.pro_statu=#{pro_statu}</if>
+		<if test="stand_num !=null and stand_num !=''">and t.stand_num=#{stand_num}</if>
+		<if test="stand_name !=null and stand_name !=''">and t.stand_name=#{stand_name}</if>
+		<if test="stand_type !=null and stand_type !=''">and t.stand_type=#{stand_type}</if>
+		<if test="pro_mark !=null and pro_mark !=''">and t.pro_mark=#{pro_mark}</if>
+		<if test="pro_unit !=null and pro_unit !=''">and t.pro_unit=#{pro_unit}</if>
+		<if test="end_time !=null and end_time !=''">and t.end_time=#{end_time}</if>
+		<if test="forge_id !=null and forge_id !=''">and t.forge_id=#{forge_id}</if>
+		<if test="pro_img !=null and pro_img !=''">and t.pro_img=#{pro_img}</if>
+		<if test="net_weight !=null and net_weight !=''">and t.net_weight=#{net_weight}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Productor" resultType="java.lang.Integer">
+		select count(*)
+		from trace_productor t
+		where 1=1
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+		<if test="isfinish !=null and isfinish !=''">and t.isfinish=#{isfinish}</if>
+		<if test="pro_type !=null and pro_type !=''">and t.pro_type=#{pro_type}</if>
+		<if test="pro_statu !=null and pro_statu !=''">and t.pro_statu=#{pro_statu}</if>
+		<if test="stand_num !=null and stand_num !=''">and t.stand_num=#{stand_num}</if>
+		<if test="stand_name !=null and stand_name !=''">and t.stand_name=#{stand_name}</if>
+		<if test="stand_type !=null and stand_type !=''">and t.stand_type=#{stand_type}</if>
+		<if test="pro_mark !=null and pro_mark !=''">and t.pro_mark=#{pro_mark}</if>
+		<if test="pro_unit !=null and pro_unit !=''">and t.pro_unit=#{pro_unit}</if>
+		<if test="end_time !=null and end_time !=''">and t.end_time=#{end_time}</if>
+		<if test="forge_id !=null and forge_id !=''">and t.forge_id=#{forge_id}</if>
+		<if test="pro_img !=null and pro_img !=''">and t.pro_img=#{pro_img}</if>
+		<if test="net_weight !=null and net_weight !=''">and t.net_weight=#{net_weight}</if>
+
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Productor" resultType="com.hniois.trace.entity.Productor">
+		select *
+		from trace_productor
+		where 1=1
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		<if test="isfinish !=null and isfinish !=''">and isfinish=#{isfinish}</if>
+		<if test="pro_type !=null and pro_type !=''">and pro_type=#{pro_type}</if>
+		<if test="pro_statu !=null and pro_statu !=''">and pro_statu=#{pro_statu}</if>
+		<if test="stand_num !=null and stand_num !=''">and stand_num=#{stand_num}</if>
+		<if test="stand_name !=null and stand_name !=''">and stand_name=#{stand_name}</if>
+		<if test="stand_type !=null and stand_type !=''">and stand_type=#{stand_type}</if>
+		<if test="pro_mark !=null and pro_mark !=''">and pro_mark=#{pro_mark}</if>
+		<if test="pro_unit !=null and pro_unit !=''">and pro_unit=#{pro_unit}</if>
+		<if test="end_time !=null and end_time !=''">and end_time=#{end_time}</if>
+		<if test="forge_id !=null and forge_id !=''">and forge_id=#{forge_id}</if>
+		<if test="pro_img !=null and pro_img !=''">and pro_img=#{pro_img}</if>
+		<if test="net_weight !=null and net_weight !=''">and net_weight=#{net_weight}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Productor" resultType="java.lang.Integer">
+		select count(*)
+		from trace_productor t
+		where 1=1
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+		<if test="isfinish !=null and isfinish !=''">and t.isfinish=#{isfinish}</if>
+		<if test="pro_type !=null and pro_type !=''">and t.pro_type=#{pro_type}</if>
+		<if test="pro_statu !=null and pro_statu !=''">and t.pro_statu=#{pro_statu}</if>
+		<if test="stand_num !=null and stand_num !=''">and t.stand_num=#{stand_num}</if>
+		<if test="stand_name !=null and stand_name !=''">and t.stand_name=#{stand_name}</if>
+		<if test="stand_type !=null and stand_type !=''">and t.stand_type=#{stand_type}</if>
+		<if test="pro_mark !=null and pro_mark !=''">and t.pro_mark=#{pro_mark}</if>
+		<if test="pro_unit !=null and pro_unit !=''">and t.pro_unit=#{pro_unit}</if>
+		<if test="end_time !=null and end_time !=''">and t.end_time=#{end_time}</if>
+		<if test="forge_id !=null and forge_id !=''">and t.forge_id=#{forge_id}</if>
+		<if test="pro_img !=null and pro_img !=''">and t.pro_img=#{pro_img}</if>
+		<if test="net_weight !=null and net_weight !=''">and t.net_weight=#{net_weight}</if>
+	</select>
+</mapper>

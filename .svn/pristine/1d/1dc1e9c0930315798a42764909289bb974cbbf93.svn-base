@@ -1,0 +1,26 @@
+package com.hniois.service.system.menu;
+
+import com.hniois.common.service.Service;
+import com.hniois.entity.system.Menu;
+
+import java.util.List;
+
+/**
+ * 菜单接口
+ */
+public interface MenuManage extends Service<Menu>{
+
+    /**
+     * 树形查询
+     * @param e
+     * @return List<Menu>
+     * */
+    List<Menu> getTreeMenu(Menu e) throws Exception;
+
+    /**
+     * 获取权限集
+     * @param e
+     * @return string 权限id集合 {10,20,30...}
+     * */
+    String getMenuButton(Menu e) throws Exception;
+}

@@ -1,0 +1,99 @@
+package com.hniois.entity.item;
+
+import com.hniois.common.page.Page;
+
+public class Item extends Page{
+    /**基础字段
+     *****************************************/
+    private String itemid;
+    private String itemname;
+    private String num;
+    private String typeid;
+    private String describe;
+    private String sender;
+    private String note;
+    private String state;
+     private String checked;
+    /*****************************************/
+    private String typename;
+
+    public String getItemid() {
+        return itemid;
+    }
+
+    public void setItemid(String itemid) {
+        this.itemid = itemid;
+    }
+
+    public String getItemname() {
+        return itemname;
+    }
+
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(String typeid) {
+        this.typeid = typeid;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
+}

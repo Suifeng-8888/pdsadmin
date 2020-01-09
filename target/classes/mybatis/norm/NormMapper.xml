@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NormMapper">
+
+	<!-- norm 字段 -->
+	<sql id="normValuesSql">
+		id,norm_name,norm_number,norm_type,award_dept,create_time,norm_creator,norm_explain
+	</sql>
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.norm.Norm"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into nj_norm (norm_name,norm_number
+		<if test="create_time!='' and create_time!=null">,create_time</if>
+		<if test="norm_creator!='' and norm_creator!=null">,norm_creator</if>
+		<if test="norm_explain!='' and norm_explain!=null">,norm_explain</if>
+		<if test="norm_type!='' and norm_type!=null">,norm_type</if>
+		<if test="award_dept!='' and award_dept!=null">,award_dept</if>
+		)
+		VALUES (
+		#{norm_name},#{norm_number}
+		<if test="create_time!='' and create_time!=null">,#{create_time}</if>
+		<if test="norm_creator!='' and norm_creator!=null">,#{norm_creator}</if>
+		<if test="norm_explain!='' and norm_explain!=null">,#{norm_explain}</if>
+		<if test="norm_type!='' and norm_type!=null">,#{norm_type}</if>
+		<if test="award_dept!='' and award_dept!=null">,#{award_dept}</if>
+
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.norm.Norm">
+		insert into nj_norm
+		(norm_name,norm_number,norm_type,award_dept,create_time,norm_creator,norm_explain)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.norm_name},
+			#{e.norm_number},
+			#{e.norm_type},
+			#{e.award_dept},
+			#{e.create_time},
+			#{e.norm_creator},
+			#{e.norm_explain}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.norm.Norm">
+		update nj_norm
+		<set>
+			<if test="norm_name != null and norm_name != ''">norm_name=#{norm_name},</if>
+			<if test="norm_number != null and norm_number!=''">norm_number=#{norm_number},</if>
+			<if test="norm_type != null and norm_type!=''">norm_type=#{norm_type},</if>
+			<if test="award_dept != null and award_dept!=''">award_dept=#{award_dept},</if>
+			<if test="create_time != null and create_time !=''">create_time=#{create_time},</if>
+			<if test="norm_creator != null and norm_creator !=''">norm_creator=#{norm_creator},</if>
+			<if test="norm_explain != null and norm_explain !=''">norm_explain=#{norm_explain},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.norm.Norm">
+		update nj_norm
+		<set>
+			<if test="norm_name != null and norm_name != ''">,norm_name=#{norm_name}</if>
+			<if test="norm_number !=null and norm_number !=''">norm_number=#{norm_number},</if>
+			<if test="norm_type != null and norm_type!=''">norm_type=#{norm_type},</if>
+			<if test="award_dept != null and award_dept!=''">award_dept=#{award_dept},</if>
+			<if test="create_time !=null and create_time !=''">create_time=#{create_time},</if>
+			<if test="norm_creator !=null and norm_creator !=''">norm_creator=#{norm_creator},</if>
+			<if test="norm_explain !=null and norm_explain !=''">norm_explain=#{norm_explain},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.norm.Norm">
+		delete from nj_norm where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="norm_name !=null and norm_name !=''">and norm_name=#{norm_name}</if>
+		<if test="norm_number !=null and norm_number !=''">and norm_number=#{norm_number}</if>
+		<if test="norm_type !=null and norm_type !=''">and norm_type=#{norm_type}</if>
+		<if test="award_dept !=null and award_dept !=''">and award_dept=#{award_dept}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="norm_creator !=null and norm_creator !=''">and norm_creator=#{norm_creator}</if>
+		<if test="norm_explain !=null and norm_explain !=''">and norm_explain=#{norm_explain}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from nj_norm
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.norm.Norm" resultType="com.hniois.entity.norm.Norm">
+		select
+		<include refid="normValuesSql"></include>
+		from nj_norm
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="norm_name !=null and norm_name !=''">and norm_name=#{norm_name}</if>
+		<if test="norm_number !=null and norm_number !=''">and norm_number=#{norm_number}</if>
+		<if test="norm_type !=null and norm_type !=''">and norm_type=#{norm_type}</if>
+		<if test="award_dept !=null and award_dept !=''">and award_dept=#{award_dept}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="norm_creator !=null and norm_creator !=''">and norm_creator=#{norm_creator}</if>
+		<if test="norm_explain !=null and norm_explain !=''">and norm_explain=#{norm_explain}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.norm.Norm" resultType="com.hniois.entity.norm.Norm">
+		select
+		<include refid="normValuesSql"></include>
+		from nj_norm
+		where 1=1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="norm_name != null and norm_name != ''">and norm_name = #{norm_name}</if>
+		<if test="norm_number != null and norm_number != ''">and norm_number = #{norm_number}</if>
+		<if test="norm_type != null and norm_type != ''">and norm_type = #{norm_type}</if>
+		<if test="award_dept != null and award_dept != ''">and award_dept = #{award_dept}</if>
+		<if test="create_time != null and create_time != ''">and create_time = #{create_time}</if>
+		<if test="norm_creator != null and norm_creator != ''">and norm_creator = #{norm_creator}</if>
+		<if test="norm_explain != null and norm_explain != ''">and norm_explain = #{norm_explain}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.norm.Norm" resultType="java.lang.Integer">
+		select count(*)
+		from nj_norm
+		where 1=1
+		<if test="norm_name !=null and norm_name !=''">and norm_name=#{norm_name}</if>
+		<if test="norm_number !=null and norm_number !=''">and norm_number=#{norm_number}</if>
+		<if test="norm_type != null and norm_type != ''">and norm_type = #{norm_type}</if>
+		<if test="award_dept != null and award_dept != ''">and award_dept = #{award_dept}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="norm_creator !=null and norm_creator !=''">and norm_creator=#{norm_creator}</if>
+		<if test="norm_explain !=null and norm_explain !=''">and norm_explain=#{norm_explain}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.norm.Norm" resultType="com.hniois.entity.norm.Norm">
+		select
+		<include refid="normValuesSql"></include>
+		from nj_norm
+		where 1=1
+		<if test="norm_name !=null and norm_name !=''">and norm_name LIKE '%${norm_name}%'</if>
+		<if test="norm_number !=null and norm_number !=''">and norm_number LIKE '%${norm_number}%'</if>
+		<if test="norm_type != null and norm_type != ''">and norm_type = #{norm_type}</if>
+		<if test="award_dept != null and award_dept != ''">and award_dept = #{award_dept}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="norm_creator !=null and norm_creator !=''">and norm_creator=#{norm_creator}</if>
+		<if test="norm_explain !=null and norm_explain !=''">and norm_explain=#{norm_explain}</if>
+		order by id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.norm.Norm" resultType="java.lang.Integer">
+		select count(*)
+		from nj_norm
+		where 1=1
+		<if test="norm_name !=null and norm_name !=''">and norm_name LIKE '%${norm_name}%'</if>
+		<if test="norm_number !=null and norm_number !=''">and norm_number LIKE '%${norm_number}%'</if>
+		<if test="norm_type != null and norm_type != ''">and norm_type = #{norm_type}</if>
+		<if test="award_dept != null and award_dept != ''">and award_dept = #{award_dept}</if>
+		<if test="create_time !=null and create_time !=''">and create_time=#{create_time}</if>
+		<if test="norm_creator !=null and norm_creator !=''">and norm_creator=#{norm_creator}</if>
+		<if test="norm_explain !=null and norm_explain !=''">and norm_explain=#{norm_explain}</if>
+	</select>
+	<!-- 标准编号,名称重复验证 -->
+	<select id="repeatedVerification" parameterType="com.hniois.entity.norm.Norm" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM nj_norm
+		<where>
+			<if test="norm_name !=null and norm_name !=''">norm_name = #{norm_name}</if>
+			<if test="norm_number !=null and norm_number !=''">OR norm_number = #{norm_number}</if>
+		</where>
+	</select>
+</mapper>

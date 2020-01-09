@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BagMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Bag"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_bag(`id`
+		<if test="id!='' and id!=null">,`id`</if>
+		<if test="pId!='' and pId!=null">,`pId`</if>
+		<if test="theID!='' and theID!=null">,`theID`</if>
+		<if test="name!='' and name!=null">,`name`</if>
+		<if test="bz!='' and bz!=null">,`bz`</if>
+		)
+		VALUES (id
+		<if test="id!='' and id!=null">,#{id}</if>
+		<if test="pId!='' and pId!=null">,#{pId}</if>
+		<if test="theID!='' and theID!=null">,#{theID}</if>
+		<if test="name!='' and name!=null">,#{name}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Bag">
+		insert into trace_bag
+		(id,pId,theID,name,bz)
+		values
+		<foreach collection="data" item="e" index="index" separator=",">
+			(
+			#{e.id},
+			#{e.pId},
+			#{e.theID},
+			#{e.name},
+			#{e.bz}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Bag">
+		update trace_bag
+		<set>
+			<if test="id !=null and id !=''">`id`=#{id},</if>
+			<if test="pId !=null and pId !=''">`pId`=#{pId},</if>
+			<if test="theID !=null and theID !=''">`theID`=#{theID},</if>
+			<if test="name !=null and name !=''">`name`=#{name},</if>
+			<if test="bz !=null and bz !=''">`bz`=#{bz},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Bag">
+		update trace_bag
+		<set>
+			<if test="id !=null and id !=''">`id`=#{id},</if>
+			<if test="pId !=null and pId !=''">`pId`=#{pId},</if>
+			<if test="theID !=null and theID !=''">`theID`=#{theID},</if>
+			<if test="name !=null and name !=''">`name`=#{name},</if>
+			<if test="bz !=null and bz !=''">`bz`=#{bz},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Bag">
+		delete from trace_bag where 1=1
+		<if test="id !=null and id !=''">and `id`=#{id}</if>
+		<if test="pId !=null and pId !=''">and `pId`=#{pId}</if>
+		<if test="theID !=null and theID !=''">and `theID`=#{theID}</if>
+		<if test="name !=null and name !=''">and `name`=#{name}</if>
+		<if test="bz !=null and bz !=''">and `bz`=#{bz}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_bag
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Bag" resultType="com.hniois.trace.entity.Bag">
+		select t.*
+			,t2.name as 'pname'
+		from trace_bag t
+		left join trace_bag t2 on t2.id = t.pId
+		where 1=1
+		<if test="id !=null and id !=''">and t.`id`=#{id}</if>
+		<if test="pId !=null and pId !=''">and t.`pId`=#{pId}</if>
+		<if test="theID !=null and theID !=''">and t.`theID`=#{theID}</if>
+		<if test="name !=null and name !=''">and t.`name`=#{name}</if>
+		<if test="bz !=null and bz !=''">and t.`bz`=#{bz}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Bag" resultType="com.hniois.trace.entity.Bag">
+		select t.*
+			,t2.name as 'pname'
+		from trace_bag t
+		left join trace_bag t2 on t2.id = t.pId
+		where 1=1
+		<if test="id !=null and id !=''">and t.`id`=#{id}</if>
+		<if test="pId !=null and pId !=''">and t.`pId`=#{pId}</if>
+		<if test="theID !=null and theID !=''">and t.`theID`=#{theID}</if>
+		<if test="name !=null and name !=''">and t.`name`=#{name}</if>
+		<if test="bz !=null and bz !=''">and t.`bz`=#{bz}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Bag" resultType="java.lang.Integer">
+		select count(*)
+		from trace_bag t
+		where 1=1
+		<if test="id !=null and id !=''">and t.`id`=#{id}</if>
+		<if test="pId !=null and pId !=''">and t.`pId`=#{pId}</if>
+		<if test="theID !=null and theID !=''">and t.`theID`=#{theID}</if>
+		<if test="name !=null and name !=''">and t.`name`=#{name}</if>
+		<if test="bz !=null and bz !=''">and t.`bz`=#{bz}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Bag" resultType="com.hniois.trace.entity.Bag">
+		select t.*
+			,t2.name as 'pname'
+		from trace_bag t
+		left join trace_bag t2 on t2.id = t.pId
+		where 1=1
+		<if test="id !=null and id !=''">and t.`id`=#{id}</if>
+		<if test="pId !=null and pId !=''">and t.`pId`=#{pId}</if>
+		<if test="theID !=null and theID !=''">and t.`theID` like '%${theID}%'</if>
+		<if test="name !=null and name !=''">and t.`name` like '%${name}%'</if>
+		<if test="bz !=null and bz !=''">and t.`bz` like '%${bz}%'</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Bag" resultType="java.lang.Integer">
+		select count(*)
+		from trace_bag t
+		where 1=1
+		<if test="id !=null and id !=''">and t.`id`=#{id}</if>
+		<if test="pId !=null and pId !=''">and t.`pId`=#{pId}</if>
+		<if test="theID !=null and theID !=''">and t.`theID` like '%${theID}%'</if>
+		<if test="name !=null and name !=''">and t.`name` like '%${name}%'</if>
+		<if test="bz !=null and bz !=''">and t.`bz` like '%${bz}%'</if>
+	</select>
+</mapper>

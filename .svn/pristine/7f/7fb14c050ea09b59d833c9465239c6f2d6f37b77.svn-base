@@ -1,0 +1,26 @@
+import org.junit.Test;
+
+/**
+ * 测试类
+ *
+ * */
+public class TestAction {
+
+    @Test
+    public void testAAA() throws Exception {
+        String clazz = Thread.currentThread().getStackTrace()[1].getClassName();
+        String method = Thread.currentThread() .getStackTrace()[1].getMethodName();
+        System.out.println("class name: " + clazz + " Method Name " + method);
+    }
+
+    public void testA(){
+        String name = testB();
+        System.out.println("外层方法名称 " + name);
+    }
+
+    public String testB(){
+        String name = Thread.currentThread() .getStackTrace()[1].getMethodName();
+        System.out.println("内层方法名称 " + name);
+        return name;
+    }
+}

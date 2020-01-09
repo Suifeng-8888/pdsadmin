@@ -1,0 +1,8 @@
+package com.hniois.dao.purchase.buy;
+
+import com.hniois.common.dao.Dao;
+import com.hniois.entity.machine.Apply;
+import com.hniois.entity.purchase.Purchase;
+
+public interface PurChaseDao extends Dao<Purchase> {
+}

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MenuMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.system.Menu">
+		insert into sys_menu
+		(menu_id,menu_name,menu_url,menu_order,menu_icon,menu_type,menu_state)
+		values (
+			#{menu_id},
+			#{menu_name},
+			#{menu_url},
+			#{menu_order},
+			#{menu_icon},
+			#{menu_type},
+			#{menu_state}
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.system.Menu">
+		insert into sys_menu
+		(menu_id,menu_name,menu_url,menu_order,menu_icon,menu_type,menu_state)
+		values
+		<foreach collection="data" item="e" index="index" separator=",">
+			(
+			#{e.menu_id},
+			#{e.menu_name},
+			#{e.menu_url},
+			#{e.menu_order},
+			#{e.menu_icon},
+			#{e.menu_type},
+			#{e.menu_state}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.system.Menu">
+		update sys_menu
+		<set>
+			<if test="menu_id !=null and menu_id !=''">menu_id=#{menu_id},</if>
+			<if test="menu_name !=null and menu_name !=''">menu_name=#{menu_name},</if>
+			<if test="menu_url !=null and menu_url !=''">menu_url=#{menu_url},</if>
+			<if test="menu_order !=null and menu_order !=''">menu_order=#{menu_order},</if>
+			<if test="menu_icon !=null and menu_icon !=''">menu_icon=#{menu_icon},</if>
+			<if test="menu_type !=null and menu_type !=''">menu_type=#{menu_type},</if>
+			<if test="menu_state !=null and menu_state !=''">menu_state=#{menu_state},</if>
+		</set>
+		where menu_id=#{menu_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.system.Menu">
+		update sys_menu
+		<set>
+			<if test="menu_id !=null and menu_id !=''">menu_id=#{menu_id},</if>
+			<if test="menu_name !=null and menu_name !=''">menu_name=#{menu_name},</if>
+			<if test="menu_url !=null and menu_url !=''">menu_url=#{menu_url},</if>
+			<if test="menu_order !=null and menu_order !=''">menu_order=#{menu_order},</if>
+			<if test="menu_icon !=null and menu_icon !=''">menu_icon=#{menu_icon},</if>
+			<if test="menu_type !=null and menu_type !=''">menu_type=#{menu_type},</if>
+			<if test="menu_state !=null and menu_state !=''">menu_state=#{menu_state},</if>
+		</set>
+		where menu_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.system.Menu">
+		delete from sys_menu where 1=1
+		<if test="menu_id !=null and menu_id !=''">and menu_id=#{menu_id}</if>
+		<if test="menu_name !=null and menu_name !=''">and menu_name=#{menu_name}</if>
+		<if test="menu_url !=null and menu_url !=''">and menu_url=#{menu_url}</if>
+		<if test="menu_order !=null and menu_order !=''">and menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and menu_type=#{menu_type}</if>
+		<if test="menu_state !=null and menu_state !=''">and menu_state=#{menu_state}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from sys_menus
+		where menu_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.system.Menu" resultType="com.hniois.entity.system.Menu">
+		select t.*
+		from sys_menu t
+		where 1=1
+		<if test="menu_id !=null and menu_id !=''">and t.menu_id=#{menu_id}</if>
+		<if test="menu_name !=null and menu_name !=''">and t.menu_name=#{menu_name}</if>
+		<if test="menu_url !=null and menu_url !=''">and t.menu_url=#{menu_url}</if>
+		<if test="menu_order !=null and menu_order !=''">and t.menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and t.menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and t.menu_type=#{menu_type}</if>
+		<if test="menu_state !=null and menu_state !=''">and t.menu_state=#{menu_state}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.system.Menu" resultType="com.hniois.entity.system.Menu">
+		select t.*
+		from sys_menu t
+		where 1=1
+		<if test="menu_id !=null and menu_id !=''">and t.menu_id=#{menu_id}</if>
+		<if test="menu_name !=null and menu_name !=''">and t.menu_name=#{menu_name}</if>
+		<if test="menu_url !=null and menu_url !=''">and t.menu_url=#{menu_url}</if>
+		<if test="menu_order !=null and menu_order !=''">and t.menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and t.menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and t.menu_type=#{menu_type}</if>
+		<!--<if test="menu_state !=null and menu_state !=''">and t.menu_state=#{menu_state}</if>-->
+		AND t.menu_state = 0
+		<if test="menu_ids !=null and menu_ids !=''">
+			and instr(CONCAT(",",#{menu_ids},","),CONCAT(",",t.menu_id,","))>0
+		</if>
+		order by t.menu_order
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.system.Menu" resultType="java.lang.Integer">
+		select count(*)
+		from sys_menu t
+		where 1=1
+		<if test="menu_id !=null and menu_id !=''">and t.menu_id=#{menu_id}</if>
+		<if test="menu_name !=null and menu_name !=''">and t.menu_name=#{menu_name}</if>
+		<if test="menu_url !=null and menu_url !=''">and t.menu_url=#{menu_url}</if>
+		<if test="menu_order !=null and menu_order !=''">and t.menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and t.menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and t.menu_type=#{menu_type}</if>
+		<if test="menu_state !=null and menu_state !=''">and t.menu_state=#{menu_state}</if>
+		<if test="menu_ids !=null and menu_ids !=''">
+			and instr(CONCAT(",",#{menu_ids},","),CONCAT(",",t.menu_id,","))>0
+		</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.system.Menu" resultType="com.hniois.entity.system.Menu">
+		select t.*
+		from sys_menu t
+		where 1=1
+		<if test="menu_id !=null and menu_id !=''">and t.menu_id like '%${menu_id}%'</if>
+		<if test="menu_name !=null and menu_name !=''">and t.menu_name like '%${menu_name}%'</if>
+		<if test="menu_url !=null and menu_url !=''">and t.menu_url like '%${menu_url}%'</if>
+		<if test="menu_order !=null and menu_order !=''">and t.menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and t.menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and t.menu_type=#{menu_type}</if>
+		<if test="menu_state !=null and menu_state !=''">and t.menu_state=#{menu_state}</if>
+		order by t.menu_order
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.system.Menu" resultType="java.lang.Integer">
+		select count(*)
+		from sys_menu t
+		where 1=1
+		<if test="menu_id !=null and menu_id !=''">and t.menu_id like '%${menu_id}%'</if>
+		<if test="menu_name !=null and menu_name !=''">and t.menu_name like '%${menu_name}%'</if>
+		<if test="menu_url !=null and menu_url !=''">and t.menu_url like '%${menu_url}%'</if>
+		<if test="menu_order !=null and menu_order !=''">and t.menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and t.menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and t.menu_type=#{menu_type}</if>
+		<if test="menu_state !=null and menu_state !=''">and t.menu_state=#{menu_state}</if>
+	</select>
+
+	<!-- Z-tree 树形查询 -->
+	<select id="findTreeList" parameterType="com.hniois.entity.system.Menu" resultType="com.hniois.entity.system.Menu">
+		select
+			t.menu_id AS 'id',
+            t.menu_name AS 'name',
+			CASE length(t.menu_id)
+				WHEN 2 THEN 0
+				WHEN 4 THEN LEFT(t.menu_id,2)
+				WHEN 6 THEN LEFT(t.menu_id,4)
+				ELSE 0 end AS 'pId'
+		from sys_menu t
+		where 1=1
+		<if test="menu_id !=null and menu_id !=''">and t.menu_id like '%${menu_id}%'</if>
+		<if test="menu_name !=null and menu_name !=''">and t.menu_name like '%${menu_name}%'</if>
+		<if test="menu_url !=null and menu_url !=''">and t.menu_url like '%${menu_url}%'</if>
+		<if test="menu_order !=null and menu_order !=''">and t.menu_order=#{menu_order}</if>
+		<if test="menu_icon !=null and menu_icon !=''">and t.menu_icon=#{menu_icon}</if>
+		<if test="menu_type !=null and menu_type !=''">and t.menu_type=#{menu_type}</if>
+		<if test="menu_state !=null and menu_state !=''">and t.menu_state=#{menu_state}</if>
+		order by t.menu_order
+	</select>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DemoMapper">
+	<!-- Z-tree 树形查询 -->
+	<select id="findTableField" parameterType="com.hniois.entity.demo.Demo" resultType="com.hniois.entity.demo.Demo">
+		select
+			t.COLUMN_NAME as 'name'
+			,t.COLUMN_TYPE as 'type'
+			,t.COLUMN_COMMENT as 'comment'
+		from information_schema.columns t
+		where TABLE_SCHEMA='pds_admin'
+		and TABLE_NAME = #{tableName}
+	</select>
+
+</mapper>

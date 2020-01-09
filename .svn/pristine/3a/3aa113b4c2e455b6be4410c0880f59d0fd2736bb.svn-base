@@ -1,0 +1,10 @@
+代码一键生成工具
+http://localhost:8080/demo/doCreate.do?tableName=sys_user&objectName=Demo&packageName=demo
+
+描述
+    V1.0 单表逆向一件生成 Mapper Bean Dao Service Action
+
+参数说明
+table_name 表名称
+objectName 对象名称
+packageName 包名->objectName首字符小写

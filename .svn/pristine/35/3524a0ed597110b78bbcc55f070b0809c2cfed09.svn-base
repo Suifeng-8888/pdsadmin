@@ -1,0 +1,10 @@
+package com.hniois.entity.report;
+
+import com.hniois.common.page.Page;
+
+/**
+ *  检测报告 Bean
+ */
+public class Report extends Page {
+
+}

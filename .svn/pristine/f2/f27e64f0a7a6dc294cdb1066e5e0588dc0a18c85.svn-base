@@ -1,0 +1,147 @@
+package com.hniois.controller.report;
+
+import com.alibaba.fastjson.JSON;
+import com.hniois.common.page.Page;
+import com.hniois.controller.base.BaseController;
+import com.hniois.entity.report.Report;
+import com.hniois.service.report.ReportService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ *  检测报告    Action
+ */
+@Controller
+@RequestMapping(value = "/report")
+public class ReportAction extends BaseController {
+
+    @Resource(name = "reportService")
+    private ReportService reportService;
+
+    private String list = "report/report_list";
+    private String edit = "report/report_edit";
+
+    /**
+     * 进入检测报告页面
+     * @return
+     */
+    @RequestMapping(value = "/toPage")
+    public ModelAndView toPage(Page page) {
+        ModelAndView mv = getModelAndViewToPage(page);
+        mv.setViewName(list);
+        return mv;
+    }
+
+    /**
+     *  检测报告分页列表
+     * @param report
+     * @return
+     */
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public String pageList(Report report) throws Exception {
+        // 当前页
+        int currPage = getThisPage(report.getPage());
+        // 每页显示条数
+        int limit = getThisLimit(report.getLimit());
+        report.setOffset((currPage-1) * limit);
+        report.setPageSize(limit);
+        Page page = reportService.findPage(report);
+        return JSON.toJSONString(page);
+    }
+
+    /**
+     *      新增 or 修改    页面
+     * @param e
+     * @return
+     */
+    @RequestMapping(value="/toEdit")
+    public ModelAndView addORUpd(Report e) throws Exception {
+        ModelAndView mv = getModelAndView();
+        Report report = new Report();
+        if (StringUtils.isNotEmpty(e.getRecord_id())) {
+            report = reportService.find(e);
+        }
+        report.setCode(e.getCode());  // 判断：0查看 or 1 增加/修改
+        mv.setViewName(edit);
+        mv.addObject("report", report);
+        return mv;
+    }
+
+    /**
+     *  添加
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/add")
+    @ResponseBody
+    public String add(Report e) throws Exception {
+        JSONObject obj = getMsg();//返回信息
+        reportService.save(e);
+        return obj.toString();
+    }
+
+    /**
+     *  更新
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/update")
+    @ResponseBody
+    public String update(Report e) throws Exception {
+        JSONObject obj = getMsg();//返回信息 默认成功
+        reportService.update(e);
+        return obj.toString();
+    }
+
+    /**
+     * 删除
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public String delete(Report e) throws Exception {
+        JSONObject obj = getMsg();//返回信息 默认成功
+        reportService.delete(e);
+        return obj.toString();
+    }
+
+    /**
+     * 批量删除
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/deletes")
+    @ResponseBody
+    public String deletes(Report e) throws Exception {
+        JSONObject obj = getMsg();//返回信息 默认成功
+        reportService.deleteBatch(e);
+        return obj.toString();
+    }
+
+    /**
+     * 查询List
+     * @param e
+     * @return json
+     * */
+    @RequestMapping(value="/findList")
+    @ResponseBody
+    public String findList(Report e) throws Exception {
+        List<Report> list = reportService.findList(e);
+        JSONArray arr = JSONArray.fromObject(list);
+        return arr.toString();
+    }
+}

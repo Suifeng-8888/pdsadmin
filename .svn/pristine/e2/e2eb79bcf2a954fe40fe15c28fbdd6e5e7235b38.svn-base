@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProRecordMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.trace.entity.Pro_Record"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into trace_pro_record(
+		<if test="rec_num!='' and rec_num!=null">rec_num</if>
+		<if test="patch_num!='' and patch_num!=null">,patch_num</if>
+		<if test="address!='' and address!=null">,address</if>
+		<if test="st_time!='' and st_time!=null">,st_time</if>
+		<if test="end_time!='' and end_time!=null">,end_time</if>
+		<if test="pro_id!='' and pro_id!=null">,pro_id</if>
+		<if test="pro_name!='' and pro_name!=null">,pro_name</if>
+		<if test="pro_code!='' and pro_code!=null">,pro_code</if>
+		)
+		VALUES (
+		<if test="rec_num!='' and rec_num!=null">#{rec_num}</if>
+		<if test="patch_num!='' and patch_num!=null">,#{patch_num}</if>
+		<if test="address!='' and address!=null">,#{address}</if>
+		<if test="st_time!='' and st_time!=null">,#{st_time}</if>
+		<if test="end_time!='' and end_time!=null">,#{end_time}</if>
+		<if test="pro_id!='' and pro_id!=null">,#{pro_id}</if>
+		<if test="pro_name!='' and pro_name!=null">,#{pro_name}</if>
+		<if test="pro_code!='' and pro_code!=null">,#{pro_code}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.trace.entity.Pro_Record">
+		insert into trace_pro_record
+		(rec_num,patch_num,address,st_time,end_time,pro_id,pro_name,pro_code)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.rec_num},
+			#{e.patch_num},
+			#{e.address},
+			#{e.st_time},
+			#{e.end_time},
+			#{e.pro_id},
+			#{e.pro_name},
+			#{e.pro_code}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.trace.entity.Pro_Record">
+		update trace_pro_record
+		<set>
+			<if test="rec_id !=null and rec_id !=''">rec_id=#{rec_id},</if>
+			<if test="rec_num !=null and rec_num !=''">rec_num=#{rec_num},</if>
+			<if test="patch_num !=null and patch_num !=''">patch_num=#{patch_num},</if>
+			<if test="address !=null and address !=''">address=#{address},</if>
+			<if test="st_time !=null and st_time !=''">st_time=#{st_time},</if>
+			<if test="end_time !=null and end_time !=''">end_time=#{end_time},</if>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pro_code !=null and pro_code !=''">pro_code=#{pro_code},</if>
+		</set>
+		where rec_id=#{rec_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.trace.entity.Pro_Record">
+		update trace_pro_record
+		<set>
+			<if test="rec_id !=null and rec_id !=''">rec_id=#{rec_id},</if>
+			<if test="rec_num !=null and rec_num !=''">rec_num=#{rec_num},</if>
+			<if test="patch_num !=null and patch_num !=''">patch_num=#{patch_num},</if>
+			<if test="address !=null and address !=''">address=#{address},</if>
+			<if test="st_time !=null and st_time !=''">st_time=#{st_time},</if>
+			<if test="end_time !=null and end_time !=''">end_time=#{end_time},</if>
+			<if test="pro_id !=null and pro_id !=''">pro_id=#{pro_id},</if>
+			<if test="pro_name !=null and pro_name !=''">pro_name=#{pro_name},</if>
+			<if test="pro_code !=null and pro_code !=''">pro_code=#{pro_code},</if>
+		</set>
+		where rec_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.trace.entity.Pro_Record">
+		delete from trace_pro_record where 1=1
+		<if test="rec_id !=null and rec_id !=''">and rec_id=#{rec_id}</if>
+		<if test="rec_num !=null and rec_num !=''">and rec_num=#{rec_num}</if>
+		<if test="patch_num !=null and patch_num !=''">and patch_num=#{patch_num}</if>
+		<if test="address !=null and address !=''">and address=#{address}</if>
+		<if test="st_time !=null and st_time !=''">and st_time=#{st_time}</if>
+		<if test="end_time !=null and end_time !=''">and end_time=#{end_time}</if>
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from trace_pro_record
+		where rec_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.trace.entity.Pro_Record" resultType="com.hniois.trace.entity.Pro_Record">
+		select *
+		from trace_pro_record
+		where 1=1
+		<if test="rec_id !=null and rec_id !=''">and rec_id=#{rec_id}</if>
+		<if test="rec_num !=null and rec_num !=''">and rec_num=#{rec_num}</if>
+		<if test="patch_num !=null and patch_num !=''">and patch_num=#{patch_num}</if>
+		<if test="address !=null and address !=''">and address=#{address}</if>
+		<if test="st_time !=null and st_time !=''">and st_time=#{st_time}</if>
+		<if test="end_time !=null and end_time !=''">and end_time=#{end_time}</if>
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.trace.entity.Pro_Record" resultType="com.hniois.trace.entity.Pro_Record">
+		select t.*
+		from trace_pro_record t
+		where 1=1
+		<if test="rec_id !=null and rec_id !=''">and t.rec_id=#{rec_id}</if>
+		<if test="rec_num !=null and rec_num !=''">and t.rec_num=#{rec_num}</if>
+		<if test="patch_num !=null and patch_num !=''">and t.patch_num=#{patch_num}</if>
+		<if test="address !=null and address !=''">and t.address=#{address}</if>
+		<if test="st_time !=null and st_time !=''">and t.st_time=#{st_time}</if>
+		<if test="end_time !=null and end_time !=''">and t.end_time=#{end_time}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.trace.entity.Pro_Record" resultType="java.lang.Integer">
+		select count(*)
+		from trace_pro_record t
+		where 1=1
+		<if test="rec_id !=null and rec_id !=''">and t.rec_id=#{rec_id}</if>
+		<if test="rec_num !=null and rec_num !=''">and t.rec_num=#{rec_num}</if>
+		<if test="patch_num !=null and patch_num !=''">and t.patch_num=#{patch_num}</if>
+		<if test="address !=null and address !=''">and t.address=#{address}</if>
+		<if test="st_time !=null and st_time !=''">and t.st_time=#{st_time}</if>
+		<if test="end_time !=null and end_time !=''">and t.end_time=#{end_time}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.trace.entity.Pro_Record" resultType="com.hniois.trace.entity.Pro_Record">
+		select *
+		from trace_pro_record
+		where 1=1
+		<if test="rec_id !=null and rec_id !=''">and rec_id=#{rec_id}</if>
+		<if test="rec_num !=null and rec_num !=''">and rec_num=#{rec_num}</if>
+		<if test="patch_num !=null and patch_num !=''">and patch_num=#{patch_num}</if>
+		<if test="address !=null and address !=''">and address=#{address}</if>
+		<if test="st_time !=null and st_time !=''">and st_time &gt;= #{st_time}</if>
+		<if test="end_time !=null and end_time !=''">and end_time &lt;= #{end_time}</if>
+		<if test="pro_id !=null and pro_id !=''">and pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and pro_code=#{pro_code}</if>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.trace.entity.Pro_Record" resultType="java.lang.Integer">
+		select count(*)
+		from trace_pro_record t
+		where 1=1
+		<if test="rec_id !=null and rec_id !=''">and t.rec_id=#{rec_id}</if>
+		<if test="rec_num !=null and rec_num !=''">and t.rec_num=#{rec_num}</if>
+		<if test="patch_num !=null and patch_num !=''">and t.patch_num=#{patch_num}</if>
+		<if test="address !=null and address !=''">and t.address=#{address}</if>
+		<if test="st_time !=null and st_time !=''">and t.st_time=#{st_time}</if>
+		<if test="end_time !=null and end_time !=''">and t.end_time=#{end_time}</if>
+		<if test="pro_id !=null and pro_id !=''">and t.pro_id=#{pro_id}</if>
+		<if test="pro_name !=null and pro_name !=''">and t.pro_name=#{pro_name}</if>
+		<if test="pro_code !=null and pro_code !=''">and t.pro_code=#{pro_code}</if>
+	</select>
+</mapper>

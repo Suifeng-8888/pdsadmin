@@ -1,0 +1,20 @@
+package com.hniois.controller.chart;
+
+import com.hniois.common.page.Page;
+import com.hniois.controller.base.BaseController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping(value="/search")
+public class ChartAction extends BaseController {
+    private String toChart = "chart/toChart";
+    @RequestMapping(value="/toChart")
+    public ModelAndView toPage(Page e){
+        ModelAndView mv = getModelAndViewToPage(e);
+        mv.setViewName(toChart);
+        return mv;
+    }
+
+}

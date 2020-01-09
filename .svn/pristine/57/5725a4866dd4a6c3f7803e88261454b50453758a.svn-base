@@ -1,0 +1,15 @@
+package com.hniois.entity.system;
+
+import com.hniois.common.page.Page;
+
+/**
+ * 组织机构
+ */
+public class Department extends Page{
+    /**基础字段
+     ************************************************************/
+
+    /*************************************************************/
+
+
+}

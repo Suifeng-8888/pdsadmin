@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TemplateMapper">
+
+	<sql id="keySql">
+		id,name,version,path,up_name,time,bz
+	</sql>
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.report.Template" resultType="com.hniois.entity.report.Template">
+		SELECT
+		<include refid="keySql"></include>
+		FROM nj_report_template
+		WHERE 1 = 1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="version != null and version != ''">and version = #{version}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="up_name != null and up_name != ''">and up_name = #{up_name}</if>
+		<if test="time != null and time != ''">and time = #{time}</if>
+		<if test="bz != null and bz != ''">and bz = #{bz}</if>
+		ORDER BY id DESC LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.report.Template" resultType="java.lang.Integer">
+		SELECT COUNT(id)
+		FROM nj_report_template
+		WHERE 1 = 1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="version != null and version != ''">and version = #{version}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="up_name != null and up_name != ''">and up_name = #{up_name}</if>
+		<if test="time != null and time != ''">and time = #{time}</if>
+		<if test="bz != null and bz != ''">and bz = #{bz}</if>
+	</select>
+
+	<insert id="save" parameterType="com.hniois.entity.report.Template" useGeneratedKeys="true" keyProperty="record_id">
+		INSERT INTO nj_report_template(
+		<trim suffixOverrides=",">
+			<if test="name != '' and name != null">name,</if>
+			<if test="version != '' and version != null">version,</if>
+			<if test="path != '' and path != null">path,</if>
+			<if test="up_name != '' and up_name != null">up_name,</if>
+			<if test="time != '' and time != null">time,</if>
+			<if test="bz != '' and bz != null">bz,</if>
+		</trim>
+		) VALUES (
+		<trim suffixOverrides=",">
+			<if test="name != '' and name != null">#{name},</if>
+			<if test="version != '' and version != null">#{version},</if>
+			<if test="path != '' and path != null">#{path},</if>
+			<if test="up_name != '' and up_name != null">#{up_name},</if>
+			<if test="time != '' and time != null">#{time},</if>
+			<if test="bz != '' and bz != null">#{bz},</if>
+		</trim>
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.hniois.entity.report.Template">
+		DELETE FROM nj_report_template WHERE 1 = 1
+		<if test="id != null and id != ''">AND id = #{id}</if>
+		<if test="name != null and name != ''">AND name = #{name}</if>
+		<if test="version != null and version != ''">AND version = #{version}</if>
+		<if test="path != null and path != ''">AND path = #{path}</if>
+		<if test="up_name != null and up_name != ''">AND up_name = #{up_name}</if>
+		<if test="time != null and time != ''">AND time = #{time}</if>
+		<if test="bz != null and bz != ''">AND bz = #{bz}</if>
+	</delete>
+
+	<delete id="batchDelete" parameterType="com.hniois.entity.report.Template">
+		DELETE FROM nj_report_template
+		WHERE id IN
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="findList" parameterType="com.hniois.entity.report.Template" resultType="com.hniois.entity.report.Template">
+		SELECT
+		<include refid="keySql"></include>
+		FROM nj_report_template
+		WHERE 1 = 1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="version != null and version != ''">and version = #{version}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="up_name != null and up_name != ''">and up_name = #{up_name}</if>
+		<if test="time != null and time != ''">and time = #{time}</if>
+		<if test="bz != null and bz != ''">and bz = #{bz}</if>
+	</select>
+
+	<select id="find" parameterType="com.hniois.entity.report.Template" resultType="com.hniois.entity.report.Template">
+		SELECT
+		<include refid="keySql"></include>
+		FROM nj_report_template
+		WHERE 1 = 1
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="version != null and version != ''">and version = #{version}</if>
+		<if test="path != null and path != ''">and path = #{path}</if>
+		<if test="up_name != null and up_name != ''">and up_name = #{up_name}</if>
+		<if test="time != null and time != ''">and time = #{time}</if>
+		<if test="bz != null and bz != ''">and bz = #{bz}</if>
+	</select>
+
+</mapper>

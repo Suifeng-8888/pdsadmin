@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TempMapper">
+    <!-- 保存 -->
+    <insert id="save" parameterType="com.hniois.entity.temp.Temp" useGeneratedKeys="true" keyProperty="id">
+        insert into t_temp(`id`
+        <if test="id!='' and id!=null">,`id`</if>
+        <if test="temp_id!='' and temp_id!=null">,`temp_id`</if>
+        <if test="temp_name!='' and temp_name!=null">,`temp_name`</if>
+        <if test="temp_comment!='' and temp_comment!=null">,`temp_comment`</if>
+        )
+        values (id
+        <if test="id!='' and id!=null">,#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">,#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">,#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">,#{temp_comment}</if>
+        )
+    </insert>
+
+    <!-- 批量保存 -->
+    <insert id="saveBatch" parameterType="com.hniois.entity.temp.Temp">
+        insert into t_temp
+        (
+        `id`,`temp_id`,`temp_name`,`temp_comment`,
+        )
+        values
+        <foreach collection="data" item="e" index="index" separator=",">
+         (
+           #{id},
+           #{temp_id},
+           #{temp_name},
+           #{temp_comment},
+         )
+        </foreach>
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.hniois.entity.temp.Temp">
+        update t_temp
+        <set>
+        <if test="id!='' and id!=null">`id`=#{id},</if>
+        <if test="temp_id!='' and temp_id!=null">`temp_id`=#{temp_id},</if>
+        <if test="temp_name!='' and temp_name!=null">`temp_name`=#{temp_name},</if>
+        <if test="temp_comment!='' and temp_comment!=null">`temp_comment`=#{temp_comment},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="com.hniois.entity.temp.Temp">
+        update t_temp
+        <set>
+        <if test="id!='' and id!=null">`id`=#{id},</if>
+        <if test="temp_id!='' and temp_id!=null">`temp_id`=#{temp_id},</if>
+        <if test="temp_name!='' and temp_name!=null">`temp_name`=#{temp_name},</if>
+        <if test="temp_comment!='' and temp_comment!=null">`temp_comment`=#{temp_comment},</if>
+        </set>
+        where id in
+        <foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="com.hniois.entity.temp.Temp">
+        delete from t_temp where 1=1
+        <if test="id!='' and id!=null">and `id`=#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">and `temp_id`=#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">and `temp_name`=#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">and `temp_comment`=#{temp_comment}</if>
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.ArrayList">
+        delete from t_temp
+        where id in
+        <foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 查询 -->
+    <select id="find" parameterType="com.hniois.entity.temp.Temp" resultType="com.hniois.entity.temp.Temp">
+        select	t.*
+        from t_temp t
+        where 1=1
+        <if test="id!='' and id!=null">and t.`id`=#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">and t.`temp_id`=#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">and t.`temp_name`=#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">and t.`temp_comment`=#{temp_comment}</if>
+    </select>
+
+    <!-- 查询List -->
+    <select id="findList" parameterType="com.hniois.entity.temp.Temp" resultType="com.hniois.entity.temp.Temp">
+        select	t.*
+        from t_temp t
+        where 1=1
+        <if test="id!='' and id!=null">and t.`id`=#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">and t.`temp_id`=#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">and t.`temp_name`=#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">and t.`temp_comment`=#{temp_comment}</if>
+        order by t.id
+    </select>
+
+    <!-- 查询Count -->
+    <select id="findCount" parameterType="com.hniois.entity.temp.Temp" resultType="java.lang.Integer">
+        select count(*)
+        from t_temp t
+        where 1=1
+        <if test="id!='' and id!=null">and t.`id`=#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">and t.`temp_id`=#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">and t.`temp_name`=#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">and t.`temp_comment`=#{temp_comment}</if>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="findPage" parameterType="com.hniois.entity.temp.Temp" resultType="com.hniois.entity.temp.Temp">
+        select	t.*
+        from t_temp t
+        where 1=1
+        <if test="id!='' and id!=null">and t.`id`=#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">and t.`temp_id`=#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">and t.`temp_name`=#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">and t.`temp_comment`=#{temp_comment}</if>
+        order by t.id
+        limit #{offset},#{pageSize}
+    </select>
+
+    <!-- 分页查询Count -->
+    <select id="findPageCount" parameterType="com.hniois.entity.temp.Temp" resultType="java.lang.Integer">
+        select count(*)
+        from t_temp t
+        where 1=1
+        <if test="id!='' and id!=null">and t.`id`=#{id}</if>
+        <if test="temp_id!='' and temp_id!=null">and t.`temp_id`=#{temp_id}</if>
+        <if test="temp_name!='' and temp_name!=null">and t.`temp_name`=#{temp_name}</if>
+        <if test="temp_comment!='' and temp_comment!=null">and t.`temp_comment`=#{temp_comment}</if>
+    </select>
+</mapper>

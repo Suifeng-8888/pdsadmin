@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CheckRecordMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.machine.CheckRecord"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_mach_check_record(id
+		<if test="mach_id!='' and mach_id!=null">,mach_id</if>
+		<if test="mach_name!='' and mach_name!=null">,mach_name</if>
+		<if test="model!='' and model!=null">,model</if>
+		<if test="factory!='' and factory!=null">,factory</if>
+		<if test="check_time!='' and check_time!=null">,check_time</if>
+		<if test="period!='' and period!=null">,period</if>
+		<if test="sender!='' and sender!=null">,sender</if>
+		<if test="send_time!='' and send_time!=null">,send_time</if>
+		<if test="check_unit!='' and check_unit!=null">,check_unit</if>
+		<if test="checked_time!='' and checked_time!=null">,checked_time</if>
+		<if test="checker!='' and checker!=null">,checker</if>
+		<if test="check_num!='' and check_num!=null">,check_num</if>
+		<if test="bz!='' and bz!=null">,bz</if>
+		)
+		VALUES (id
+		<if test="mach_id!='' and mach_id!=null">,#{mach_id}</if>
+		<if test="mach_name!='' and mach_name!=null">,#{mach_name}</if>
+		<if test="model!='' and model!=null">,#{model}</if>
+		<if test="factory!='' and factory!=null">,#{factory}</if>
+		<if test="check_time!='' and check_time!=null">,#{check_time}</if>
+		<if test="period!='' and period!=null">,#{period}</if>
+		<if test="sender!='' and sender!=null">,#{sender}</if>
+		<if test="send_time!='' and send_time!=null">,#{send_time}</if>
+		<if test="check_unit!='' and check_unit!=null">,#{check_unit}</if>
+		<if test="checked_time!='' and checked_time!=null">,#{checked_time}</if>
+		<if test="checker!='' and checker!=null">,#{checker}</if>
+		<if test="check_num!='' and check_num!=null">,#{check_num}</if>
+		<if test="bz!='' and bz!=null">,#{bz}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.machine.CheckRecord">
+		insert into tb_mach_check_record
+		(mach_id,mach_name,model,factory,check_time,period,sender,send_time,check_unit,checked_time,checker,check_num,bz)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.mach_id},
+			#{e.mach_name},
+			#{e.model},
+			#{e.factory},
+			#{e.check_time},
+			#{e.period},
+			#{e.sender},
+			#{e.send_time},
+			#{e.check_unit},
+			#{e.checked_time},
+			#{e.checker},
+			#{e.check_num},
+			#{e.bz}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.machine.CheckRecord">
+		update tb_mach_check_record
+		<set>
+			<if test="mach_name !=null and mach_name !=''">mach_name=#{mach_name},</if>
+			<if test="model !=null and model !=''">model=#{model},</if>
+			<if test="factory !=null and factory !=''">factory=#{factory},</if>
+			<if test="check_time !=null and check_time !=''">check_time=#{check_time},</if>
+			<if test="period !=null and period !=''">period=#{period},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="check_unit !=null and check_unit !=''">check_unit=#{check_unit},</if>
+			<if test="checked_time !=null and checked_time !=''">checked_time=#{checked_time},</if>
+			<if test="checker !=null and checker !=''">checker=#{checker},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="check_state !=null and check_state !=''">check_state=#{check_state},</if>
+			<if test="check_num !=null and check_num !=''">check_num=#{check_num},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.machine.CheckRecord">
+		update tb_mach_check_record
+		<set>
+			<if test="mach_name !=null and mach_name !=''">mach_name=#{mach_name},</if>
+			<if test="model !=null and model !=''">model=#{model},</if>
+			<if test="factory !=null and factory !=''">factory=#{factory},</if>
+			<if test="check_time !=null and check_time !=''">check_time=#{check_time},</if>
+			<if test="period !=null and period !=''">period=#{period},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="check_unit !=null and check_unit !=''">check_unit=#{check_unit},</if>
+			<if test="checked_time !=null and checked_time !=''">checked_time=#{checked_time},</if>
+			<if test="checker !=null and checker !=''">checker=#{checker},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="check_state !=null and check_state !=''">check_state=#{check_state},</if>
+			<if test="check_num !=null and check_num !=''">check_num=#{check_num},</if>
+			<if test="bz !=null and bz !=''">bz=#{bz},</if>
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.machine.CheckRecord">
+		delete from tb_mach_check_record where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="mach_name!=null and mach_name!=''">and mach_name=#{mach_name}</if>
+		<if test="model!=null and model!=''">and model=#{model}</if>
+		<if test="factory!=null and factory!=''">and factory=#{factory}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="checker!=null and checker!=''">and checker=#{checker}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="checked_time!=null and checked_time!=''">and checked_time=#{checked_time}</if>
+		<if test="check_num!=null and check_num!=''">and check_num=#{check_num}</if>
+		<if test="check_state!=null and check_state!=''">and check_state=#{check_state}</if>
+		<if test="bz!=null and bz!=''">and bz=#{bz}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_mach_check_record
+		where id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.machine.CheckRecord" resultType="com.hniois.entity.machine.CheckRecord">
+		select t.*
+		from tb_mach_check_record t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="mach_name!=null and mach_name!=''">and mach_name=#{mach_name}</if>
+		<if test="model!=null and model!=''">and model=#{model}</if>
+		<if test="factory!=null and factory!=''">and factory=#{factory}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="checker!=null and checker!=''">and checker=#{checker}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="check_state!=null and check_state!=''">and check_state=#{check_state}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="checked_time!=null and checked_time!=''">and checked_time=#{checked_time}</if>
+		<if test="check_num!=null and check_num!=''">and check_num=#{check_num}</if>
+		<if test="bz!=null and bz!=''">and bz=#{bz}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.machine.CheckRecord" resultType="com.hniois.entity.machine.CheckRecord">
+		select t.*
+		from tb_mach_check_record t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="mach_name!=null and mach_name!=''">and mach_name=#{mach_name}</if>
+		<if test="model!=null and model!=''">and model=#{model}</if>
+		<if test="factory!=null and factory!=''">and factory=#{factory}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="checker!=null and checker!=''">and checker=#{checker}</if>
+		<if test="check_state!=null and check_state!=''">and check_state=#{check_state}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="checked_time!=null and checked_time!=''">and checked_time=#{checked_time}</if>
+		<if test="check_num!=null and check_num!=''">and check_num=#{check_num}</if>
+		<if test="bz!=null and bz!=''">and bz=#{bz}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.machine.CheckRecord" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_check_record t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="mach_name!=null and mach_name!=''">and mach_name=#{mach_name}</if>
+		<if test="model!=null and model!=''">and model=#{model}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="checker!=null and checker!=''">and checker=#{checker}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="factory!=null and factory!=''">and factory=#{factory}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="check_state!=null and check_state!=''">and check_state=#{check_state}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="checked_time!=null and checked_time!=''">and checked_time=#{checked_time}</if>
+		<if test="check_num!=null and check_num!=''">and check_num=#{check_num}</if>
+		<if test="bz!=null and bz!=''">and bz=#{bz}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.machine.CheckRecord" resultType="com.hniois.entity.machine.CheckRecord">
+		select id,mach_id,mach_name,model,factory,check_time,check_unit,period,sender,checker,CASE check_state WHEN "1" then "未检定" WHEN "0" THEN "已检定" end AS check_state,send_time,checked_time,check_num,bz
+		from tb_mach_check_record
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="mach_name!=null and mach_name!=''">and mach_name=#{mach_name}</if>
+		<if test="model!=null and model!=''">and model=#{model}</if>
+		<if test="factory!=null and factory!=''">and factory=#{factory}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="check_state!=null and check_state!=''">and check_state=#{check_state}</if>
+		<if test="checker!=null and checker!=''">and checker=#{checker}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="checked_time!=null and checked_time!=''">and checked_time=#{checked_time}</if>
+		<if test="check_num!=null and check_num!=''">and check_num=#{check_num}</if>
+		<if test="bz!=null and bz!=''">and bz=#{bz}</if>
+		order by check_state DESC ,id ASC
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.machine.CheckRecord" resultType="java.lang.Integer">
+		select count(*)
+		from tb_mach_check_record t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="mach_id!=null and mach_id!=''">and mach_id=#{mach_id}</if>
+		<if test="mach_name!=null and mach_name!=''">and mach_name=#{mach_name}</if>
+		<if test="model!=null and model!=''">and model=#{model}</if>
+		<if test="factory!=null and factory!=''">and factory=#{factory}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="checker!=null and checker!=''">and checker=#{checker}</if>
+		<if test="check_unit!=null and check_unit!=''">and check_unit=#{check_unit}</if>
+		<if test="check_time!=null and check_time!=''">and check_time=#{check_time}</if>
+		<if test="period!=null and period!=''">and period=#{period}</if>
+		<if test="check_state!=null and check_state!=''">and check_state=#{check_state}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="checked_time!=null and checked_time!=''">and checked_time=#{checked_time}</if>
+		<if test="check_num!=null and check_num!=''">and check_num=#{check_num}</if>
+		<if test="bz!=null and bz!=''">and bz=#{bz}</if>
+	</select>
+
+</mapper>

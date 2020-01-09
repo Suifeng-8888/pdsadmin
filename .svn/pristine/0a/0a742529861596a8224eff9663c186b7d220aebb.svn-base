@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SendMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.item.SendCheck"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_sendCheck(id
+		<if test="item_id!='' and item_id!=null">,item_id</if>
+		<if test="item_name!='' and item_name!=null">,item_name</if>
+		<if test="send_num!='' and send_num!=null">,send_num</if>
+		<if test="send_time!='' and send_time!=null">,send_time</if>
+		<if test="sender!='' and sender!=null">,sender</if>
+		<if test="result!='' and result!=null">,result</if>
+		<if test="result_time!='' and result_time!=null">,result_time</if>
+		)
+		VALUES (id
+		<if test="item_id!='' and item_id!=null">,#{item_id}</if>
+		<if test="item_name!='' and item_name!=null">,#{item_name}</if>
+		<if test="send_num!='' and send_num!=null">,#{send_num}</if>
+		<if test="send_time!='' and send_time!=null">,#{send_time}</if>
+		<if test="sender!='' and sender!=null">,#{sender}</if>
+		<if test="result!='' and result!=null">,#{result}</if>
+		<if test="result_time!='' and result_time!=null">,#{result_time}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.item.SendCheck">
+		insert into tb_sendCheck
+		(item_id,item_name,send_num,send_time,sender,result,result_time)
+		values
+		<foreach collection="list" item="e" index="index" separator=",">
+			(
+			#{e.item_id},
+			#{e.item_name},
+			#{e.send_num},
+			#{e.send_time},
+			#{e.sender},
+			#{e.result},
+			#{e.result_time}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.item.SendCheck">
+		update tb_sendCheck
+		<set>
+			<if test="item_name !=null and item_name !=''">item_name=#{item_name},</if>
+			<if test="send_num !=null and send_num !=''">send_num=#{send_num},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+			<if test="result_time !=null and result_time !=''">result_time=#{result_time},</if>
+		</set>
+		where item_id=#{item_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.item.SendCheck">
+		update tb_sendCheck
+		<set>
+			<if test="item_name !=null and item_name !=''">item_name=#{item_name},</if>
+			<if test="send_num !=null and send_num !=''">send_num=#{send_num},</if>
+			<if test="send_time !=null and send_time !=''">send_time=#{send_time},</if>
+			<if test="sender !=null and sender !=''">sender=#{sender},</if>
+			<if test="result !=null and result !=''">result=#{result},</if>
+			<if test="result_time !=null and result_time !=''">result_time=#{result_time},</if>
+		</set>
+		where item_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.item.SendCheck">
+		delete from tb_sendCheck where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_sendCheck
+		where item_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.item.SendCheck" resultType="com.hniois.entity.item.SendCheck">
+		select t.*
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.item.SendCheck" resultType="com.hniois.entity.item.SendCheck">
+		select t.*
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.item.SendCheck" resultType="java.lang.Integer">
+		select count(*)
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.item.SendCheck" resultType="com.hniois.entity.item.SendCheck">
+		select t.*
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.item.SendCheck" resultType="java.lang.Integer">
+		select count(*)
+		from tb_sendCheck t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="item_id!=null and item_id!=''">and item_id=#{item_id}</if>
+		<if test="item_name!=null and item_name!=''">and item_name=#{item_name}</if>
+		<if test="send_num!=null and send_num!=''">and send_num=#{send_num}</if>
+		<if test="send_time!=null and send_time!=''">and send_time=#{send_time}</if>
+		<if test="sender!=null and sender!=''">and sender=#{sender}</if>
+		<if test="result!=null and result!=''">and result=#{result}</if>
+		<if test="result_time!=null and result_time!=''">and result_time=#{result_time}</if>
+	</select>
+</mapper>

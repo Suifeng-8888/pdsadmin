@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ApproveMapper">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.hniois.entity.approve.Approve"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into tb_approve(
+		<if test="apply_id!='' and apply_id!=null">apply_id</if>
+		<if test="technology!='' and technology!=null">,technology</if>
+		<if test="techadvice!='' and techadvice!=null">,techadvice</if>
+		<if test="tech_time!='' and tech_time!=null">,tech_time</if>
+		<if test="director!='' and director!=null">,director</if>
+		<if test="directadvice!='' and directadvice!=null">,directadvice</if>
+		<if test="direct_time!='' and direct_time!=null">,direct_time</if>
+		)
+		VALUES (
+		<if test="apply_id!='' and apply_id!=null">#{apply_id}</if>
+		<if test="technology!='' and technology!=null">,#{technology}</if>
+		<if test="techadvice!='' and techadvice!=null">,#{techadvice}</if>
+		<if test="tech_time!='' and tech_time!=null">,#{tech_time}</if>
+		<if test="director!='' and director!=null">,#{director}</if>
+		<if test="directadvice!='' and directadvice!=null">,#{directadvice}</if>
+		<if test="direct_time!='' and direct_time!=null">,#{direct_time}</if>
+		)
+	</insert>
+
+	<!-- 批量保存 -->
+	<insert id="saveBatch" parameterType="com.hniois.entity.approve.Approve">
+		insert into tb_approve
+		(apply_id,technology,techadvice,tech_time,director,directadvice,direct_time)
+		values
+		<foreach collection="data" item="e" index="index" separator=",">
+			(
+			#{e.apply_id},
+			#{e.technology},
+			#{e.techadvice},
+			#{e.tech_time},
+			#{e.director},
+			#{e.directadvice},
+			#{e.direct_time}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="com.hniois.entity.approve.Approve">
+		update tb_approve
+		<set>
+			<if test="technology !=null and technology !=''">technology=#{technology},</if>
+			<if test="techadvice !=null and techadvice !=''">techadvice=#{techadvice},</if>
+			<if test="tech_time !=null and tech_time !=''">tech_time=#{tech_time},</if>
+			<if test="director !=null and director !=''">director=#{director},</if>
+			<if test="directadvice !=null and directadvice !=''">directadvice=#{directadvice},</if>
+			<if test="direct_time !=null and direct_time !=''">direct_time=#{direct_time},</if>
+		</set>
+		where apply_id=#{apply_id}
+	</update>
+
+	<!-- 批量修改 -->
+	<update id="updateBatch" parameterType="com.hniois.entity.approve.Approve">
+		update tb_approve
+		<set>
+			<if test="technology !=null and technology !=''">technology=#{technology},</if>
+			<if test="techadvice !=null and techadvice !=''">techadvice=#{techadvice},</if>
+			<if test="tech_time !=null and tech_time !=''">tech_time=#{tech_time},</if>
+			<if test="director !=null and director !=''">director=#{director},</if>
+			<if test="directadvice !=null and directadvice !=''">directadvice=#{directadvice},</if>
+			<if test="direct_time !=null and direct_time !=''">direct_time=#{direct_time},</if>
+		</set>
+		where apply_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.hniois.entity.approve.Approve">
+		delete from tb_approve where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="apply_id!=null and apply_id!=''">and apply_id=#{apply_id}</if>
+		<if test="technology!=null and technology!=''">and technology=#{technology}</if>
+		<if test="techadvice!=null and techadvice!=''">and techadvice=#{techadvice}</if>
+		<if test="tech_time!=null and tech_time!=''">and tech_time=#{tech_time}</if>
+		<if test="director!=null and director!=''">and director=#{director}</if>
+		<if test="directadvice!=null and directadvice!=''">and directadvice=#{directadvice}</if>
+		<if test="direct_time!=null and direct_time!=''">and direct_time=#{direct_time}</if>
+
+	</delete>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatch" parameterType="java.util.ArrayList">
+		delete from tb_approve
+		where apply_id in
+		<foreach item="item" index="index" collection="data" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 查询 -->
+	<select id="find" parameterType="com.hniois.entity.approve.Approve" resultType="com.hniois.entity.approve.Approve">
+		select t.*
+		from tb_approve t
+		where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="apply_id!=null and apply_id!=''">and apply_id=#{apply_id}</if>
+		<if test="technology!=null and technology!=''">and technology=#{technology}</if>
+		<if test="techadvice!=null and techadvice!=''">and techadvice=#{techadvice}</if>
+		<if test="tech_time!=null and tech_time!=''">and tech_time=#{tech_time}</if>
+		<if test="director!=null and director!=''">and director=#{director}</if>
+		<if test="directadvice!=null and directadvice!=''">and directadvice=#{directadvice}</if>
+		<if test="direct_time!=null and direct_time!=''">and direct_time=#{direct_time}</if>
+	</select>
+
+	<!-- 查询List -->
+	<select id="findList" parameterType="com.hniois.entity.approve.Approve" resultType="com.hniois.entity.approve.Approve">
+		select t.*
+		from tb_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="apply_id!=null and apply_id!=''">and apply_id=#{apply_id}</if>
+		<if test="technology!=null and technology!=''">and technology=#{technology}</if>
+		<if test="techadvice!=null and techadvice!=''">and techadvice=#{techadvice}</if>
+		<if test="tech_time!=null and tech_time!=''">and tech_time=#{tech_time}</if>
+		<if test="director!=null and director!=''">and director=#{director}</if>
+		<if test="directadvice!=null and directadvice!=''">and directadvice=#{directadvice}</if>
+		<if test="direct_time!=null and direct_time!=''">and direct_time=#{direct_time}</if>
+		order by t.id
+	</select>
+
+	<!-- 查询Count -->
+	<select id="findCount" parameterType="com.hniois.entity.approve.Approve" resultType="java.lang.Integer">
+		select count(*)
+		from tb_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="apply_id!=null and apply_id!=''">and apply_id=#{apply_id}</if>
+		<if test="technology!=null and technology!=''">and technology=#{technology}</if>
+		<if test="techadvice!=null and techadvice!=''">and techadvice=#{techadvice}</if>
+		<if test="tech_time!=null and tech_time!=''">and tech_time=#{tech_time}</if>
+		<if test="director!=null and director!=''">and director=#{director}</if>
+		<if test="directadvice!=null and directadvice!=''">and directadvice=#{directadvice}</if>
+		<if test="direct_time!=null and direct_time!=''">and direct_time=#{direct_time}</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findPage" parameterType="com.hniois.entity.approve.Approve" resultType="com.hniois.entity.approve.Approve">
+		select t.*
+			,c.mach_name,c.price,c.apply_num,c.reason,c.cment
+		from tb_approve t
+		left JOIN tb_mach_buy_apply c ON t.apply_id=c.apply_id
+		where 1=1
+		<if test="technology!=null and technology!=''">and technology=#{technology}</if>
+		<if test="techadvice!=null and techadvice!=''">and techadvice=#{techadvice}</if>
+		<if test="tech_time!=null and tech_time!=''">and tech_time=#{tech_time}</if>
+		<if test="director!=null and director!=''">and director=#{director}</if>
+		<if test="directadvice!=null and directadvice!=''">and directadvice=#{directadvice}</if>
+		<if test="direct_time!=null and direct_time!=''">and direct_time=#{direct_time}</if>
+		order by t.id
+		limit #{offset},#{pageSize}
+	</select>
+
+	<!-- 分页查询Count -->
+	<select id="findPageCount" parameterType="com.hniois.entity.approve.Approve" resultType="java.lang.Integer">
+		select count(*)
+		from tb_approve t
+		where 1=1
+		<if test="id !=null and id !=''">and id=#{id}</if>
+		<if test="apply_id!=null and apply_id!=''">and apply_id=#{apply_id}</if>
+		<if test="technology!=null and technology!=''">and technology=#{technology}</if>
+		<if test="techadvice!=null and techadvice!=''">and techadvice=#{techadvice}</if>
+		<if test="tech_time!=null and tech_time!=''">and tech_time=#{tech_time}</if>
+		<if test="director!=null and director!=''">and director=#{director}</if>
+		<if test="directadvice!=null and directadvice!=''">and directadvice=#{directadvice}</if>
+		<if test="direct_time!=null and direct_time!=''">and direct_time=#{direct_time}</if>
+	</select>
+</mapper>

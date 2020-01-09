@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"  
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings> 
+        <setting name="cacheEnabled" value="true" /><!-- 全局映射器启用缓存 -->   
+        <setting name="useGeneratedKeys" value="true" /> 
+        <setting name="defaultExecutorType" value="REUSE" /> 
+    </settings>
+
+	<!--<typeAliases>-->
+		<!--&lt;!&ndash;默认的名字为： javabean 的首字母小写的非限定类名来作为它的别名。-->
+            <!--也可在javabean 加上注解@Alias 来自定义别名， 例如： @Alias(user) &ndash;&gt;-->
+		<!--<package name="com.hniois.entity"/>-->
+	<!--</typeAliases>-->
+	
+</configuration>
