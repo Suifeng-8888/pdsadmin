@@ -329,7 +329,7 @@
 		<dependency>
 			<groupId>org.java-websocket</groupId>
 			<artifactId>Java-WebSocket</artifactId>
-			<version>1.3.0</version>
+			<version>1.5.0</version>
 		</dependency>
 		<!-- 以下jar引入项目lib的， 这些jar也都是第三方的,不是咱这边私有jar。只是我在仓库没找到 -->
 		<!-- json-lib-2.4-jdk15.jar -->
